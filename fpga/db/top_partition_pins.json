@@ -1,0 +1,273 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "LAT",
+					"strict" : false
+				},
+				{
+					"name" : "SCLK",
+					"strict" : false
+				},
+				{
+					"name" : "SDO[0]",
+					"strict" : false
+				},
+				{
+					"name" : "SDO[1]",
+					"strict" : false
+				},
+				{
+					"name" : "SDO[2]",
+					"strict" : false
+				},
+				{
+					"name" : "SDO[3]",
+					"strict" : false
+				},
+				{
+					"name" : "SDO[4]",
+					"strict" : false
+				},
+				{
+					"name" : "SDO[5]",
+					"strict" : false
+				},
+				{
+					"name" : "SDO[6]",
+					"strict" : false
+				},
+				{
+					"name" : "SDO[7]",
+					"strict" : false
+				},
+				{
+					"name" : "A[0]",
+					"strict" : false
+				},
+				{
+					"name" : "A[1]",
+					"strict" : false
+				},
+				{
+					"name" : "A[2]",
+					"strict" : false
+				},
+				{
+					"name" : "A[3]",
+					"strict" : false
+				},
+				{
+					"name" : "A[4]",
+					"strict" : false
+				},
+				{
+					"name" : "A[5]",
+					"strict" : false
+				},
+				{
+					"name" : "A[6]",
+					"strict" : false
+				},
+				{
+					"name" : "A[7]",
+					"strict" : false
+				},
+				{
+					"name" : "A[8]",
+					"strict" : false
+				},
+				{
+					"name" : "A[9]",
+					"strict" : false
+				},
+				{
+					"name" : "A[10]",
+					"strict" : false
+				},
+				{
+					"name" : "A[11]",
+					"strict" : false
+				},
+				{
+					"name" : "A[12]",
+					"strict" : false
+				},
+				{
+					"name" : "BA[0]",
+					"strict" : false
+				},
+				{
+					"name" : "BA[1]",
+					"strict" : false
+				},
+				{
+					"name" : "nCAS",
+					"strict" : false
+				},
+				{
+					"name" : "nCS",
+					"strict" : false
+				},
+				{
+					"name" : "nRAS",
+					"strict" : false
+				},
+				{
+					"name" : "nWE",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[0]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[1]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[2]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[3]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[4]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[5]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[6]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[7]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[8]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[9]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[10]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[11]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[12]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[13]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[14]",
+					"strict" : false
+				},
+				{
+					"name" : "DQ[15]",
+					"strict" : false
+				},
+				{
+					"name" : "CLK_10M",
+					"strict" : false
+				},
+				{
+					"name" : "VSYNC",
+					"strict" : false
+				},
+				{
+					"name" : "DE",
+					"strict" : false
+				},
+				{
+					"name" : "PIXCLK",
+					"strict" : false
+				},
+				{
+					"name" : "QE[3]",
+					"strict" : false
+				},
+				{
+					"name" : "QE[4]",
+					"strict" : false
+				},
+				{
+					"name" : "QE[5]",
+					"strict" : false
+				},
+				{
+					"name" : "QE[6]",
+					"strict" : false
+				},
+				{
+					"name" : "QE[7]",
+					"strict" : false
+				},
+				{
+					"name" : "QE[10]",
+					"strict" : false
+				},
+				{
+					"name" : "QE[11]",
+					"strict" : false
+				},
+				{
+					"name" : "QE[12]",
+					"strict" : false
+				},
+				{
+					"name" : "QE[13]",
+					"strict" : false
+				},
+				{
+					"name" : "QE[14]",
+					"strict" : false
+				},
+				{
+					"name" : "QE[15]",
+					"strict" : false
+				},
+				{
+					"name" : "QE[19]",
+					"strict" : false
+				},
+				{
+					"name" : "QE[20]",
+					"strict" : false
+				},
+				{
+					"name" : "QE[21]",
+					"strict" : false
+				},
+				{
+					"name" : "QE[22]",
+					"strict" : false
+				},
+				{
+					"name" : "QE[23]",
+					"strict" : false
+				},
+				{
+					"name" : "MAG2",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

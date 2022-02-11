@@ -1,0 +1,168 @@
+Flow report for top
+Fri Feb 11 18:20:10 2022
+Quartus Prime Version 21.1.0 Build 842 10/21/2021 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Flow Summary
+  3. Flow Settings
+  4. Flow Non-Default Global Settings
+  5. Flow Elapsed Time
+  6. Flow OS Summary
+  7. Flow Log
+  8. Flow Messages
+  9. Flow Suppressed Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2021  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and any partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details, at
+https://fpgasoftware.intel.com/eula.
+
+
+
++----------------------------------------------------------------------------------+
+; Flow Summary                                                                     ;
++------------------------------------+---------------------------------------------+
+; Flow Status                        ; Successful - Fri Feb 11 18:20:10 2022       ;
+; Quartus Prime Version              ; 21.1.0 Build 842 10/21/2021 SJ Lite Edition ;
+; Revision Name                      ; top                                         ;
+; Top-level Entity Name              ; top                                         ;
+; Family                             ; Cyclone IV E                                ;
+; Device                             ; EP4CE22F17C6                                ;
+; Timing Models                      ; Final                                       ;
+; Total logic elements               ; 1,796 / 22,320 ( 8 % )                      ;
+;     Total combinational functions  ; 1,600 / 22,320 ( 7 % )                      ;
+;     Dedicated logic registers      ; 1,091 / 22,320 ( 5 % )                      ;
+; Total registers                    ; 1158                                        ;
+; Total pins                         ; 80 / 154 ( 52 % )                           ;
+; Total virtual pins                 ; 0                                           ;
+; Total memory bits                  ; 8,192 / 608,256 ( 1 % )                     ;
+; Embedded Multiplier 9-bit elements ; 0 / 132 ( 0 % )                             ;
+; Total PLLs                         ; 1 / 4 ( 25 % )                              ;
++------------------------------------+---------------------------------------------+
+
+
++-----------------------------------------+
+; Flow Settings                           ;
++-------------------+---------------------+
+; Option            ; Setting             ;
++-------------------+---------------------+
+; Start date & time ; 02/11/2022 18:19:32 ;
+; Main task         ; Compilation         ;
+; Revision Name     ; top                 ;
++-------------------+---------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                                                                ;
++--------------------------------------------------------+---------------------------------------------------------+---------------+-------------+----------------+
+; Assignment Name                                        ; Value                                                   ; Default Value ; Entity Name ; Section Id     ;
++--------------------------------------------------------+---------------------------------------------------------+---------------+-------------+----------------+
+; COMPILER_SIGNATURE_ID                                  ; 10995770589189.164462157209012                          ; --            ; --          ; --             ;
+; EDA_OUTPUT_DATA_FORMAT                                 ; Systemverilog Hdl                                       ; --            ; --          ; eda_simulation ;
+; EDA_SIMULATION_TOOL                                    ; Questa Intel FPGA (SystemVerilog)                       ; <None>        ; --          ; --             ;
+; EDA_TIME_SCALE                                         ; 1 ps                                                    ; --            ; --          ; eda_simulation ;
+; ENABLE_DRC_SETTINGS                                    ; On                                                      ; Off           ; --          ; --             ;
+; ENABLE_SIGNALTAP                                       ; On                                                      ; --            ; --          ; --             ;
+; IOBANK_VCCIO                                           ; 3.3V                                                    ; --            ; --          ; 1              ;
+; IOBANK_VCCIO                                           ; 3.3V                                                    ; --            ; --          ; 2              ;
+; IOBANK_VCCIO                                           ; 3.3V                                                    ; --            ; --          ; 3              ;
+; IOBANK_VCCIO                                           ; 3.3V                                                    ; --            ; --          ; 4              ;
+; IOBANK_VCCIO                                           ; 3.3V                                                    ; --            ; --          ; 5              ;
+; IOBANK_VCCIO                                           ; 3.3V                                                    ; --            ; --          ; 6              ;
+; IOBANK_VCCIO                                           ; 3.3V                                                    ; --            ; --          ; 7              ;
+; IOBANK_VCCIO                                           ; 3.3V                                                    ; --            ; --          ; 8              ;
+; MAX_CORE_JUNCTION_TEMP                                 ; 85                                                      ; --            ; --          ; --             ;
+; MIN_CORE_JUNCTION_TEMP                                 ; 0                                                       ; --            ; --          ; --             ;
+; MISC_FILE                                              ; SDRAM/synthesis/../SDRAM.cmp                            ; --            ; --          ; --             ;
+; MISC_FILE                                              ; SDRAM/synthesis/../../SDRAM.qsys                        ; --            ; --          ; --             ;
+; MISC_FILE                                              ; VideoFifo_bb.v                                          ; --            ; --          ; --             ;
+; MISC_FILE                                              ; pll/synthesis/../Pll.cmp                                ; --            ; --          ; --             ;
+; MISC_FILE                                              ; pll/synthesis/../../Pll.qsys                            ; --            ; --          ; --             ;
+; MISC_FILE                                              ; LedShift_bb.v                                           ; --            ; --          ; --             ;
+; MISC_FILE                                              ; RowBuf_bb.v                                             ; --            ; --          ; --             ;
+; OUTPUT_IO_TIMING_FAR_END_VMEAS                         ; Half Signal Swing                                       ; --            ; --          ; --             ;
+; OUTPUT_IO_TIMING_FAR_END_VMEAS                         ; Half Signal Swing                                       ; --            ; --          ; --             ;
+; OUTPUT_IO_TIMING_NEAR_END_VMEAS                        ; Half Vccio                                              ; --            ; --          ; --             ;
+; OUTPUT_IO_TIMING_NEAR_END_VMEAS                        ; Half Vccio                                              ; --            ; --          ; --             ;
+; PARTITION_COLOR                                        ; -- (Not supported for targeted family)                  ; --            ; --          ; Top            ;
+; PARTITION_FITTER_PRESERVATION_LEVEL                    ; -- (Not supported for targeted family)                  ; --            ; --          ; Top            ;
+; PARTITION_NETLIST_TYPE                                 ; -- (Not supported for targeted family)                  ; --            ; --          ; Top            ;
+; POWER_BOARD_THERMAL_MODEL                              ; None (CONSERVATIVE)                                     ; --            ; --          ; --             ;
+; POWER_PRESET_COOLING_SOLUTION                          ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW                   ; --            ; --          ; --             ;
+; PROJECT_OUTPUT_DIRECTORY                               ; output_files                                            ; --            ; --          ; --             ;
+; SLD_FILE                                               ; SDRAM/synthesis/SDRAM.debuginfo                         ; --            ; --          ; --             ;
+; SLD_FILE                                               ; pll/synthesis/Pll.debuginfo                             ; --            ; --          ; --             ;
+; SLD_INFO                                               ; QSYS_NAME Pll HAS_SOPCINFO 1 GENERATION_ID 1573349145   ; --            ; Pll         ; --             ;
+; SLD_INFO                                               ; QSYS_NAME SDRAM HAS_SOPCINFO 1 GENERATION_ID 1569699353 ; --            ; SDRAM       ; --             ;
+; SMART_RECOMPILE                                        ; On                                                      ; Off           ; --          ; --             ;
+; SOPCINFO_FILE                                          ; SDRAM/synthesis/../../SDRAM.sopcinfo                    ; --            ; --          ; --             ;
+; SOPCINFO_FILE                                          ; pll/synthesis/../../Pll.sopcinfo                        ; --            ; --          ; --             ;
+; SYNTHESIS_ONLY_QIP                                     ; On                                                      ; --            ; --          ; --             ;
+; SYNTHESIS_ONLY_QIP                                     ; On                                                      ; --            ; --          ; --             ;
+; TIMING_ANALYZER_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS ; Off                                                     ; On            ; --          ; --             ;
+; USE_SIGNALTAP_FILE                                     ; ../vidframetest/output_files/stp1.stp                   ; --            ; --          ; --             ;
+; VERILOG_INPUT_VERSION                                  ; SystemVerilog_2005                                      ; Verilog_2001  ; --          ; --             ;
+; VERILOG_SHOW_LMF_MAPPING_MESSAGES                      ; Off                                                     ; --            ; --          ; --             ;
++--------------------------------------------------------+---------------------------------------------------------+---------------+-------------+----------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------+
+; Flow Elapsed Time                                                                                                        ;
++----------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
++----------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Analysis & Synthesis ; 00:00:11     ; 1.0                     ; 4808 MB             ; 00:00:22                           ;
+; Fitter               ; 00:00:15     ; 1.1                     ; 5575 MB             ; 00:00:22                           ;
+; Assembler            ; 00:00:01     ; 1.0                     ; 4719 MB             ; 00:00:01                           ;
+; Timing Analyzer      ; 00:00:02     ; 1.2                     ; 4820 MB             ; 00:00:03                           ;
+; Design Assistant     ; 00:00:00     ; 1.0                     ; 4659 MB             ; 00:00:01                           ;
+; EDA Netlist Writer   ; 00:00:01     ; 1.0                     ; 4652 MB             ; 00:00:01                           ;
+; Total                ; 00:00:30     ; --                      ; --                  ; 00:00:50                           ;
++----------------------+--------------+-------------------------+---------------------+------------------------------------+
+
+
++------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                    ;
++----------------------+------------------+------------+------------+----------------+
+; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
++----------------------+------------------+------------+------------+----------------+
+; Analysis & Synthesis ; DESKTOP-QH8470E  ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; DESKTOP-QH8470E  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; DESKTOP-QH8470E  ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; DESKTOP-QH8470E  ; Windows 10 ; 10.0       ; x86_64         ;
+; Design Assistant     ; DESKTOP-QH8470E  ; Windows 10 ; 10.0       ; x86_64         ;
+; EDA Netlist Writer   ; DESKTOP-QH8470E  ; Windows 10 ; 10.0       ; x86_64         ;
++----------------------+------------------+------------+------------+----------------+
+
+
+------------
+; Flow Log ;
+------------
+quartus_map --read_settings_files=on --write_settings_files=off flicker -c top
+quartus_fit --read_settings_files=off --write_settings_files=off flicker -c top
+quartus_asm --read_settings_files=off --write_settings_files=off flicker -c top
+quartus_sta flicker -c top
+quartus_drc flicker -c top
+quartus_eda --read_settings_files=off --write_settings_files=off flicker -c top
+
+
+
