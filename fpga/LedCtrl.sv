@@ -7,10 +7,8 @@ module LedCtrl #(parameter NUM_SHIFT_CHANNEL = 4)
 		output reg cmdDone,
 		output reg busy,
 		
-		input [15:0] ledColBufOdd,
-		input [15:0] ledColBufEven,
+		input [15:0] ledColBuf,
 		output [6:0] rdaddress,
-		output [6:0] rdaddressEven,
 		
 		output [(NUM_SHIFT_CHANNEL * 2) -1:0] SDOs,
 		output reg LAT,
@@ -21,7 +19,6 @@ module LedCtrl #(parameter NUM_SHIFT_CHANNEL = 4)
 
 	reg [3:0] m_state;
 	reg [4:0] cnt;
-	reg [4:0] cntEven;
 	reg [$clog2(NUM_SHIFT_CHANNEL)-1:0] hi;
 	reg [5:0] shiftCnt;
 
@@ -51,14 +48,11 @@ module LedCtrl #(parameter NUM_SHIFT_CHANNEL = 4)
 	};
 	
 	assign rdaddress = {hi, cnt};
-	assign rdaddressEven = {hi, cntEven};
 	reg [NUM_SHIFT_CHANNEL-1:0] load;
 	reg [NUM_SHIFT_CHANNEL-1:0] shiftClk;
-	logic [NUM_SHIFT_CHANNEL-1:0] shiftoutOdd;
-	logic [NUM_SHIFT_CHANNEL-1:0] shiftoutEven;
+	logic [NUM_SHIFT_CHANNEL-1:0] shiftout;
 	logic [NUM_SHIFT_CHANNEL * 2 -1 : 0] shiftout;
-	logic [47:0] dataEven;
-	logic [47:0] dataOdd;
+	logic [47:0] data;
 	
 	assign dataEven = {bLut[ledColBufEven[4:0]], gLut[ledColBufEven[10:5]], rLut[ledColBufEven[15:11]]};
 	assign dataOdd = {bLut[ledColBufOdd[4:0]], gLut[ledColBufOdd[10:5]], rLut[ledColBufOdd[15:11]]};
