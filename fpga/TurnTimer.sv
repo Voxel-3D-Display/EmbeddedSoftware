@@ -30,6 +30,8 @@ module TurnTimer #(CLK_FREQ, FPS, IMG_HEIGHT) (
 	reg magValid;
 	
 	reg rowChange1;
+
+	reg signal;
 	
 	always_ff@(posedge clk) begin
 		if(!nReset) begin
@@ -39,10 +41,14 @@ module TurnTimer #(CLK_FREQ, FPS, IMG_HEIGHT) (
 			magValid <= '0;
 		end else begin
 			magChange <= '0;
+			if (signal) begin
+				magIdx <= '1; //reset to one or zero?
+			end
 			if(oldMag != mag ) begin //waiting for change in sensor input
 				magValid <= '1;
 				magChange <= '1;
-				magIdx <= magIdx + 1;
+				//this needs to become more presice
+				magIdx <= magIdx + 1; //becomes 0 once we hit size of the register
 			end
 			oldMag <= mag;
 		end
@@ -65,18 +71,21 @@ module TurnTimer #(CLK_FREQ, FPS, IMG_HEIGHT) (
 			stepCnt <= 1;
 			index <= '0;
 			rowChange1 <= '0;
+			signal <= '0;
 		end else begin
 			if(valid) begin
 				index <= '0;
 				rowChange1 <= '0;
 			
-				if(magChange && magIdx == '0) begin
+				if( (magChange == '0) && (magIdx == 720)) begin
+					signal <= '1;
 					stepCnt <= 1;
 					row <= 0;
 					index <= '1;
 					rowChange1 <= '1; 
 				end else begin
 					stepCnt <= stepCnt + 1;
+					signal <= '0;
 					
 					if(stepCnt >= step) begin
 						if(row < IMG_HEIGHT-1) begin
@@ -129,8 +138,8 @@ module TurnTimer #(CLK_FREQ, FPS, IMG_HEIGHT) (
 							error <= '0;
 							
 							valid <= '1;
-							//does this next op give too much rounding error?
-							step <= cnt >> ($clog2(IMG_HEIGHT) - $clog2(NUM_MAG));
+							//old operation gave too much rounding error
+							step <= (cnt * NUM_MAG) / IMG_HEIGHT;
 							
 						end
 						

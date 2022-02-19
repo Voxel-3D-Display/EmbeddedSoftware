@@ -79,19 +79,19 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to GSCLK
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LAT
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SCLK
 
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to nWE
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to nCAS
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDRAM_CLK
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to nRAS
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to CKE
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to nCS
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to HSYNC
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to PIXCLK
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to DE
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to VSYNC
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to GSCLK
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to LAT
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SCLK
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to nWE
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to nCAS
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDRAM_CLK
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to nRAS
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to CKE
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to nCS
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to HSYNC
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to PIXCLK
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to DE
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to VSYNC
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to GSCLK
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to LAT
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SCLK
 
 set_global_assignment -name ENABLE_OCT_DONE OFF
 set_global_assignment -name ENABLE_CONFIGURATION_PINS OFF
@@ -157,21 +157,21 @@ set_location_assignment PIN_N1 -to A[11]
 set_location_assignment PIN_L4 -to A[12]
 set_location_assignment PIN_M7 -to BA[0]
 set_location_assignment PIN_M6 -to BA[1]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[0]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[1]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[2]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[3]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[4]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[5]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[6]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[7]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[8]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[9]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[10]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[11]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[12]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to BA[0]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to BA[1]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[0]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[1]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[2]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[3]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[4]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[5]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[6]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[7]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[8]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[9]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[10]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[11]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[12]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to BA[0]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to BA[1]
 set_location_assignment PIN_G2 -to DQ[0]
 set_location_assignment PIN_G1 -to DQ[1]
 set_location_assignment PIN_L8 -to DQ[2]
@@ -188,26 +188,26 @@ set_location_assignment PIN_R5 -to DQ[12]
 set_location_assignment PIN_P3 -to DQ[13]
 set_location_assignment PIN_N3 -to DQ[14]
 set_location_assignment PIN_K1 -to DQ[15]
-#set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[0]
-#set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[1]
-#set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[2]
-#set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[3]
-#set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[4]
-#set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[5]
-#set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[6]
-#set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[7]
-#set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[8]
-#set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[9]
-#set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[10]
-#set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[11]
-#set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[12]
-#set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[13]
-#set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[14]
-#set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[15]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[0]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[1]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[2]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[3]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[4]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[5]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[6]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[7]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[8]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[9]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[10]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[11]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[12]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[13]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[14]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[15]
 set_location_assignment PIN_R6 -to DQM[0]
 set_location_assignment PIN_T5 -to DQM[1]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to DQM[0]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to DQM[1]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to DQM[0]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to DQM[1]
 
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
@@ -251,7 +251,6 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tdi
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tdo
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to altera_reserved_tms
 set_global_assignment -name IOBANK_VCCIO 3.3V -section_id 4
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to A
 set_global_assignment -name IOBANK_VCCIO 3.3V -section_id 3
 set_global_assignment -name IOBANK_VCCIO 3.3V -section_id 5
 set_global_assignment -name IOBANK_VCCIO 3.3V -section_id 6
@@ -285,30 +284,30 @@ set_location_assignment PIN_D9 -to QE[20]
 set_location_assignment PIN_E9 -to QE[21]
 set_location_assignment PIN_F8 -to QE[22]
 set_location_assignment PIN_D8 -to QE[23]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[0]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[1]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[2]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[3]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[4]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[5]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[6]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[7]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[8]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[9]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[10]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[11]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[12]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[13]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[14]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[15]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[16]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[17]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[18]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[19]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[20]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[21]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[22]
-#set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[23]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[0]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[1]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[2]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[3]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[4]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[5]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[6]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[7]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[8]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[9]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[10]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[11]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[12]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[13]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[14]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[15]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[16]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[17]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[18]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[19]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[20]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[21]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[22]
+set_instance_assignment -name RESERVE_PIN AS_INPUT_TRI_STATED -to QE[23]
 
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to QE[0]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to QE[1]
@@ -345,14 +344,14 @@ set_location_assignment PIN_N15 -to SDO[4]
 set_location_assignment PIN_P14 -to SDO[5]
 set_location_assignment PIN_L14 -to SDO[6]
 set_location_assignment PIN_N14 -to SDO[7]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[0]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[1]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[2]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[3]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[4]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[5]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[6]
-#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[7]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[0]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[1]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[2]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[3]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[4]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[5]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[6]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[7]
 
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDO[0]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDO[1]
