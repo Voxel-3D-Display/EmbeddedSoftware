@@ -29,10 +29,10 @@ module top (
 
 	localparam VID_WIDTH = 1280;
 	localparam VID_HEIGHT = 1024;
-	localparam VID_FPS = 60;
+	localparam VID_FPS = 60; //what rate does the Pi give this to us at?
 	localparam GLB_HEIGHT = 1024;
 	localparam GLB_WIDTH = 128;
-	localparam GLB_FPS = 10;
+	localparam GLB_FPS = 15;
 	
 	localparam BURST_SIZE = 8;
 	

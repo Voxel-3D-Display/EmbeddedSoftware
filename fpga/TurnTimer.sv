@@ -5,17 +5,17 @@ module TurnTimer #(CLK_FREQ, FPS, IMG_HEIGHT) (
 		input mag, //the timing sensor input
 		
 		output reg [$clog2(IMG_HEIGHT)-1:0] row,
-		output reg [$clog2(IMG_HEIGHT)-1:0] rowEven,
 		output reg valid,
 		output reg index,
 		output reg rowChange,
 		input rowChangeAck
 	);
 	
-	localparam NUM_MAG = 8;
+	localparam NUM_MAG = 720;
 	reg [$clog2(NUM_MAG)-1 : 0] magIdx;
 	
 	reg [3:0] i_state;
+	//counter incremented by 1 on each SDRAM clock pulse (90MHz)
 	reg [$clog2(CLK_FREQ/FPS)*2 -1 : 0] cnt;
 
 	reg error;
@@ -62,7 +62,6 @@ module TurnTimer #(CLK_FREQ, FPS, IMG_HEIGHT) (
 	always_ff@(posedge clk) begin
 		if(!nReset) begin
 			row <= '0;
-			rowEven <= IMG_HEIGHT/2;
 			stepCnt <= 1;
 			index <= '0;
 			rowChange1 <= '0;
@@ -74,7 +73,6 @@ module TurnTimer #(CLK_FREQ, FPS, IMG_HEIGHT) (
 				if(magChange && magIdx == '0) begin
 					stepCnt <= 1;
 					row <= 0;
-					rowEven <= IMG_HEIGHT/2;
 					index <= '1;
 					rowChange1 <= '1; 
 				end else begin
@@ -83,11 +81,9 @@ module TurnTimer #(CLK_FREQ, FPS, IMG_HEIGHT) (
 					if(stepCnt >= step) begin
 						if(row < IMG_HEIGHT-1) begin
 							row <=  row + 1;
-							rowEven <=  rowEven + 1;
 							rowChange1 <= '1;
 						end else begin
 							row <= IMG_HEIGHT-1;
-							rowEven <= (IMG_HEIGHT/2) -1; 
 						end
 						
 						stepCnt <= 1;
@@ -133,6 +129,7 @@ module TurnTimer #(CLK_FREQ, FPS, IMG_HEIGHT) (
 							error <= '0;
 							
 							valid <= '1;
+							//does this next op give too much rounding error?
 							step <= cnt >> ($clog2(IMG_HEIGHT) - $clog2(NUM_MAG));
 							
 						end

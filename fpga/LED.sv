@@ -74,10 +74,9 @@ module LED #(parameter NUM_SHIFT=8, GLB_HEIGHT, GLB_WIDTH, GLB_FPS, SDRAM_CLK_FR
 	);
 	
 	logic [$clog2(GLB_WIDTH/NUM_SIDES)-1:0] rdaddress;
-	logic [15:0] ledColBufOdd;
-	logic [15:0] ledColBufEven;
+	logic [15:0] ledColBuf;
 	
-	RowBuf rowBufOdd(
+	RowBuf rowBufAll(
 		.data(readData_d),
 		.wraddress(bufAddress),
 		.wrclock(SDRAM_CLK),
@@ -86,25 +85,12 @@ module LED #(parameter NUM_SHIFT=8, GLB_HEIGHT, GLB_WIDTH, GLB_FPS, SDRAM_CLK_FR
 		.rdaddress(rdaddress),
 		.rdclock(spiClk),
 		
-		.q(ledColBufOdd)
-	);
-	
-	RowBuf rowBufEven(
-		.data(readData_d),
-		.wraddress(bufAddress),
-		.wrclock(SDRAM_CLK),
-		.wren(readDataValid && state==3),
-		
-		.rdaddress(rdaddressEven),
-		.rdclock(spiClk),
-		
-		.q(ledColBufEven)
+		.q(ledColBuf)
 	);
 	
 	//assign ledColBufOdd = row % 128 ? 16'h0008 : 16'h4000;
 	//assign ledColBufEven = 16'h0;//rowEven % 16 ? 16'h0008 : 16'h4000;
 	
-	logic [6:0] rdaddressEven;
 	LedCtrl ledCtrl(
 		.spiClk(spiClk),
 		.nReset(nReset),
@@ -117,15 +103,12 @@ module LED #(parameter NUM_SHIFT=8, GLB_HEIGHT, GLB_WIDTH, GLB_FPS, SDRAM_CLK_FR
 		.cmdDone(ledCmdDone),
 		.busy(ledBusy),
 		
-		.ledColBufOdd,
-		.ledColBufEven,
-		.rdaddress,
-		.rdaddressEven
+		.ledColBuf,
+		.rdaddress
 	);
 	
 	//turn timer
 	logic [$clog2(GLB_HEIGHT)-1:0] row;
-	logic [$clog2(GLB_HEIGHT)-1:0] rowEven;
 	logic rowValid;
 	logic rowChange;
 	logic index;
@@ -148,7 +131,6 @@ module LED #(parameter NUM_SHIFT=8, GLB_HEIGHT, GLB_WIDTH, GLB_FPS, SDRAM_CLK_FR
 		.nReset,
 		.mag(mag),
 		.row,
-		.rowEven,
 		.valid(rowValid),
 		.index,
 		.rowChange,
@@ -165,11 +147,10 @@ module LED #(parameter NUM_SHIFT=8, GLB_HEIGHT, GLB_WIDTH, GLB_FPS, SDRAM_CLK_FR
 	
 	reg [15:0] readCnt;
 	reg [2:0] state;
-	reg [23:0] addressOdd;
-	reg [23:0] addressEven;
+	reg [23:0] addressAll;
 	reg rowChangeAck;
 	
-	assign address = state<2 ? addressOdd : addressEven;
+	assign address = addressAll;
 
 	always@(posedge SDRAM_CLK) begin
 		if(!nReset) begin
@@ -185,8 +166,7 @@ module LED #(parameter NUM_SHIFT=8, GLB_HEIGHT, GLB_WIDTH, GLB_FPS, SDRAM_CLK_FR
 						rowChangeAck <= '0;
 						if(rowChange) begin
 							rowChangeAck <= '1;
-							addressOdd <= (row << $clog2(GLB_WIDTH))+1;
-							addressEven <= (rowEven << $clog2(GLB_WIDTH));
+							addressAll <= (row << $clog2(GLB_WIDTH));
 							readCnt <= '0;
 							if(row < GLB_HEIGHT) begin
 								state <= 1;
@@ -200,7 +180,7 @@ module LED #(parameter NUM_SHIFT=8, GLB_HEIGHT, GLB_WIDTH, GLB_FPS, SDRAM_CLK_FR
 					begin
 						rowChangeAck <= '0;
 						if(addressAck)
-							addressOdd <= addressOdd + NUM_SIDES;
+							addressAll <= addressAll + NUM_SIDES;
 							
 						if(readDataValid) begin
 							readCnt <= readCnt + 1;
@@ -219,11 +199,8 @@ module LED #(parameter NUM_SHIFT=8, GLB_HEIGHT, GLB_WIDTH, GLB_FPS, SDRAM_CLK_FR
 						state <= 3;
 						readReq <= '1;
 					end
-				3:
+				3: //since NUM_SIDES is 1 we never enter this state
 					begin
-						if(addressAck)
-							addressEven <= addressEven + 2;
-							
 						if(readDataValid) begin
 							readCnt <= readCnt + 1;
 							bufAddress <= bufAddress + 1;

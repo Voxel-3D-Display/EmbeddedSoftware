@@ -50,30 +50,22 @@ module LedCtrl #(parameter NUM_SHIFT_CHANNEL = 4)
 	assign rdaddress = {hi, cnt};
 	reg [NUM_SHIFT_CHANNEL-1:0] load;
 	reg [NUM_SHIFT_CHANNEL-1:0] shiftClk;
-	logic [NUM_SHIFT_CHANNEL-1:0] shiftout;
+	logic [NUM_SHIFT_CHANNEL-1:0] shiftoutAll;
 	logic [NUM_SHIFT_CHANNEL * 2 -1 : 0] shiftout;
-	logic [47:0] data;
+	logic [47:0] dataAll;
 	
-	assign dataEven = {bLut[ledColBufEven[4:0]], gLut[ledColBufEven[10:5]], rLut[ledColBufEven[15:11]]};
-	assign dataOdd = {bLut[ledColBufOdd[4:0]], gLut[ledColBufOdd[10:5]], rLut[ledColBufOdd[15:11]]};
+	assign dataAll = {bLut[ledColBuf[4:0]], gLut[ledColBuf[10:5]], rLut[ledColBuf[15:11]]};
 	
 	//assign dataEven = { 16'd0, 16'd0, 16'd5164};
 	//assign dataOdd =  { 16'd5164, 16'd0, 16'd0};
-	LedShift ledShiftOdd[NUM_SHIFT_CHANNEL-1:0] (	
+	LedShift ledShiftAll[NUM_SHIFT_CHANNEL-1:0] (	
 		.clock(shiftClk),
-		.data(dataOdd),
+		.data(dataAll),
 		.load,
-		.shiftout(shiftoutOdd)
+		.shiftout(shiftoutAll)
 	);
 	
-	LedShift ledShiftEven[NUM_SHIFT_CHANNEL-1:0] (	
-		.clock(shiftClk),
-		.data(dataEven),
-		.load,
-		.shiftout(shiftoutEven)
-	);
-	
-	assign shiftout = {shiftoutEven, shiftoutOdd};
+	assign shiftout = {shiftoutAll};
 	
 	assign SDOs = (m_state == 4'd0 || m_state == 4'd5) ? '0 : shiftout;	//TODO: parameterize
 	
@@ -102,7 +94,6 @@ module LedCtrl #(parameter NUM_SHIFT_CHANNEL = 4)
 								m_state <= 4'd1;
 								cnt <= '0;
 								hi <= '0;
-								cntEven <= 5'd15;
 								//send latch select bit
 								SCLK <= '1;
 							end
@@ -161,7 +152,6 @@ module LedCtrl #(parameter NUM_SHIFT_CHANNEL = 4)
 				4'd5:
 					begin
 						cnt<=cnt + 1;
-						cntEven <= cntEven - 1;
 						shiftClk <= '0;
 						if(cnt==15) begin		//insert a 0 latch select bit at TLC5955 boundary
 							SCLK <= '1;
