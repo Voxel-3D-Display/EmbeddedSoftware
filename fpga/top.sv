@@ -24,7 +24,10 @@ module top (
 		output logic [1:0]	DQM,
 		output logic 			nRAS,
 		output logic			nWE,
-		output logic 			SDRAM_CLK
+		output logic 			SDRAM_CLK,
+		
+		// input  logic			inputTest, // added 2/20/22
+		output logic			testPin // added 2/20/22
 	);
 
 	localparam VID_WIDTH = 1280;
@@ -45,6 +48,27 @@ module top (
 	assign SDRAM_CLK = !SDRAM_CLKn;
 	
 	logic readLedAddressAck;
+	
+	logic mag_dummy;	// dummy signal for optical encoder pulse
+//	assign testPin = CLK_10M; // added 2/20/22
+	always@(posedge CLK_10M) begin
+		if(!nReset) begin
+			testPin <= 0;
+			mag_dummy <= 0;
+		end
+
+		else if(testPin == 0) begin
+			testPin <= 1;
+			mag_dummy <= 1;
+			end 
+		else begin
+			testPin <= 0; 
+			mag_dummy <= 0;
+		end
+		
+	end
+	
+	
 
 	
 	//
@@ -72,7 +96,8 @@ module top (
 		.readDataValid,
 		.readData(readLedData),
 		
-		.MAG2
+		// .MAG2
+		.MAG2		// test to mimic encoder pulse
 	);
 	
 

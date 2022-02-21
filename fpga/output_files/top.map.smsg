@@ -1,1 +1,1 @@
-Info (10281): Verilog HDL Declaration information at TLC5955.sv(5): object "DATA" differs only in case from object "data" in the same scope File: C:/Users/annam/Downloads/flicker/FPGA/TLC5955.sv Line: 5
+Info (10281): Verilog HDL Declaration information at TLC5955.sv(5): object "DATA" differs only in case from object "data" in the same scope File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/fpga/TLC5955.sv Line: 5

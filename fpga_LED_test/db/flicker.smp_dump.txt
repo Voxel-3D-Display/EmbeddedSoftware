@@ -1,0 +1,34 @@
+
+State Machine - |top|LedCtrl:ledCtrl|m_state
+Name m_state.1010 m_state.1001 m_state.1000 m_state.0111 m_state.0110 m_state.0101 m_state.0100 m_state.0011 m_state.0010 m_state.0001 m_state.0000 
+m_state.0000 0 0 0 0 0 0 0 0 0 0 0 
+m_state.0001 0 0 0 0 0 0 0 0 0 1 1 
+m_state.0010 0 0 0 0 0 0 0 0 1 0 1 
+m_state.0011 0 0 0 0 0 0 0 1 0 0 1 
+m_state.0100 0 0 0 0 0 0 1 0 0 0 1 
+m_state.0101 0 0 0 0 0 1 0 0 0 0 1 
+m_state.0110 0 0 0 0 1 0 0 0 0 0 1 
+m_state.0111 0 0 0 1 0 0 0 0 0 0 1 
+m_state.1000 0 0 1 0 0 0 0 0 0 0 1 
+m_state.1001 0 1 0 0 0 0 0 0 0 0 1 
+m_state.1010 1 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |top|InitLed:initLed|i_state
+Name i_state.1010 i_state.1001 i_state.1000 i_state.0111 i_state.0110 i_state.0101 i_state.0100 i_state.0011 i_state.0010 i_state.0001 i_state.0000 
+i_state.0000 0 0 0 0 0 0 0 0 0 0 0 
+i_state.0001 0 0 0 0 0 0 0 0 0 1 1 
+i_state.0010 0 0 0 0 0 0 0 0 1 0 1 
+i_state.0011 0 0 0 0 0 0 0 1 0 0 1 
+i_state.0100 0 0 0 0 0 0 1 0 0 0 1 
+i_state.0101 0 0 0 0 0 1 0 0 0 0 1 
+i_state.0110 0 0 0 0 1 0 0 0 0 0 1 
+i_state.0111 0 0 0 1 0 0 0 0 0 0 1 
+i_state.1000 0 0 1 0 0 0 0 0 0 0 1 
+i_state.1001 0 1 0 0 0 0 0 0 0 0 1 
+i_state.1010 1 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |top|InitLed:initLed|TLC5955:tlc5955|m_state
+Name m_state.00 m_state.10 m_state.01 
+m_state.00 0 0 0 
+m_state.01 1 0 1 
+m_state.10 1 1 0 

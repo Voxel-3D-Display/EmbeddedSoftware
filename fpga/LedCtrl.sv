@@ -54,7 +54,10 @@ module LedCtrl #(parameter NUM_SHIFT_CHANNEL = 4)
 	logic [NUM_SHIFT_CHANNEL * 2 -1 : 0] shiftout;
 	logic [47:0] dataAll;
 	
-	assign dataAll = {bLut[ledColBuf[4:0]], gLut[ledColBuf[10:5]], rLut[ledColBuf[15:11]]};
+	
+	// dataAll is a 48 bit number consisting of red, green, and blue brightnesses that will be shifted into the LED shift register
+	// assign dataAll = {bLut[ledColBuf[4:0]], gLut[ledColBuf[10:5]], rLut[ledColBuf[15:11]]};
+	assign dataAll = {bLut[5'b11111], gLut[6'b111111], rLut[5'b11111]};	// for testing
 	
 	//assign dataEven = { 16'd0, 16'd0, 16'd5164};
 	//assign dataOdd =  { 16'd5164, 16'd0, 16'd0};
@@ -80,9 +83,9 @@ module LedCtrl #(parameter NUM_SHIFT_CHANNEL = 4)
 			shiftClk <= '0;
 			load <= '0;
 
-		end else begin
+		end else begin	//load data into shift registers
 			case (m_state)
-				4'd0:	//load data into shift registers
+				4'd0:		// either idle, or begin loading data if cmdStart is given
 					begin
 						cmdDone <= '0;
 						busy <= '0;
@@ -99,23 +102,23 @@ module LedCtrl #(parameter NUM_SHIFT_CHANNEL = 4)
 							end
 						end
 					end
-				4'd1:
+				4'd1:		// set SCLK low
 					begin
 						m_state <= 4'd10;
 						SCLK <= '0;
 
 					end
-				4'd10:
+				4'd10:		// wait a little bit for some reason
 					begin
 						m_state <= 4'd2;
 					end
-				4'd2:
+				4'd2:		// load all bits of one LED color trio (r, g, and b) into LED shift register in parallel
 					begin
 						load[NUM_SHIFT_CHANNEL-1 - hi] <= '1;
 						shiftClk[NUM_SHIFT_CHANNEL-1 - hi] <= '1;
 						m_state <=  4'd9;
 					end
-				4'd9:
+				4'd9:		// for next shift channel, repeat starting at state 1. else go to next state
 					begin
 						load <= '0;
 						shiftClk <= '0;
@@ -132,13 +135,13 @@ module LedCtrl #(parameter NUM_SHIFT_CHANNEL = 4)
 						m_state <=  4'd3;
 					end
 					
-				4'd3:		//send data out serially
+				4'd3:		// send data out serially from shift register
 					begin
 						shiftClk <= '0;
 						SCLK <= '1;
 						m_state <= 4'd4;
 					end
-				4'd4:
+				4'd4:		// send data out serially from shift register until all 48 bits have been sent out
 					begin
 						SCLK <= '0;
 						shiftClk <= '1;
@@ -149,14 +152,14 @@ module LedCtrl #(parameter NUM_SHIFT_CHANNEL = 4)
 							m_state <= 4'd3;
 						end
 					end
-				4'd5:
+				4'd5:		// send out data until all data for 48 LEDs (16 color triplets) have been sent out, then latch the data into the TLC5955 register
 					begin
-						cnt<=cnt + 1;
+						cnt<=cnt + 1;			// increment the triplet pair being sent
 						shiftClk <= '0;
-						if(cnt==15) begin		//insert a 0 latch select bit at TLC5955 boundary
+						if(cnt==15) begin		//insert a 0 latch select bit at TLC5955 boundary // check if data for 16 color triplets (all 48 pins) for the first TLC5955 have been sent
 							SCLK <= '1;
 							m_state <= 4'd1;
-						end else if(cnt==31) begin
+						end else if(cnt==31) begin		// // check if data for 16 color triplets (all 48 pins) for the second TLC5955 have been sent
 							LAT <= '1;
 							m_state <= 4'd6;
 						end else begin
@@ -169,7 +172,7 @@ module LedCtrl #(parameter NUM_SHIFT_CHANNEL = 4)
 					begin
 						m_state <= 4'd7;
 					end
-				4'd7:
+				4'd7:		// finished updating LEDs
 					begin
 						LAT <= '0;
 						cmdDone <= '1;

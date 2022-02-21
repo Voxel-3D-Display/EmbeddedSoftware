@@ -3,103 +3,55 @@ Timing Analyzer Summary
 ------------------------------------------------------------
 
 Type  : Slow 1200mV 85C Model Setup 'PIXCLK'
-Slack : -4.008
-TNS   : -138.029
-
-Type  : Slow 1200mV 85C Model Setup 'LED:led|LedCtrl:ledCtrl|shiftClk[3]'
-Slack : -2.870
-TNS   : -232.360
-
-Type  : Slow 1200mV 85C Model Setup 'LED:led|LedCtrl:ledCtrl|shiftClk[2]'
-Slack : -2.552
-TNS   : -206.283
-
-Type  : Slow 1200mV 85C Model Setup 'LED:led|LedCtrl:ledCtrl|shiftClk[1]'
-Slack : -2.527
-TNS   : -206.358
-
-Type  : Slow 1200mV 85C Model Setup 'LED:led|LedCtrl:ledCtrl|shiftClk[0]'
-Slack : -2.394
-TNS   : -191.251
-
-Type  : Slow 1200mV 85C Model Setup 'pll|altpll_0|sd1|pll7|clk[1]'
-Slack : -0.169
-TNS   : -0.676
+Slack : -3.944
+TNS   : -134.270
 
 Type  : Slow 1200mV 85C Model Setup 'pll|altpll_0|sd1|pll7|clk[0]'
-Slack : 0.769
+Slack : 1.414
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Setup 'pll|altpll_0|sd1|pll7|clk[1]'
+Slack : 1.781
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Setup 'CLK_10M'
-Slack : 97.706
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Hold 'pll|altpll_0|sd1|pll7|clk[1]'
-Slack : -0.107
-TNS   : -0.428
-
-Type  : Slow 1200mV 85C Model Hold 'pll|altpll_0|sd1|pll7|clk[0]'
-Slack : 0.344
+Slack : 97.514
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'CLK_10M'
+Slack : 0.357
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'pll|altpll_0|sd1|pll7|clk[0]'
+Slack : 0.357
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'pll|altpll_0|sd1|pll7|clk[1]'
 Slack : 0.358
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'PIXCLK'
-Slack : 0.360
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Hold 'LED:led|LedCtrl:ledCtrl|shiftClk[0]'
-Slack : 0.373
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Hold 'LED:led|LedCtrl:ledCtrl|shiftClk[2]'
-Slack : 0.373
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Hold 'LED:led|LedCtrl:ledCtrl|shiftClk[3]'
-Slack : 0.373
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Hold 'LED:led|LedCtrl:ledCtrl|shiftClk[1]'
-Slack : 0.374
+Slack : 0.381
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Recovery 'pll|altpll_0|sd1|pll7|clk[0]'
-Slack : 7.810
+Slack : 7.541
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Removal 'pll|altpll_0|sd1|pll7|clk[0]'
-Slack : 0.918
+Slack : 0.926
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'PIXCLK'
 Slack : -3.000
-TNS   : -87.522
-
-Type  : Slow 1200mV 85C Model Minimum Pulse Width 'LED:led|LedCtrl:ledCtrl|shiftClk[0]'
-Slack : -1.000
-TNS   : -96.000
-
-Type  : Slow 1200mV 85C Model Minimum Pulse Width 'LED:led|LedCtrl:ledCtrl|shiftClk[1]'
-Slack : -1.000
-TNS   : -96.000
-
-Type  : Slow 1200mV 85C Model Minimum Pulse Width 'LED:led|LedCtrl:ledCtrl|shiftClk[2]'
-Slack : -1.000
-TNS   : -96.000
-
-Type  : Slow 1200mV 85C Model Minimum Pulse Width 'LED:led|LedCtrl:ledCtrl|shiftClk[3]'
-Slack : -1.000
-TNS   : -96.000
+TNS   : -86.595
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'pll|altpll_0|sd1|pll7|clk[0]'
-Slack : 5.295
+Slack : 5.250
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'pll|altpll_0|sd1|pll7|clk[1]'
-Slack : 12.247
+Slack : 12.246
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'CLK_10M'
@@ -107,99 +59,51 @@ Slack : 49.596
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Setup 'PIXCLK'
-Slack : -3.474
-TNS   : -116.247
-
-Type  : Slow 1200mV 0C Model Setup 'LED:led|LedCtrl:ledCtrl|shiftClk[3]'
-Slack : -2.589
-TNS   : -206.822
-
-Type  : Slow 1200mV 0C Model Setup 'LED:led|LedCtrl:ledCtrl|shiftClk[2]'
-Slack : -2.282
-TNS   : -182.960
-
-Type  : Slow 1200mV 0C Model Setup 'LED:led|LedCtrl:ledCtrl|shiftClk[1]'
-Slack : -2.273
-TNS   : -182.093
-
-Type  : Slow 1200mV 0C Model Setup 'LED:led|LedCtrl:ledCtrl|shiftClk[0]'
-Slack : -2.099
-TNS   : -168.293
-
-Type  : Slow 1200mV 0C Model Setup 'pll|altpll_0|sd1|pll7|clk[1]'
-Slack : -0.036
-TNS   : -0.144
+Slack : -3.469
+TNS   : -113.841
 
 Type  : Slow 1200mV 0C Model Setup 'pll|altpll_0|sd1|pll7|clk[0]'
-Slack : 0.989
+Slack : 1.548
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'pll|altpll_0|sd1|pll7|clk[1]'
+Slack : 1.887
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Setup 'CLK_10M'
-Slack : 97.958
+Slack : 97.765
 TNS   : 0.000
 
-Type  : Slow 1200mV 0C Model Hold 'pll|altpll_0|sd1|pll7|clk[1]'
-Slack : -0.165
-TNS   : -0.660
-
 Type  : Slow 1200mV 0C Model Hold 'pll|altpll_0|sd1|pll7|clk[0]'
-Slack : 0.300
+Slack : 0.311
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'CLK_10M'
 Slack : 0.312
 TNS   : 0.000
 
+Type  : Slow 1200mV 0C Model Hold 'pll|altpll_0|sd1|pll7|clk[1]'
+Slack : 0.312
+TNS   : 0.000
+
 Type  : Slow 1200mV 0C Model Hold 'PIXCLK'
-Slack : 0.316
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Hold 'LED:led|LedCtrl:ledCtrl|shiftClk[2]'
-Slack : 0.338
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Hold 'LED:led|LedCtrl:ledCtrl|shiftClk[0]'
-Slack : 0.339
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Hold 'LED:led|LedCtrl:ledCtrl|shiftClk[1]'
-Slack : 0.340
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Hold 'LED:led|LedCtrl:ledCtrl|shiftClk[3]'
-Slack : 0.340
+Slack : 0.333
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Recovery 'pll|altpll_0|sd1|pll7|clk[0]'
-Slack : 8.142
+Slack : 7.905
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Removal 'pll|altpll_0|sd1|pll7|clk[0]'
-Slack : 0.828
+Slack : 0.833
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'PIXCLK'
 Slack : -3.000
-TNS   : -87.522
-
-Type  : Slow 1200mV 0C Model Minimum Pulse Width 'LED:led|LedCtrl:ledCtrl|shiftClk[0]'
-Slack : -1.000
-TNS   : -96.000
-
-Type  : Slow 1200mV 0C Model Minimum Pulse Width 'LED:led|LedCtrl:ledCtrl|shiftClk[1]'
-Slack : -1.000
-TNS   : -96.000
-
-Type  : Slow 1200mV 0C Model Minimum Pulse Width 'LED:led|LedCtrl:ledCtrl|shiftClk[2]'
-Slack : -1.000
-TNS   : -96.000
-
-Type  : Slow 1200mV 0C Model Minimum Pulse Width 'LED:led|LedCtrl:ledCtrl|shiftClk[3]'
-Slack : -1.000
-TNS   : -96.000
+TNS   : -86.522
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'pll|altpll_0|sd1|pll7|clk[0]'
-Slack : 5.298
+Slack : 5.273
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'pll|altpll_0|sd1|pll7|clk[1]'
@@ -211,103 +115,55 @@ Slack : 49.597
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Setup 'PIXCLK'
-Slack : -1.825
-TNS   : -50.604
-
-Type  : Fast 1200mV 0C Model Setup 'LED:led|LedCtrl:ledCtrl|shiftClk[3]'
-Slack : -1.239
-TNS   : -93.756
-
-Type  : Fast 1200mV 0C Model Setup 'LED:led|LedCtrl:ledCtrl|shiftClk[1]'
-Slack : -1.059
-TNS   : -78.363
-
-Type  : Fast 1200mV 0C Model Setup 'LED:led|LedCtrl:ledCtrl|shiftClk[2]'
-Slack : -1.044
-TNS   : -79.295
-
-Type  : Fast 1200mV 0C Model Setup 'LED:led|LedCtrl:ledCtrl|shiftClk[0]'
-Slack : -0.947
-TNS   : -73.288
-
-Type  : Fast 1200mV 0C Model Setup 'pll|altpll_0|sd1|pll7|clk[1]'
-Slack : -0.043
-TNS   : -0.172
+Slack : -1.793
+TNS   : -51.021
 
 Type  : Fast 1200mV 0C Model Setup 'pll|altpll_0|sd1|pll7|clk[0]'
-Slack : 1.621
+Slack : 2.001
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'pll|altpll_0|sd1|pll7|clk[1]'
+Slack : 2.220
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Setup 'CLK_10M'
-Slack : 98.733
+Slack : 98.495
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Hold 'pll|altpll_0|sd1|pll7|clk[1]'
-Slack : 0.008
+Slack : 0.180
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Hold 'pll|altpll_0|sd1|pll7|clk[0]'
-Slack : 0.179
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'PIXCLK'
-Slack : 0.181
+Slack : 0.185
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Hold 'CLK_10M'
-Slack : 0.186
+Slack : 0.187
 TNS   : 0.000
 
-Type  : Fast 1200mV 0C Model Hold 'LED:led|LedCtrl:ledCtrl|shiftClk[0]'
-Slack : 0.194
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'LED:led|LedCtrl:ledCtrl|shiftClk[1]'
-Slack : 0.194
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'LED:led|LedCtrl:ledCtrl|shiftClk[2]'
-Slack : 0.194
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'LED:led|LedCtrl:ledCtrl|shiftClk[3]'
-Slack : 0.194
+Type  : Fast 1200mV 0C Model Hold 'PIXCLK'
+Slack : 0.196
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Recovery 'pll|altpll_0|sd1|pll7|clk[0]'
-Slack : 9.135
+Slack : 8.981
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Removal 'pll|altpll_0|sd1|pll7|clk[0]'
-Slack : 0.502
+Slack : 0.506
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'PIXCLK'
 Slack : -3.000
-TNS   : -118.871
-
-Type  : Fast 1200mV 0C Model Minimum Pulse Width 'LED:led|LedCtrl:ledCtrl|shiftClk[0]'
-Slack : -1.000
-TNS   : -96.000
-
-Type  : Fast 1200mV 0C Model Minimum Pulse Width 'LED:led|LedCtrl:ledCtrl|shiftClk[1]'
-Slack : -1.000
-TNS   : -96.000
-
-Type  : Fast 1200mV 0C Model Minimum Pulse Width 'LED:led|LedCtrl:ledCtrl|shiftClk[2]'
-Slack : -1.000
-TNS   : -96.000
-
-Type  : Fast 1200mV 0C Model Minimum Pulse Width 'LED:led|LedCtrl:ledCtrl|shiftClk[3]'
-Slack : -1.000
-TNS   : -96.000
+TNS   : -118.488
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'pll|altpll_0|sd1|pll7|clk[0]'
-Slack : 5.305
+Slack : 5.312
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'pll|altpll_0|sd1|pll7|clk[1]'
-Slack : 12.253
+Slack : 12.282
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'CLK_10M'

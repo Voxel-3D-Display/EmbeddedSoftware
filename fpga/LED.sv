@@ -4,7 +4,7 @@ module LED #(parameter NUM_SHIFT=8, GLB_HEIGHT, GLB_WIDTH, GLB_FPS, SDRAM_CLK_FR
 		input					SDRAM_CLK,
 		input 				nReset,
 		
-		input 				MAG2,
+		input 				MAG2, //02/20/2022 need to generate fake encoder signal
 		
 		output 				ledCmdDone,
 		
@@ -62,7 +62,7 @@ module LED #(parameter NUM_SHIFT=8, GLB_HEIGHT, GLB_WIDTH, GLB_FPS, SDRAM_CLK_FR
 	
 	//CDC ledCmdStart  end
 	
-	InitLed #(.NUM_TLC5955(2)) initLed (
+	InitLed #(.NUM_TLC5955(1)) initLed (
 		.spiClk,
 		.nReset,
 		
@@ -114,12 +114,14 @@ module LED #(parameter NUM_SHIFT=8, GLB_HEIGHT, GLB_WIDTH, GLB_FPS, SDRAM_CLK_FR
 	logic index;
 	reg [7:0] magFilter;
 	reg mag;
+	//block used to ensure we don't switch mag value sent to turn timer before value stabilizes?
 	always_ff@(posedge CLK_10M) begin
-		magFilter <= {magFilter[6:0], MAG2};
-		if(magFilter == '1)
-			mag <= '1;
-		else if(magFilter == '0)
-			mag <= '0;
+		mag <= MAG2;
+		//magFilter <= {magFilter[6:0], MAG2}; //keep left shifting in the new MAG2 value from encoder
+		//if(magFilter == '1) //change mag to 1 once we got 8 consecutive ones
+		//	mag <= '1;
+		//else if(magFilter == '0) //change mag back to 0 once we get 8 consecutive ones
+		//	mag <= '0;
 	end
 	
 	//---------------------------------------------------------------------------------------------
@@ -166,7 +168,7 @@ module LED #(parameter NUM_SHIFT=8, GLB_HEIGHT, GLB_WIDTH, GLB_FPS, SDRAM_CLK_FR
 						rowChangeAck <= '0;
 						if(rowChange) begin
 							rowChangeAck <= '1;
-							addressAll <= (row << $clog2(GLB_WIDTH));
+							addressAll <= (row << $clog2(GLB_WIDTH)); //128 log 2 = 7. addressAll = row * 128
 							readCnt <= '0;
 							if(row < GLB_HEIGHT) begin
 								state <= 1;
@@ -180,7 +182,7 @@ module LED #(parameter NUM_SHIFT=8, GLB_HEIGHT, GLB_WIDTH, GLB_FPS, SDRAM_CLK_FR
 					begin
 						rowChangeAck <= '0;
 						if(addressAck)
-							addressAll <= addressAll + NUM_SIDES;
+							addressAll <= addressAll + NUM_SIDES; //NUM_SIDES = 1
 							
 						if(readDataValid) begin
 							readCnt <= readCnt + 1;

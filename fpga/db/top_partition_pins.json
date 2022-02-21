@@ -120,6 +120,10 @@
 					"strict" : false
 				},
 				{
+					"name" : "testPin",
+					"strict" : false
+				},
+				{
 					"name" : "DQ[0]",
 					"strict" : false
 				},

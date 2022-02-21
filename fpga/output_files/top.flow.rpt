@@ -1,5 +1,5 @@
 Flow report for top
-Fri Feb 11 18:20:10 2022
+Sun Feb 20 15:07:11 2022
 Quartus Prime Version 21.1.0 Build 842 10/21/2021 SJ Lite Edition
 
 
@@ -41,21 +41,21 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Fri Feb 11 18:20:10 2022       ;
+; Flow Status                        ; Successful - Sun Feb 20 15:07:11 2022       ;
 ; Quartus Prime Version              ; 21.1.0 Build 842 10/21/2021 SJ Lite Edition ;
 ; Revision Name                      ; top                                         ;
 ; Top-level Entity Name              ; top                                         ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE22F17C6                                ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 1,796 / 22,320 ( 8 % )                      ;
-;     Total combinational functions  ; 1,600 / 22,320 ( 7 % )                      ;
-;     Dedicated logic registers      ; 1,091 / 22,320 ( 5 % )                      ;
-; Total registers                    ; 1158                                        ;
-; Total pins                         ; 80 / 154 ( 52 % )                           ;
+; Total logic elements               ; 1,062 / 22,320 ( 5 % )                      ;
+;     Total combinational functions  ; 953 / 22,320 ( 4 % )                        ;
+;     Dedicated logic registers      ; 655 / 22,320 ( 3 % )                        ;
+; Total registers                    ; 706                                         ;
+; Total pins                         ; 82 / 154 ( 53 % )                           ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 8,192 / 608,256 ( 1 % )                     ;
-; Embedded Multiplier 9-bit elements ; 0 / 132 ( 0 % )                             ;
+; Total memory bits                  ; 4,096 / 608,256 ( < 1 % )                   ;
+; Embedded Multiplier 9-bit elements ; 6 / 132 ( 5 % )                             ;
 ; Total PLLs                         ; 1 / 4 ( 25 % )                              ;
 +------------------------------------+---------------------------------------------+
 
@@ -65,7 +65,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 02/11/2022 18:19:32 ;
+; Start date & time ; 02/20/2022 15:06:50 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; top                 ;
 +-------------------+---------------------+
@@ -76,7 +76,7 @@ https://fpgasoftware.intel.com/eula.
 +--------------------------------------------------------+---------------------------------------------------------+---------------+-------------+----------------+
 ; Assignment Name                                        ; Value                                                   ; Default Value ; Entity Name ; Section Id     ;
 +--------------------------------------------------------+---------------------------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID                                  ; 10995770589189.164462157209012                          ; --            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID                                  ; 93123547408053.164538761004772                          ; --            ; --          ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT                                 ; Systemverilog Hdl                                       ; --            ; --          ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                                    ; Questa Intel FPGA (SystemVerilog)                       ; <None>        ; --          ; --             ;
 ; EDA_TIME_SCALE                                         ; 1 ps                                                    ; --            ; --          ; eda_simulation ;
@@ -130,13 +130,13 @@ https://fpgasoftware.intel.com/eula.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:11     ; 1.0                     ; 4808 MB             ; 00:00:22                           ;
-; Fitter               ; 00:00:15     ; 1.1                     ; 5575 MB             ; 00:00:22                           ;
-; Assembler            ; 00:00:01     ; 1.0                     ; 4719 MB             ; 00:00:01                           ;
-; Timing Analyzer      ; 00:00:02     ; 1.2                     ; 4820 MB             ; 00:00:03                           ;
-; Design Assistant     ; 00:00:00     ; 1.0                     ; 4659 MB             ; 00:00:01                           ;
-; EDA Netlist Writer   ; 00:00:01     ; 1.0                     ; 4652 MB             ; 00:00:01                           ;
-; Total                ; 00:00:30     ; --                      ; --                  ; 00:00:50                           ;
+; Analysis & Synthesis ; 00:00:06     ; 1.0                     ; 4813 MB             ; 00:00:13                           ;
+; Fitter               ; 00:00:06     ; 1.1                     ; 5564 MB             ; 00:00:08                           ;
+; Assembler            ; 00:00:01     ; 1.0                     ; 4716 MB             ; 00:00:01                           ;
+; Timing Analyzer      ; 00:00:02     ; 1.2                     ; 4813 MB             ; 00:00:02                           ;
+; Design Assistant     ; 00:00:01     ; 1.0                     ; 4651 MB             ; 00:00:00                           ;
+; EDA Netlist Writer   ; 00:00:00     ; 1.0                     ; 4649 MB             ; 00:00:00                           ;
+; Total                ; 00:00:16     ; --                      ; --                  ; 00:00:24                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -145,12 +145,12 @@ https://fpgasoftware.intel.com/eula.
 +----------------------+------------------+------------+------------+----------------+
 ; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
 +----------------------+------------------+------------+------------+----------------+
-; Analysis & Synthesis ; DESKTOP-QH8470E  ; Windows 10 ; 10.0       ; x86_64         ;
-; Fitter               ; DESKTOP-QH8470E  ; Windows 10 ; 10.0       ; x86_64         ;
-; Assembler            ; DESKTOP-QH8470E  ; Windows 10 ; 10.0       ; x86_64         ;
-; Timing Analyzer      ; DESKTOP-QH8470E  ; Windows 10 ; 10.0       ; x86_64         ;
-; Design Assistant     ; DESKTOP-QH8470E  ; Windows 10 ; 10.0       ; x86_64         ;
-; EDA Netlist Writer   ; DESKTOP-QH8470E  ; Windows 10 ; 10.0       ; x86_64         ;
+; Analysis & Synthesis ; DESKTOP-8VFOK1F  ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; DESKTOP-8VFOK1F  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; DESKTOP-8VFOK1F  ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; DESKTOP-8VFOK1F  ; Windows 10 ; 10.0       ; x86_64         ;
+; Design Assistant     ; DESKTOP-8VFOK1F  ; Windows 10 ; 10.0       ; x86_64         ;
+; EDA Netlist Writer   ; DESKTOP-8VFOK1F  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 

@@ -1,0 +1,17 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "testPin",
+					"strict" : false
+				},
+				{
+					"name" : "CLK_10M",
+					"strict" : false
+				}
+			]
+		}
+	]
+}
