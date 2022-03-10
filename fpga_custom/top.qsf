@@ -333,10 +333,10 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to QE[23]
 
 # SDO (LED Driver) Assignemnts - to be expanded upon
 # Signals for J7 (SDO[3:0]) & J8 (SDO[7:4])
-set_location_assignment PIN_T11 -to SDOs[0]
-set_location_assignment PIN_R12 -to SDOs[1]
-set_location_assignment PIN_T12 -to SDOs[2]
-set_location_assignment PIN_R13 -to SDOs[3]
+#set_location_assignment PIN_T11 -to SDOs[0]
+#set_location_assignment PIN_R12 -to SDOs[1]
+#set_location_assignment PIN_T12 -to SDOs[2]
+#set_location_assignment PIN_R13 -to SDOs[3]
 #set_location_assignment PIN_M10 -to SDOs[0] # J7
 #set_location_assignment PIN_L13 -to SDOs[1] # J7
 #set_location_assignment PIN_J16 -to SDOs[2] # J7
@@ -345,23 +345,23 @@ set_location_assignment PIN_R13 -to SDOs[3]
 #set_location_assignment PIN_P14 -to SDO[5]
 #set_location_assignment PIN_L14 -to SDO[6]
 #set_location_assignment PIN_N14 -to SDO[7]
-set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[0]
-set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[1]
-set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[2]
-set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[3]
-set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[4]
-set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[5]
-set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[6]
-set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[7]
+#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[0]
+#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[1]
+#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[2]
+#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[3]
+#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[4]
+#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[5]
+#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[6]
+#set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to SDO[7]
 
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDO[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDO[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDO[6]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDO[7]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDO[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDO[3]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDO[4]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDO[5]
+#set_instance_assignment -name IO_STANDARD "1.5 V" -to SDO[0]
+#set_instance_assignment -name IO_STANDARD "1.5 V" -to SDO[1]
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDO[6]
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDO[7]
+#set_instance_assignment -name IO_STANDARD "1.5 V" -to SDO[2]
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDO[3]
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDO[4]
+#set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDO[5]
 set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to SPI_CS
@@ -550,6 +550,6 @@ set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=48" -se
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=48" -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_BITS=48" -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=sld_reserved_flicker_auto_signaltap_0_1_7cd7," -section_id auto_signaltap_0
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name SIGNALTAP_FILE testingCustomHardwrite_good.stp
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name SLD_FILE db/testingCustomHardwrite_good_auto_stripped.stp

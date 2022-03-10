@@ -3,23 +3,38 @@
 module top
 	(
 		input 	CLK_10M,
-		output 	[3:0] SDOs, // output for 4 channels
+		input		ENC_ABS_HOME,
+		input 	ENC_360,
+		input 	HDMI_RGB[2:0][7:0],
 		output 	reg LAT,
 		output 	reg SCLK,
-		output 	GSCLK
+		output 	GSCLK,
+		output   [11:0][3:0] SDO
 	);
 	
 	Pll pll(
 		.clk_in_clk(CLK_10M),  			//  clk_in.clk
 		.gsclk_clk(GSCLK),     			//   gsclk.clk
-		.sclk_x2_clk(spiClk)    		// sclk_x2.clk
+		.sclk_x2_clk(spiClk)    		// sclk_x2.clk // unused
 	);
 	
+	// HDMI
+	//takes in 24 bit value from HDMI decoder
+	//places this information in a latch/reg to send to LED CTL
+	//recieve 1440 RGB values sets for one update
+	//12 by 4 by 30 by 3 array that stores the values 
+	//LED CTL can assemble a length 769 bitstream from this
+
+	// state: when finish data upload. turn off sclk
+	
+	//MatrixLocation
+	//the spot in the matrix corresponds to the LED that the HDMI data is for
+
 	// Reset reset(
 	// 	.clk(CLK_10M),
 	// 	.nReset
 	// );
-		
+	
 	localparam LATCH_SIZE = 'd769;
 	integer bit_num = LATCH_SIZE;
 	reg [LATCH_SIZE-1:0] control_data = 769'b1100101100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111111111111111111111000000000001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100;
@@ -50,10 +65,10 @@ module top
 					begin
 						SCLK <= '0;
 						if (bit_num != '0) begin
-							SDOs[0] <= (control_data >> (bit_num-1)) & 1'b1; // control_data[bit_num-1];
-							SDOs[1] <= (control_data >> (bit_num-1)) & 1'b1; // control_data[bit_num-1];
-							SDOs[2] <= (control_data >> (bit_num-1)) & 1'b1; // control_data[bit_num-1];
-							SDOs[3] <= (control_data >> (bit_num-1)) & 1'b1; // control_data[bit_num-1];
+							SDO[0] <= (control_data >> (bit_num-1)) & 1'b1; // control_data[bit_num-1];
+							SDO[1] <= (control_data >> (bit_num-1)) & 1'b1; // control_data[bit_num-1];
+							SDO[2] <= (control_data >> (bit_num-1)) & 1'b1; // control_data[bit_num-1];
+							SDO[3] <= (control_data >> (bit_num-1)) & 1'b1; // control_data[bit_num-1];
 							state <= 4'd1; // initialize, shift in
 						end else begin
 							state <= 4'd2; // initialize, latch
@@ -88,20 +103,20 @@ module top
 				// 4'd8: // grayscale, load 0's
 				// 	begin
 				// 		SCLK <= 0;
-				// 		SDOs[0] <= 0;
-				// 		SDOs[1] <= 0;
-				// 		SDOs[2] <= 0;
-				// 		SDOs[3] <= 0;
+				// 		SDO[0] <= 0;
+				// 		SDO[1] <= 0;
+				// 		SDO[2] <= 0;
+				// 		SDO[3] <= 0;
 				// 		state <= 4'd5; // grayscale, shift in
 				// 	end
 				4'd4: // grayscale, load
 					begin
 						SCLK <= 0;
 						if (bit_num != 0) begin
-							SDOs[0] <= grayscale_data[bit_num-1];
-							SDOs[1] <= grayscale_data[bit_num-1];
-							SDOs[2] <= grayscale_data[bit_num-1];
-							SDOs[3] <= grayscale_data[bit_num-1];
+							SDO[0] <= grayscale_data[bit_num-1];
+							SDO[1] <= grayscale_data[bit_num-1];
+							SDO[2] <= grayscale_data[bit_num-1];
+							SDO[3] <= grayscale_data[bit_num-1];
 							state <= 4'd5; // grayscale, shift in
 						end else begin
 							state <= 4'd6; // grayscale, latch
@@ -112,10 +127,10 @@ module top
 				// 	begin
 				// 		SCLK <= 0;
 				// 		if (bit_num != 0) begin // offset by 1 for MSB 0
-				// 			SDOs[0] <= 1;
-				// 			SDOs[1] <= 1;
-				// 			SDOs[2] <= 1;
-				// 			SDOs[3] <= 1;
+				// 			SDO[0] <= 1;
+				// 			SDO[1] <= 1;
+				// 			SDO[2] <= 1;
+				// 			SDO[3] <= 1;
 				// 			state <= 4'd5; // grayscale, shift
 				// 		end else begin
 				// 			state <= 4'd6; // grayscale, latch
