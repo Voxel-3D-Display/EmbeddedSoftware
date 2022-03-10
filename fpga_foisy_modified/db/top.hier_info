@@ -1,0 +1,146 @@
+|top
+CLK_10M => CLK_10M.IN1
+SDOs[0] <= SDOs[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+SDOs[1] <= SDOs[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+SDOs[2] <= SDOs[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+SDOs[3] <= SDOs[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+LAT <= LAT~reg0.DB_MAX_OUTPUT_PORT_TYPE
+SCLK <= SCLK~reg0.DB_MAX_OUTPUT_PORT_TYPE
+GSCLK <= Pll:pll.gsclk_clk
+
+
+|top|Pll:pll
+clk_in_clk => clk_in_clk.IN1
+clk_rst_reset => clk_rst_reset.IN1
+gsclk_clk <= Pll_altpll_0:altpll_0.c2
+sclk_x2_clk <= Pll_altpll_0:altpll_0.c1
+sdram_clk_clk <= Pll_altpll_0:altpll_0.c0
+
+
+|top|Pll:pll|Pll_altpll_0:altpll_0
+address[0] => w_select_control.IN0
+address[0] => w_select_status.IN0
+address[1] => w_select_status.IN1
+address[1] => w_select_control.IN1
+areset => comb.IN1
+c0 <= Pll_altpll_0_altpll_2sh2:sd1.clk
+c1 <= Pll_altpll_0_altpll_2sh2:sd1.clk
+c2 <= Pll_altpll_0_altpll_2sh2:sd1.clk
+clk => clk.IN2
+configupdate => ~NO_FANOUT~
+locked <= wire_sd1_locked.DB_MAX_OUTPUT_PORT_TYPE
+phasecounterselect[0] => ~NO_FANOUT~
+phasecounterselect[1] => ~NO_FANOUT~
+phasecounterselect[2] => ~NO_FANOUT~
+phasecounterselect[3] => ~NO_FANOUT~
+phasedone <= <GND>
+phasestep => ~NO_FANOUT~
+phaseupdown => ~NO_FANOUT~
+read => readdata.IN1
+read => readdata.IN1
+readdata[0] <= readdata.DB_MAX_OUTPUT_PORT_TYPE
+readdata[1] <= readdata.DB_MAX_OUTPUT_PORT_TYPE
+readdata[2] <= <GND>
+readdata[3] <= <GND>
+readdata[4] <= <GND>
+readdata[5] <= <GND>
+readdata[6] <= <GND>
+readdata[7] <= <GND>
+readdata[8] <= <GND>
+readdata[9] <= <GND>
+readdata[10] <= <GND>
+readdata[11] <= <GND>
+readdata[12] <= <GND>
+readdata[13] <= <GND>
+readdata[14] <= <GND>
+readdata[15] <= <GND>
+readdata[16] <= <GND>
+readdata[17] <= <GND>
+readdata[18] <= <GND>
+readdata[19] <= <GND>
+readdata[20] <= <GND>
+readdata[21] <= <GND>
+readdata[22] <= <GND>
+readdata[23] <= <GND>
+readdata[24] <= <GND>
+readdata[25] <= <GND>
+readdata[26] <= <GND>
+readdata[27] <= <GND>
+readdata[28] <= <GND>
+readdata[29] <= <GND>
+readdata[30] <= <GND>
+readdata[31] <= <GND>
+reset => prev_reset.ACLR
+reset => pfdena_reg.PRESET
+reset => _.IN1
+scanclk => ~NO_FANOUT~
+scanclkena => ~NO_FANOUT~
+scandata => ~NO_FANOUT~
+scandataout <= <GND>
+scandone <= <GND>
+write => wire_pfdena_reg_ena.IN1
+writedata[0] => w_reset.IN1
+writedata[1] => pfdena_reg.DATAIN
+writedata[2] => ~NO_FANOUT~
+writedata[3] => ~NO_FANOUT~
+writedata[4] => ~NO_FANOUT~
+writedata[5] => ~NO_FANOUT~
+writedata[6] => ~NO_FANOUT~
+writedata[7] => ~NO_FANOUT~
+writedata[8] => ~NO_FANOUT~
+writedata[9] => ~NO_FANOUT~
+writedata[10] => ~NO_FANOUT~
+writedata[11] => ~NO_FANOUT~
+writedata[12] => ~NO_FANOUT~
+writedata[13] => ~NO_FANOUT~
+writedata[14] => ~NO_FANOUT~
+writedata[15] => ~NO_FANOUT~
+writedata[16] => ~NO_FANOUT~
+writedata[17] => ~NO_FANOUT~
+writedata[18] => ~NO_FANOUT~
+writedata[19] => ~NO_FANOUT~
+writedata[20] => ~NO_FANOUT~
+writedata[21] => ~NO_FANOUT~
+writedata[22] => ~NO_FANOUT~
+writedata[23] => ~NO_FANOUT~
+writedata[24] => ~NO_FANOUT~
+writedata[25] => ~NO_FANOUT~
+writedata[26] => ~NO_FANOUT~
+writedata[27] => ~NO_FANOUT~
+writedata[28] => ~NO_FANOUT~
+writedata[29] => ~NO_FANOUT~
+writedata[30] => ~NO_FANOUT~
+writedata[31] => ~NO_FANOUT~
+
+
+|top|Pll:pll|Pll_altpll_0:altpll_0|Pll_altpll_0_stdsync_sv6:stdsync2
+clk => clk.IN1
+din => din.IN1
+dout <= Pll_altpll_0_dffpipe_l2c:dffpipe3.q
+reset_n => reset_n.IN1
+
+
+|top|Pll:pll|Pll_altpll_0:altpll_0|Pll_altpll_0_stdsync_sv6:stdsync2|Pll_altpll_0_dffpipe_l2c:dffpipe3
+clock => dffe6a[0].CLK
+clock => dffe5a[0].CLK
+clock => dffe4a[0].CLK
+clrn => dffe6a[0].ACLR
+clrn => dffe4a[0].ACLR
+clrn => dffe5a[0].ACLR
+d[0] => dffe4a[0].DATAIN
+q[0] <= dffe6a[0].DB_MAX_OUTPUT_PORT_TYPE
+
+
+|top|Pll:pll|Pll_altpll_0:altpll_0|Pll_altpll_0_altpll_2sh2:sd1
+areset => pll_lock_sync.ACLR
+areset => pll7.ARESET
+clk[0] <= pll7.CLK
+clk[1] <= pll7.CLK1
+clk[2] <= pll7.CLK2
+clk[3] <= pll7.CLK3
+clk[4] <= pll7.CLK4
+inclk[0] => pll7.CLK
+inclk[1] => pll7.CLK1
+locked <= locked.DB_MAX_OUTPUT_PORT_TYPE
+
+

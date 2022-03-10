@@ -68,8 +68,19 @@ int led_lookup[16] =
   };
 int mode = -1;
 
+
+#define ALL_BRIGHT 1
+#define ALL_LEDS_ITERATE_COLORS 2 // code to iterate through each color and show each color on all LEDs at once
+#define ITERATE_LEDS_ITERATE_COLORS 3 // code to update each led on each driver one by one, color by color
+#define ALL_DIM 4
+
+int delay_amnt = 500;
+
   
 void setup() {
+  Serial.begin(9600);
+
+  
   // Set pins (non-serial) to output mode
   pinMode(GSCLK, OUTPUT);
   pinMode(LAT, OUTPUT);
@@ -79,7 +90,7 @@ void setup() {
   
   // The library does not ininiate SPI for you, so as to prevent issues with other SPI libraries
   SPI.begin();
-  SPI.setClockDivider(SPI_CLOCK_DIV8);
+  SPI.setClockDivider(SPI_CLOCK_DIV128);
   tlc.init(LAT, SPI_MOSI, SPI_CLK, GSCLK);
 
   // We must set dot correction values, so set them all to the brightest adjustment
@@ -92,14 +103,12 @@ void setup() {
   // Order: DSPRPT, TMGRST, RFRESH, ESPWM, LSDVLT
   tlc.set_function_data(true, true, true, true, true);
 
-  // set all brightness levels to max (127)
-  int currentR = 127;
-  int currentB = 127;
-  int currentG = 127;
-//  int currentR = 30;
-//  int currentB = 30;
-//  int currentG = 30;
-  tlc.set_brightness_current(currentR, currentB, currentG);
+//  // set all brightness levels to max (127)
+//  int currentR = 127;
+//  int currentB = 127;
+//  int currentG = 127;
+//  tlc.set_brightness_current(currentR, currentB, currentG);
+  tlc.set_brightness_current(30);
 
   // Update Control Register
   tlc.update_control();
@@ -107,21 +116,57 @@ void setup() {
   // Provide LED pin order (R,G,B)
   tlc.set_rgb_pin_order(0, 1, 2);
 
-  Serial.print("Enter mode: ");
+  Serial.print("Enter starting mode: ");
   while(Serial.available() == 0) {}
-  mode = Serial.read();
+  if (Serial.available() > 0)
+    mode = Serial.parseInt();
+  Serial.println();
+  switch (mode) {
+    case ALL_DIM:
+      Serial.println("Mode selected: ALL_DIM");
+      break;
+    case ALL_BRIGHT:
+      Serial.println("Mode selected: ALL_BRIGHT");
+      break;
+    case ALL_LEDS_ITERATE_COLORS:
+      Serial.println("Mode selected: ALL_LEDS_ITERATE_COLORS");
+      break;
+    case ITERATE_LEDS_ITERATE_COLORS:
+      Serial.println("Mode selected: ITERATE_LEDS_ITERATE_COLORS");
+      break;
+    default:
+      Serial.print("Mode selected: ");
+      Serial.println(mode);
+      break;
+  }
   
+
 }
 
-#define ALL_DIM 0
-#define ALL_BRIGHT 1
-#define ALL_LEDS_ITERATE_COLORS 2 // code to iterate through each color and show each color on all LEDs at once
-#define ITERATE_LEDS_ITERATE_COLORS 3 // code to update each led on each driver one by one, color by color
-
-
 void loop() {
-  int delay_amnt = 1;
-  int overall_brightness = 2000;
+//  if (Serial.available()) {
+//    mode = Serial.parseInt();
+//    switch (mode) {
+//      case ALL_DIM:
+//        Serial.println("Mode selected: ALL_DIM");
+//        break;
+//      case ALL_BRIGHT:
+//        Serial.println("Mode selected: ALL_BRIGHT");
+//        break;
+//      case ALL_LEDS_ITERATE_COLORS:
+//        Serial.println("Mode selected: ALL_LEDS_ITERATE_COLORS");
+//        break;
+//      case ITERATE_LEDS_ITERATE_COLORS:
+//        Serial.println("Mode selected: ITERATE_LEDS_ITERATE_COLORS");
+//        break;
+//      default:
+//        Serial.print("Mode selected: ");
+//        Serial.println(mode);
+//        break;
+//    }
+//  }
+  
+  int overall_brightness = 65535;
   switch (mode) {
     case ALL_DIM:
       tlc.set_all(100);
@@ -129,7 +174,7 @@ void loop() {
       delay(delay_amnt);
       break;
     case ALL_BRIGHT:
-      tlc.set_all(32767);
+      tlc.set_all(65535);
       tlc.update();
       delay(delay_amnt);
       break;
@@ -166,11 +211,11 @@ void loop() {
       // code to update each led on each driver one by one, color by color
       for (int color_channel = 0; color_channel < 3; color_channel++) {
         for (int led = 0; led < 16; led++) {
-          Serial.print("Color channel: ");
-          Serial.println(color_channel);
-          Serial.print("LED: ");
-          Serial.println(led);
-          Serial.println();
+//          Serial.print("Color channel: ");
+//          Serial.println(color_channel);
+//          Serial.print("LED: ");
+//          Serial.println(led);
+//          Serial.println();
           tlc.set_all_rgb(0,0,0);
           tlc.set_single_rgb(led_lookup[led],color_channel,32767);
           tlc.set_single_rgb(led_lookup[led]+16,color_channel,32767);
