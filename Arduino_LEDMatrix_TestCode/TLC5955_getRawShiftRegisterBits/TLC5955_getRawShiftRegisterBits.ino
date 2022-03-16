@@ -73,6 +73,10 @@ int mode = -1;
 #define ALL_LEDS_ITERATE_COLORS 2 // code to iterate through each color and show each color on all LEDs at once
 #define ITERATE_LEDS_ITERATE_COLORS 3 // code to update each led on each driver one by one, color by color
 #define ALL_DIM 4
+#define ALL_RED 5
+#define ALL_GREEN 6
+#define ALL_BLUE 7
+
 
 int delay_amnt = 500;
 
@@ -186,21 +190,19 @@ void loop() {
         //    int mydata = Serial.read();
         
         tlc.set_all_rgb(0,0,0);
-        for (int led = 0; led < 16; led++) {
-          switch (color_channel) {
-            case 0:
-              tlc.set_all_rgb(overall_brightness,0,0);
-              break;
-            case 1:
-              tlc.set_all_rgb(0,overall_brightness,0);
-              break;
-            case 2:
-              tlc.set_all_rgb(0,0,overall_brightness);
-              break;
-            default:
-              tlc.set_all_rgb(0,0,0);
-              break;
-          }
+        switch (color_channel) {
+          case 0:
+            tlc.set_all_rgb(overall_brightness,0,0);
+            break;
+          case 1:
+            tlc.set_all_rgb(0,overall_brightness,0);
+            break;
+          case 2:
+            tlc.set_all_rgb(0,0,overall_brightness);
+            break;
+          default:
+            tlc.set_all_rgb(0,0,0);
+            break;
         }
         tlc.update();
         delay(delay_amnt);
@@ -222,6 +224,18 @@ void loop() {
           delay(delay_amnt);
         }
       }
+      break;
+    case ALL_RED:
+      tlc.set_all_rgb(overall_brightness,0,0);
+      tlc.update();
+      break;
+    case ALL_GREEN:
+      tlc.set_all_rgb(0,overall_brightness,0);
+      tlc.update();
+      break;
+    case ALL_BLUE:
+      tlc.set_all_rgb(0,0,overall_brightness);
+      tlc.update();
       break;
     default:
       tlc.set_all(0);

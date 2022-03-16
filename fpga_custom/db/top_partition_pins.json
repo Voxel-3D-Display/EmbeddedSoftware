@@ -12,19 +12,19 @@
 					"strict" : false
 				},
 				{
-					"name" : "SDO[0][0]",
+					"name" : "SDO[11][0]",
 					"strict" : false
 				},
 				{
-					"name" : "SDO[1][0]",
+					"name" : "SDO[11][1]",
 					"strict" : false
 				},
 				{
-					"name" : "SDO[2][0]",
+					"name" : "SDO[11][2]",
 					"strict" : false
 				},
 				{
-					"name" : "SDO[3][0]",
+					"name" : "SDO[11][3]",
 					"strict" : false
 				},
 				{
