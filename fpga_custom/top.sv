@@ -10,6 +10,18 @@ module top
 		output 	reg SCLK,
 		output 	GSCLK,
 		output   SDO[11:0][3:0]
+
+		//////////// SDRAM //////////
+		output		    [12:0]		DRAM_ADDR, //address
+		output		     [1:0]		DRAM_BA, //bank address
+		output		          		DRAM_CAS_N, //column address strobe
+		output		          		DRAM_CKE, //clock enable
+		output		          		DRAM_CLK, //clock
+		output		          		DRAM_CS_N, //chip select
+		inout 		    [15:0]		DRAM_DQ, //SDRAM data
+		output		     [1:0]		DRAM_DQM, //SDRAM byte data mask
+		output		          		DRAM_RAS_N, //row address strobe
+		output		          		DRAM_WE_N, //write enable
 	);
 	
 	Pll pll(
@@ -17,6 +29,19 @@ module top
 		.gsclk_clk(GSCLK),     			//   gsclk.clk
 		.sclk_x2_clk(spiClk)    		// sclk_x2.clk // unused
 	);
+	
+	HDMI hdmi(
+		//takes the 24 HDMI_RGB values as input (they also input into top)
+		//places the HDMI RGB values into SDRAM
+		//we just index through SDRAM and fill it with entire 1440x720 frame
+		//once it is fully populated, we switch to populating the other buffer
+		//and notify the led driver code that it can start reading from memory
+	);
+	
+	//Reading from and writing to SDRAM
+	//there are 4 banks available to us
+	//can we populate one bank with data while reading data from another bank
+	
 	
 	// HDMI
 	//takes in 24 bit value from HDMI decoder
