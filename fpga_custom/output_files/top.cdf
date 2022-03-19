@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE22F17) Path("C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/fpga_custom/output_files/") File("all_blue.sof") MfrSpec(OpMask(1));
+		Device PartName(EP4CE22F17) Path("C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/fpga_custom/output_files/") File("top.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
