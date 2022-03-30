@@ -61,8 +61,10 @@ module top
 	// );
 	
 	localparam LATCH_SIZE = 'd769;
+	localparam NUM_DRIVERS_CHAINED = 'd2;
+
 	integer bit_num = LATCH_SIZE - 1;
-	integer daisy_num = 0;
+	integer daisy_num = NUM_DRIVERS_CHAINED - 1;
 	// reg [LATCH_SIZE-1:0] control_data = 769'b1100101100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111111111111111111111000000000001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100;
 	// reg [LATCH_SIZE-1:0] control_data = 'b1100101100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111111111111111111111000000000001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100;
 	
@@ -119,7 +121,7 @@ module top
 						LAT <= '0;
 						SCLK <= '0;
 						bit_num <= LATCH_SIZE-1;
-						daisy_num <= 0;
+						daisy_num <= NUM_DRIVERS_CHAINED - 1; 
 						data[LATCH_SIZE-1:0] <= 0;
 						if (init) begin
 							state <= 4'd1;	
@@ -153,7 +155,7 @@ module top
 							data[i*7+6 -: 7] <= dot_corr;	// dot correction bits (335-0)
 						end
 
-						init <= 0;
+
 						state <= 4'd3;
 					end
 				4'd2: // update the data with the grayscale data latch
@@ -163,25 +165,25 @@ module top
 						for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin   
 							for (color_channel=0; color_channel<3; color_channel=color_channel+1) begin
 								// color channels
-								// 0 = red
-								// 1 = green
-								// 2 = blue
+								// case 0 = red
+								// case 1 = green
+								// case 2 = blue
 								case (color_channel) 
-									0: 
+									'd0: 
 										begin
 											if (daisy_num = 1) 
 												data[15+16*color_channel+48*led_channel -: 16] <= 0;
 											else if (daisy_num = 0) 
 												data[15+16*color_channel+48*led_channel -: 16] <= 0;
 										end
-									1: 
+									'd1: 
 										begin
 											if (daisy_num = 1) 
 												data[15+16*color_channel+48*led_channel -: 16] <= 0;
 											else if (daisy_num = 0) 
 												data[15+16*color_channel+48*led_channel -: 16] <= 0;
 										end
-									2:
+									'd2:
 										begin
 											if (daisy_num = 1) 
 												data[15+16*color_channel+48*led_channel -: 16] <= 65335;
@@ -215,18 +217,19 @@ module top
 						SCLK <= '0;
 						if (bit_num < 0) begin	// proceed to latch if next bit is out of range	
 							state <= 4'd6;						
-							daisy_num <= daisy_num+1;
+							daisy_num <= daisy_num-1;
 						end else begin	// proceed to shift next bit into shift register
 							state <= 4'd3;
 						end
 					end
 				4'd6:	// latch the LED driver
 					begin
-						if (daisy_num > 1) begin
+						if (daisy_num < 0) begin
 							LAT <= '1;						
-							daisy_num <= 0;
+							// daisy_num <= NUM_DRIVERS_CHAINED - 1;	
+							init <= 0;	
 						end
-						bit_num <= LATCH_SIZE - 1;
+						// bit_num <= LATCH_SIZE - 1;
 						state <= 4'd0;
 					end
 				
