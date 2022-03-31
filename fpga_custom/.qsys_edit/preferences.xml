@@ -3,7 +3,7 @@
  <debug showDebugMenu="0" />
  <systemtable filter="All Interfaces" showResetDomains="0" showClockDomains="0">
   <columns>
-   <connections preferredWidth="63" />
+   <connections preferredWidth="47" />
    <irq preferredWidth="34" />
    <inputclock preferredWidth="229" />
    <export preferredWidth="290" />
@@ -11,7 +11,7 @@
    <name preferredWidth="304" />
   </columns>
  </systemtable>
- <library expandedCategories="Project,Library" />
- <window width="1248" height="1047" x="-7" y="0" />
+ <library expandedCategories="Library,Project" />
+ <window width="1248" height="1021" x="446" y="19" />
  <generation block_symbol_file="0" simulation="VERILOG" path="_PROJECT_NAME_" />
 </preferences>

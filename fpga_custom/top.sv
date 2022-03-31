@@ -10,6 +10,7 @@ module top
 		output 	reg LAT,
 		output 	reg SCLK,
 		output 	GSCLK,
+		output 	TESTCLK,
 		output   SDO[11:0][3:0],
 		output	reg [3:0] STATE_CHECK,
 
@@ -26,10 +27,10 @@ module top
 		output		          		DRAM_WE_N //write enable
 	);
 	
-	Pll pll(
-		.clk_in_clk(CLK_10M),  			//  clk_in.clk
-		.gsclk_clk(GSCLK),     			//   gsclk.clk
-		.sclk_x2_clk(spiClk)    		// sclk_x2.clk // unused
+	pll pll(
+		.inclk0(CLK_10M),  			//  clk_in.clk
+		.c0(GSCLK),     			//   gsclk.clk
+		.c1(TESTCLK)    		// sclk_x2.clk // unused
 	);
 	
 	HDMI hdmi(
@@ -110,7 +111,7 @@ module top
 
 	assign STATE_CHECK[3:0] = state[3:0];
 	
-	always@(posedge CLK_10M) begin
+	always@(posedge TESTCLK) begin
             if (!nReset) begin
                 state <= 4'd9; // initialize
                 LAT <= '0;
