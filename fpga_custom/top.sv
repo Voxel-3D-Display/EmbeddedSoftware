@@ -6,10 +6,12 @@ module top
 		input		ENC_ABS_HOME,
 		input 	ENC_360,
 		input 	HDMI_RGB[2:0][7:0],
+		input 	nReset,
 		output 	reg LAT,
 		output 	reg SCLK,
 		output 	GSCLK,
-		output   SDO[11:0][3:0]
+		output   SDO[11:0][3:0],
+		output	reg [3:0] STATE_CHECK,
 
 		//////////// SDRAM //////////
 		output		    [12:0]		DRAM_ADDR, //address
@@ -21,7 +23,7 @@ module top
 		inout 		    [15:0]		DRAM_DQ, //SDRAM data
 		output		     [1:0]		DRAM_DQM, //SDRAM byte data mask
 		output		          		DRAM_RAS_N, //row address strobe
-		output		          		DRAM_WE_N, //write enable
+		output		          		DRAM_WE_N //write enable
 	);
 	
 	Pll pll(
@@ -61,12 +63,14 @@ module top
 	// );
 	
 	localparam LATCH_SIZE = 'd769;
-	localparam NUM_DRIVERS_CHAINED = 'd2;
+	localparam NUM_DRIVERS_CHAINED = 'd1;
+	localparam BRIGHTNESS_RED = 16'd30000;
+	localparam BRIGHTNESS_GREEN = 16'd0;
+	localparam BRIGHTNESS_BLUE = 16'd0;
 
-	integer bit_num = LATCH_SIZE - 1;
-	integer daisy_num = NUM_DRIVERS_CHAINED - 1;
-	// reg [LATCH_SIZE-1:0] control_data = 769'b1100101100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111111111111111111111000000000001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100;
-	// reg [LATCH_SIZE-1:0] control_data = 'b1100101100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111111111111111111111000000000001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100;
+	integer bit_num = LATCH_SIZE;
+	integer daisy_num = NUM_DRIVERS_CHAINED;
+	reg [LATCH_SIZE-1:0] control_data = 769'b1100101100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111111111111111111111000000000001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100;
 	
 	// raw stream from arduino
 	// reg [LATCH_SIZE-1:0] grayscale_data = 769'b0000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111;
@@ -81,13 +85,12 @@ module top
 	//reg [LATCH_SIZE-1:0] grayscale_data = 769'b0000000000000000011111111111111110000000000000000000000000000000011111111111111110000000000000000000000000000000011111111111111110000000000000000000000000000000011111111111111110000000000000000000000000000000011111111111111110000000000000000000000000000000011111111111111110000000000000000000000000000000011111111111111110000000000000000000000000000000011111111111111110000000000000000000000000000000011111111111111110000000000000000000000000000000011111111111111110000000000000000000000000000000011111111111111110000000000000000000000000000000011111111111111110000000000000000000000000000000011111111111111110000000000000000000000000000000011111111111111110000000000000000000000000000000011111111111111110000000000000000000000000000000011111111111111110000000000000000;
 	
 	// all red
-	 //reg [LATCH_SIZE-1:0] grayscale_data = 769'b0000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111;
-	reg [15:0] PLACEHOLDER = 16'd63000;
+	// reg [LATCH_SIZE-1:0] grayscale_data = 769'b0000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111;
 	
-	reg [LATCH_SIZE-1:0] data = 0; 
+	reg [LATCH_SIZE-1:0] data = 'd0; 
 	
-	reg init = 1'b1;	// initialize LED driver with control data latch
-	reg [3:0] state = 4'd0;
+	reg init = 1;	// initialize LED driver with control data latch
+	reg [3:0] state = 4'd9;
 	reg [30:0] iterations = 'd10;
 	reg [5:0] dot_corr = 6'd127;	// dot correction values for all led driver channels
 	reg [2:0] mc_r = 3'd0;	// max current for red
@@ -104,247 +107,109 @@ module top
 	integer i = 0;
 	integer led_channel = 0;
 	integer color_channel = 0;
-	reg nReset = 1;
 
-
+	assign STATE_CHECK[3:0] = state[3:0];
+	
 	always@(posedge CLK_10M) begin
-		if (!nReset) begin
-			state <= 4'd0; // initialize
-			LAT <= '0;
-			SCLK <= '0;
-			bit_num <= LATCH_SIZE-1;
-			init <= 1;
-		end else begin
-			case (state)
-				4'd0: //reset all data bits to 0
-					begin
-						LAT <= '0;
-						SCLK <= '0;
-						bit_num <= LATCH_SIZE-1;
-						daisy_num <= NUM_DRIVERS_CHAINED - 1; 
-						data[LATCH_SIZE-1:0] <= 0;
-						if (init) begin
-							state <= 4'd1;	
-						end else begin
-							state <= 4'd2;
-						end
-					end
-				4'd1: // update the data with the control data latch 
-					begin
-						data[768] <= '1;	// latch select bit
+            if (!nReset) begin
+                state <= 4'd9; // initialize
+                LAT <= '0;
+                SCLK <= '0;
+                bit_num <= LATCH_SIZE;
+                daisy_num <= NUM_DRIVERS_CHAINED; 
+                init <= 1;
+            end else begin
+                case (state)
+                    4'd0:	// re-initialize
+                        begin
+                            LAT <= '0;
+                            SCLK <= '0;
+                            bit_num <= LATCH_SIZE;
+                            data[LATCH_SIZE-1:0] <= 0;
+                            if (init) begin
+                                state <= 4'd1;	
+                            end else begin
+                                state <= 4'd2;
+                            end
+                        end
+                    4'd1: // update the data with the control data latch 
+                        begin
+                            data[768] <= '1;	// latch select bit
+                            init <= '0;
 
-						// Maximum Current (MC) Data Latch
-						data[338:336] <= mc_r;		// max red current bits 
-						data[341:339] <= mc_g;		// max green current bits 
-						data[344:342] <= mc_b;		// max blue current bits 
+                            // Maximum Current (MC) Data Latch
+                            data[338:336] <= mc_r;		// max red current bits 
+                            data[341:339] <= mc_g;		// max green current bits 
+                            data[344:342] <= mc_b;		// max blue current bits 
 
-						// Global Brightness Control (BC) Data Latch
-						data[351:345] <= bc_r;		// global red brightness control bits 
-						data[358:352] <= bc_g;		// global green brightness control bits 
-						data[365:359] <= bc_b;		// global blue brightness control bits 
+                            // Global Brightness Control (BC) Data Latch
+                            data[351:345] <= bc_r;		// global red brightness control bits 
+                            data[358:352] <= bc_g;		// global green brightness control bits 
+                            data[365:359] <= bc_b;		// global blue brightness control bits 
 
-						// Function Control (FC) Data Latchdsprpt
-						data[366] <= dsprpt; // Auto display repeat mode enable bit
-						data[367] <= tmgrst; // Display timing reset mode enable bit
-						data[368] <= rfresh; // Auto data refresh mode enable bit
-						data[369] <= espwm; // ES-PWM mode enable bit
-						data[370] <= lsdvlt; // LSD detection voltage selection bit
+                            // Function Control (FC) Data Latchdsprpt
+                            data[366] <= dsprpt; // Auto display repeat mode enable bit
+                            data[367] <= tmgrst; // Display timing reset mode enable bit
+                            data[368] <= rfresh; // Auto data refresh mode enable bit
+                            data[369] <= espwm; // ES-PWM mode enable bit
+                            data[370] <= lsdvlt; // LSD detection voltage selection bit
 
-						// Dot Correction (DC) Data Latch
-						for (i=0; i<48; i=i+1) begin   
-							data[i*7+6 -: 7] <= dot_corr;	// dot correction bits (335-0)
-						end
+                            // Dot Correction (DC) Data Latch
+                            for (i=0; i<48; i=i+1) begin   
+                                data[i*7+6 -: 7] <= dot_corr;	// dot correction bits (335-0)
+                            end
 
 
-						state <= 4'd3;
-					end
-				4'd2: // update the data with the grayscale data latch
-					begin
-						data[768] <= '0;	// latch select bit
+                            state <= 4'd9;
+                        end
+                    4'd2: // update the data with the grayscale data latch
+                        begin
+                            data[768] <= '0;	// latch select bit
 
-						for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin   
-							for (color_channel=0; color_channel<3; color_channel=color_channel+1) begin
-								// color channels
-								// case 0 = red
-								// case 1 = green
-								// case 2 = blue
-								case (color_channel) 
-									'd0: 
-										begin
-											if (daisy_num = 1) 
-												data[15+16*color_channel+48*led_channel -: 16] <= 0;
-											else if (daisy_num = 0) 
-												data[15+16*color_channel+48*led_channel -: 16] <= 0;
-										end
-									'd1: 
-										begin
-											if (daisy_num = 1) 
-												data[15+16*color_channel+48*led_channel -: 16] <= 0;
-											else if (daisy_num = 0) 
-												data[15+16*color_channel+48*led_channel -: 16] <= 0;
-										end
-									'd2:
-										begin
-											if (daisy_num = 1) 
-												data[15+16*color_channel+48*led_channel -: 16] <= 65335;
-											else if (daisy_num = 0) 
-												data[15+16*color_channel+48*led_channel -: 16] <= 65335;
-										end
-								endcase
-								// data[15+16*color_channel+48*led_channel -: 16] <= PLACEHOLDER;	// dot correction bits (335-0)
-							end
-						end
-						
-						state <= 4'd3;
-					end
-				4'd3:	// set SCLK low and put data on lines for a bit
-					begin
-						SCLK <= '0;
-						SDO[11][3] <= data[bit_num];
-						SDO[11][2] <= data[bit_num];
-						SDO[11][1] <= data[bit_num];
-						SDO[11][0] <= data[bit_num];
-						state <= 4'd4;
-					end
-				4'd4:	// set SCLK high to shift out a bit 
-					begin	
-						SCLK <= '1;
-						bit_num <= bit_num - 1;
-						state <= 4'd5;
-					end
-				4'd5:
-					begin
-						SCLK <= '0;
-						if (bit_num < 0) begin	// proceed to latch if next bit is out of range	
-							state <= 4'd6;						
-							daisy_num <= daisy_num-1;
-						end else begin	// proceed to shift next bit into shift register
-							state <= 4'd3;
-						end
-					end
-				4'd6:	// latch the LED driver
-					begin
-						if (daisy_num < 0) begin
-							LAT <= '1;						
-							// daisy_num <= NUM_DRIVERS_CHAINED - 1;	
-							init <= 0;	
-						end
-						// bit_num <= LATCH_SIZE - 1;
-						state <= 4'd0;
-					end
-				
-			endcase
+                            for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin   
+                                data[(16*0+48*led_channel) +: 16] <= 16'h0;     // red color brightness
+                                data[(16*1+48*led_channel) +: 16] <= 16'h0A32;  // green color brightness
+                                data[(16*2+48*led_channel) +: 16] <= 16'h0;     // blue color brightness
+                            end
 
+                            state <= 4'd3;
+                        end  
+                    4'd3: // test
+                        begin
+                            //data[767:0] <= 768'b111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111;
+                            // data[735:720] <= 16'h3A32;
+                            // data[687:672] <= 16'h3A32;
+                            state <= 4'd9;
+                        end
+
+                    4'd9: // load 
+                        begin
+                            SCLK <= '0;
+                            if (bit_num != '0) begin
+                                SDO[11][3] <= data[bit_num-1] ;
+                                SDO[11][2] <= data[bit_num-1] ;
+                                SDO[11][1] <= data[bit_num-1] ; 
+                                SDO[11][0] <= data[bit_num-1] ; 
+                                state <= 4'd10; // initialize, shift in	
+                            end else begin
+                                state <= 4'd11; // initialize, latch
+                            end
+                        end
+                    4'd10: // shift out
+                        begin
+                            SCLK <= '1;
+                            bit_num <= bit_num - 1;
+                            state <= 4'd9; // initialize, load
+                        end
+                    4'd11: // latch
+                        begin
+                            LAT <= '1;
+                            bit_num <= LATCH_SIZE;
+                            state <= 4'd0; // grayscale, reinit
+                        end
+                    default:
+                        state <= 4'd0;
+                endcase
 		end
-	end 
-	// 	// if (!nReset) begin
-	// 	// 	state <= 4'd0; // initialize
-	// 	// 	LAT <= '0;
-	// 	// 	SCLK <= '0;
-	// 	// 	bit_num <= LATCH_SIZE;
-	// 	// end else begin
-	// 		case (state)
-	// 			4'd9: // reset iterations
-	// 				begin
-	// 					iterations <= 'd10;
-	// 					state <= 4'd0;
-	// 				end
-	// 			4'd0: // initialize, load (begin)
-	// 				begin
-	// 					SCLK <= '0;
-	// 					if (bit_num != '0) begin							
-	// 						SDO[11][3] <= (control_data >> (bit_num-1)) & 1'b1; // control_data[bit_num-1];
-	// 						SDO[11][2] <= (control_data >> (bit_num-1)) & 1'b1; // control_data[bit_num-1];
-	// 						SDO[11][1] <= (control_data >> (bit_num-1)) & 1'b1; // control_data[bit_num-1];
-	// 						SDO[11][0] <= (control_data >> (bit_num-1)) & 1'b1; // control_data[bit_num-1];
-	// 						state <= 4'd1; // initialize, shift in
-	// 					end else begin
-	// 						state <= 4'd2; // initialize, latch
-	// 					end
-	// 				end
-	// 			4'd1: // initialize, shift in
-	// 				begin
-	// 					bit_num <= bit_num - 1;
-	// 					SCLK <= '1;
-	// 					state <= 4'd0; // initialize, load
-	// 				end
-	// 			4'd2: // initialize, latch (end)
-	// 				begin
-	// 					LAT <= '1;
-	// 					bit_num <= LATCH_SIZE;
-	// 					state <= 4'd3; // grayscale, reinit
-	// 				end
-	// 			4'd3: // grayscale, reinit (begin)
-	// 				begin
-	// 					LAT <= '0;
-	// 					SCLK <= '0;
-	// 					bit_num <= LATCH_SIZE;
-	// 					// reset state to push control latches again after 50e6 iteratins
-	// 					if (iterations == '0) begin
-	// 						state <= 4'd9;
-	// 					end else begin
-	// 						iterations <= iterations - 1;
-	// 						state <= 4'd4; // 4'd8
-	// 					end
-	// 				end
-				
-	// 			// 4'd8: // grayscale, load 0's
-	// 			// 	begin
-	// 			// 		SCLK <= 0;
-	// 			// 		SDO[0] <= 0;
-	// 			// 		SDO[1] <= 0;
-	// 			// 		SDO[2] <= 0;
-	// 			// 		SDO[3] <= 0;
-	// 			// 		state <= 4'd5; // grayscale, shift in
-	// 			// 	end
-	// 			4'd4: // grayscale, load
-	// 				begin
-	// 					SCLK <= 0;
-	// 					if (bit_num != 0) begin
-	// 						SDO[11][3] <= grayscale_data[bit_num-1];
-	// 						SDO[11][2] <= grayscale_data[bit_num-1];
-	// 						SDO[11][1] <= grayscale_data[bit_num-1];
-	// 						SDO[11][0] <= grayscale_data[bit_num-1];
-	// 						state <= 4'd5; // grayscale, shift in
-	// 					end else begin
-	// 						state <= 4'd6; // grayscale, latch
-	// 					end
-	// 				end
-
-	// 			// 4'd4: // grayscale, load 1's
-	// 			// 	begin
-	// 			// 		SCLK <= 0;
-	// 			// 		if (bit_num != 0) begin // offset by 1 for MSB 0
-	// 			// 			SDO[0] <= 1;
-	// 			// 			SDO[1] <= 1;
-	// 			// 			SDO[2] <= 1;
-	// 			// 			SDO[3] <= 1;
-	// 			// 			state <= 4'd5; // grayscale, shift
-	// 			// 		end else begin
-	// 			// 			state <= 4'd6; // grayscale, latch
-	// 			// 		end
-	// 			// 	end
-				
-	// 			4'd5: // grayscale, shift in
-	// 				begin
-	// 					bit_num = bit_num - 1;
-	// 					SCLK <= '1;
-	// 					state <= 4'd4; // grayscale, load
-	// 				end
-	// 			4'd6: // grayscale, latch (end)
-	// 				begin
-	// 					LAT <= '1;
-	// 					bit_num <= LATCH_SIZE;
-	// 					state <= 4'd3; // grayscale, reinit
-	// 				end
-	// 			// 4'd7: // hold loop, turn off LEDs
-	// 			// 	begin
-	// 			// 		LAT <= '1; // should not wipe shift register
-	// 			// 		state <= 4'd7;
-	// 			// 	end
-	// 			default:
-	// 				state <= 4'd9;
-	// 		endcase
-	// 	// end
-	// end
+	end
 endmodule

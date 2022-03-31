@@ -7,20 +7,23 @@ module HDMI (
     input PIXCLK,
     input SDRAM_CLK,
     input readEnable,
-    output SDRAM_addr, //where we want to write data to
+    output [12:0] SDRAM_addr //where we want to write data to
     //
 );
 
-reg [12:0] SDRAM_addr;
-reg [1:0]  SDRAM_bank;
+	reg nReset = 1;
+//	reg [12:0] SDRAM_addr; commented out because already declared in the module port declarations
+	reg [1:0]  SDRAM_bank;
 
 always_ff@(negedge PIXCLK) begin
-    if reset begin
-        SDRAM_addr <= 'd0;
-        SDRAM_bank <= 'd0;
-    end else begin
-        SDRAM_addr <= SDRAM_addr + 1; //??? Are we just incrementing through SDRAM
-
+	if (!nReset) begin
+		SDRAM_addr <= 'd0;
+		SDRAM_bank <= 'd0;
+	end else begin
+		SDRAM_addr <= SDRAM_addr + 1; //??? Are we just incrementing through SDRAM
+	end	
+end
         
 
     
+endmodule
