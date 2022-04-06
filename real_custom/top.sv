@@ -7,7 +7,7 @@ module top
 		input 	ENC_360,
 		//input 	[2:0][7:0]   HDMI_RGB, //UNCOMMENT
 		input    VSYNC,
-		input    PIXCLK,
+		//input    PIXCLK, //UNCOMMENT
 		input    DE, //tells us if we are getting an HSYNC/VSYNC rn or normal data
 		input 	nReset,
 		output 	reg LAT,
@@ -22,7 +22,7 @@ module top
 		output		     [1:0]		SDRAM_BA, //bank address
 		output		          		SDRAM_CAS_N, //column address strobe
 		output		          		SDRAM_CKE, //clock enable
-		output logic		        SDRAM_CLK, //clock
+		output      		        SDRAM_CLK, //clock
 		output		          		SDRAM_CS_N, //chip select
 		inout 		    [15:0]		SDRAM_DQ, //SDRAM data
 		output		     [1:0]		SDRAM_DQM, //SDRAM byte data mask
@@ -36,12 +36,14 @@ module top
 
 	logic SDRAM_CLKn;
 	assign SDRAM_CLK = !SDRAM_CLKn;
+	logic PIXCLK;
 
 	pll pll(
 		.inclk0(CLK_10M),  			//  clk_in.clk
 		.c0(GSCLK),     			//   gsclk.clk
 		.c1(TESTCLK),    		// sclk_x2.clk // unused
-		.c2(SDRAM_CLKn)
+		.c2(SDRAM_CLKn),
+		.c3(PIXCLK)
 	);
 
 	reg   wrreq;
@@ -58,17 +60,17 @@ module top
 	HDMI_fifo hdmi(
 		.data({HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3]}), //input
 		
-		.wrclk(CLK_10M), //clock rate for writing to FIFO CHNAGE BACK TO PIXCLK!!!!
+		.wrclk(PIXCLK), //clock rate for writing to FIFO CHNAGE BACK TO PIXCLK!!!!
 		.wrreq, //input - high to request to write to the FIFO
 		
-		.rdclk(CLK_10M), //CHANGE to SDRAM clock - clock rate for reading
+		.rdclk(SDRAM_CLKn), //CHANGE to SDRAM clock - clock rate for reading
 		.rdreq(HDMI_fifo_Enable), //high to request read from FIFO
 		.q(HDMI_fifo_Data), //output
 		.rdusedw //8 bit width output (unused?)
 	);
 
 	//used to update refreshCnt - we only write every 4th frame to the FIFO/SDRAM
-	always_ff@(posedge CLK_10M) begin //CHANGE BACK TO PIXCLK!!!!
+	always_ff@(posedge PIXCLK) begin //CHANGE BACK TO PIXCLK!!!!
 		if (!nReset) begin
 			refreshCnt <= '0;
 		end else begin
@@ -151,6 +153,7 @@ module top
 				slice_cnt <= '0;
 				readAddress <= '0;
 				slice_read_complete <= 0;
+				writeAddress <= 0;
             end else begin
 				if(VSYNC) begin //reached end of a frame - move on to next one
 					//idk how this make sense if we are cutting out 3 of every four frames
