@@ -22,7 +22,7 @@ module top
 		output		     [1:0]		SDRAM_BA, //bank address
 		output		          		SDRAM_CAS_N, //column address strobe
 		output		          		SDRAM_CKE, //clock enable
-		output		          		SDRAM_CLK, //clock
+		output logic		        SDRAM_CLK, //clock
 		output		          		SDRAM_CS_N, //chip select
 		inout 		    [15:0]		SDRAM_DQ, //SDRAM data
 		output		     [1:0]		SDRAM_DQM, //SDRAM byte data mask
@@ -34,10 +34,14 @@ module top
 	reg [2:0][7:0] HDMI_RGB = 24'b111111111111111111111111;
 	//HDMI testing end
 
+	logic SDRAM_CLKn;
+	assign SDRAM_CLK = !SDRAM_CLKn;
+
 	pll pll(
 		.inclk0(CLK_10M),  			//  clk_in.clk
 		.c0(GSCLK),     			//   gsclk.clk
-		.c1(TESTCLK)    		// sclk_x2.clk // unused
+		.c1(TESTCLK),    		// sclk_x2.clk // unused
+		.c2(SDRAM_CLKn)
 	);
 
 	reg   wrreq;
@@ -86,7 +90,7 @@ module top
 
 	//SDRAM block
 	unsaved sdram(
-		.clk_clk(CLK_10M),   //SDRAM_CLKn
+		.clk_clk(SDRAM_CLKn),   //SDRAM_CLKn
 		.reset_reset_n(nReset),
 		.new_sdram_controller_0_s1_address(Address),       		//input - address to read or write
 		.new_sdram_controller_0_s1_byteenable_n('0),
@@ -109,6 +113,10 @@ module top
 		.new_sdram_controller_0_wire_ras_n(nRAS),
 		.new_sdram_controller_0_wire_we_n(SDRAM_WE_N)
 	);
+
+	//testing ideas: just display what we are writing into SDRAM and what we are reading out
+	//the online example projects suggested using 0x08000000 as the base address, but I couldn't
+	//find a way to change it
 
 	reg [1339:0][23:0] LED_data_1;
 	reg [1339:0][23:0] LED_data_2;
@@ -134,7 +142,7 @@ module top
 	reg [10:0] slice_cnt; //fix sizing
 	reg need_new_slice;
 
-	always_ff@(posedge CLK_10M) begin //SDRAM_CLKn
+	always_ff@(posedge SDRAM_CLKn) begin //SDRAM_CLKn
 		//state machine here for determining when to read and when to write and where
 		if (!nReset) begin
 				read_request <= '0;
