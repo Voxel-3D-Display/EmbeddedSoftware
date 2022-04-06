@@ -5,15 +5,16 @@ module top
 		input 	CLK_10M,
 		input		ENC_ABS_HOME,
 		input 	ENC_360,
-		input 	[2:0][7:0]   HDMI_RGB,
-		input VSYNC,
-		input DE, //tells us if we are getting an HSYNC/VSYNC rn or normal data
+		//input 	[2:0][7:0]   HDMI_RGB, //UNCOMMENT
+		input    VSYNC,
+		input    PIXCLK,
+		input    DE, //tells us if we are getting an HSYNC/VSYNC rn or normal data
 		input 	nReset,
 		output 	reg LAT,
 		output 	reg SCLK,
 		output 	GSCLK,
 		output 	TESTCLK,
-		output   SDO[11:0][3:0],
+		output   reg SDO[11:0][3:0],
 		output	reg [3:0] STATE_CHECK,
 
 		//////////// SDRAM //////////
@@ -28,7 +29,11 @@ module top
 		output		          		SDRAM_RAS_N, //row address strobe
 		output		          		SDRAM_WE_N //write enable
 	);
-	
+
+	//HDMI testing start
+	reg [2:0][7:0] HDMI_RGB = 24'b111111111111111111111111;
+	//HDMI testing end
+
 	pll pll(
 		.inclk0(CLK_10M),  			//  clk_in.clk
 		.c0(GSCLK),     			//   gsclk.clk
@@ -49,7 +54,7 @@ module top
 	HDMI_fifo hdmi(
 		.data({HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3]}), //input
 		
-		.wrclk(PIXCLK), //clock rate for writing to FIFO
+		.wrclk(CLK_10M), //clock rate for writing to FIFO CHNAGE BACK TO PIXCLK!!!!
 		.wrreq, //input - high to request to write to the FIFO
 		
 		.rdclk(CLK_10M), //CHANGE to SDRAM clock - clock rate for reading
@@ -59,7 +64,7 @@ module top
 	);
 
 	//used to update refreshCnt - we only write every 4th frame to the FIFO/SDRAM
-	always_ff@(posedge PIXCLK) begin
+	always_ff@(posedge CLK_10M) begin //CHANGE BACK TO PIXCLK!!!!
 		if (!nReset) begin
 			refreshCnt <= '0;
 		end else begin
@@ -132,7 +137,6 @@ module top
 	always_ff@(posedge CLK_10M) begin //SDRAM_CLKn
 		//state machine here for determining when to read and when to write and where
 		if (!nReset) begin
-				array_in_use <= '0;
 				read_request <= '0;
                 readCnt <= '0;
 				m_state <= '0;
@@ -147,6 +151,7 @@ module top
 				if(need_new_slice) begin //LED state machine puts this high when we can start 
 					//to populate the next array
 					read_request <= '1;
+					//this gets set back to zero in the state machine after we read a slice
 				end
 
 				case(m_state)
@@ -192,9 +197,9 @@ module top
 								//^I don't think so bc read was high in state 2, and the address was correct
 								if (array_in_use == 0) begin
 									//as we read it out, make it 24 bits again
-									LED_data_1[readAddress] <= {read_LED_data[15:11], 3'b000, read_LED_data[10:5], 2'b00, read_LED_data[4:0], 3'b000};
-								end else begin
 									LED_data_2[readAddress] <= {read_LED_data[15:11], 3'b000, read_LED_data[10:5], 2'b00, read_LED_data[4:0], 3'b000};
+								end else begin
+									LED_data_1[readAddress] <= {read_LED_data[15:11], 3'b000, read_LED_data[10:5], 2'b00, read_LED_data[4:0], 3'b000};
 								end
 								if (pixel_read_cnt == 1440) begin 
 									//have iterated through all the pixels in a slice
@@ -226,36 +231,10 @@ module top
 			end
 	end
 
-	//whenever we finish pushing out a full 769/1538 bit stream, we need
-	//to somehow mark we are done with the current array and that it can
-	//be re-populated from SDRAM
-	//Now we just wait till the encoder tells us to read again, we begin to read from the OTHER BUFFER
-	//recall that only one block can be writing to the array_in_use register...
-	//the LEDs are probably slow enough that we onyl need one buffer....
-	//LED driver must also set read_request high when it needs data?
-	//well not really... we just trigger the need. Probably a one bit signal
-	//then the state machine counts how much we've done
-
 	// Reset reset(
 	// 	.clk(CLK_10M),
 	// 	.nReset
 	// );
-	
-	//Stuff to add into the LED code
-	always@(posedge TESTCLK) begin
-		if(nReset) begin
-			need_new_slice <= 0;
-		end
-		if (1) begin //if we just finished updating a full LED slice
-			need_new_slice <= 1; //only high for one clock cycle
-			array_in_use <= !array_in_use; //swap array in use
-			//make sure we use the array the SDRAM reader is NOT using
-			//after this we still need to wait until the econder tells us to start using the new array
-		end else begin
-			need_new_slice <= 0;
-		end
-	end
-
 
 	localparam LATCH_SIZE = 'd769;
 	localparam NUM_DRIVERS_CHAINED = 'd2;
@@ -314,6 +293,10 @@ module top
 			bit_num <= LATCH_SIZE;
 			daisy_num <= NUM_DRIVERS_CHAINED-1; 
 			init <= 1;
+			//HDMI start
+			need_new_slice <= 0; //don't need slice on start up; control bits first
+			array_in_use <= 0;
+			//HDMI end
 		end else begin
 			case (state)
 				32'd0:	// re-initialize
@@ -325,6 +308,10 @@ module top
 						if (init) begin
 							state <= 32'd1;	
 						end else begin
+							//HDMI start
+							need_new_slice <= 1; //triggers HDMI to start populating new slice
+							array_in_use <= !array_in_use;
+							//HDMI end
 							state <= 32'd2;
 						end
 					end
@@ -357,7 +344,6 @@ module top
 							data[7*1+3*7*led_channel +: 7] <= dot_corr_g;  // green dot correction
 							data[7*2+3*7*led_channel +: 7] <= dot_corr_b;     // blue dot correction
 						end
-
 						state <= 32'd3;
 					end
 				32'd2: // update the data with the grayscale data latch
@@ -369,18 +355,43 @@ module top
 							data[(16*1+3*16*led_channel) +: 16] <= 16'h0;  // green color brightness
 							data[(16*2+3*16*led_channel) +: 16] <= 16'h0;     // blue color brightness
 						end
-
+						//HDMI start
+						//does this go here or ar the end of state 1?
+						need_new_slice <= 1;
+						array_in_use <= !array_in_use;
+						//HDMI end
 						state <= 32'd3;
 					end  
 
 				32'd3: // load 
 					begin
+						need_new_slice <= 0;
 						SCLK <= '0;
 						if (bit_num != '0) begin
+							//HDMI start
+							//might be easier to make LED_data_1/2 into [48][30][24] arrays instead of current [1440][24]
+							//current indexing into LED_data is random/not correct
+							
+							if (array_in_use == 0) begin
+								SDO[11][3] = LED_data_1[0][0];
+								SDO[11][2] = LED_data_1[1][0];
+								SDO[11][1] = LED_data_1[2][0];
+								SDO[11][0] = LED_data_1[3][0];
+							end else begin
+								SDO[11][3] = LED_data_2[0][0];
+								SDO[11][2] = LED_data_2[1][0];
+								SDO[11][1] = LED_data_2[2][0];
+								SDO[11][0] = LED_data_2[3][0];
+							end
+							
+							//HDMI end
+							//HDMI code above would replace nexct 4 lines
+							/*
 							SDO[11][3] <= data[bit_num-1] ;
 							SDO[11][2] <= data[bit_num-1] ;
 							SDO[11][1] <= data[bit_num-1] ; 
 							SDO[11][0] <= data[bit_num-1] ; 
+							*/
 							state <= 32'd10; // initialize, shift in	
 						end else begin
 							if (daisy_num == '0) begin
