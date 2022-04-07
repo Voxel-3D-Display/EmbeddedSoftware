@@ -120,8 +120,24 @@ module top
 	//the online example projects suggested using 0x08000000 as the base address, but I couldn't
 	//find a way to change it
 
-	reg [1339:0][23:0] LED_data_1;
-	reg [1339:0][23:0] LED_data_2;
+	reg [1439:0][23:0] LED_data_1;
+	reg [1439:0][23:0] LED_data_2;
+	reg [1439:0][23:0] LED_data_3;
+	integer x;
+	integer y;
+	reg trigger;
+
+	always_ff@(posedge TESTCLK) begin //SDRAM_CLKn
+		if(trigger == 1) begin
+			for (x=0; x<1440; x=x+1) begin   
+				for (y=0; y<24; y=y+1) begin   
+				LED_data_3[x][y] <= 1;     // red dot correction
+				end
+			end
+		end
+	end
+
+	
 	reg array_in_use;
 	reg slice_read_complete;
 	//assign read_LED_data = readLedData; //translate to register for indexing?
@@ -178,11 +194,12 @@ module top
 					1: //state for writing to SDRAM
 						begin
 							if(!waitRequest) begin //amke sure SDRAM isn't otherwise occupied
+								//trigger <= 1;
 								writeCnt <= writeCnt + 1;
 								writeAddress <= writeAddress + 1; //increment addr
-
 								if (writeCnt == WRITE_BURST_SIZE -1 || !write_request) begin
 									//once we have full burst or nothing else to write, move on
+									trigger <= 1;
 									m_state <= 2;
 								end
 							end
@@ -200,6 +217,7 @@ module top
 					3: //state for reading from SDRAM
 						begin
 							if(read_data_valid) begin
+								//trigger <= 1;
 								readCnt <= readCnt + 1;
 								pixel_read_cnt <= pixel_read_cnt + 1;
 								readAddress <= readAddress + 1; //address for next clock cycle
@@ -382,17 +400,18 @@ module top
 							//HDMI start
 							//might be easier to make LED_data_1/2 into [48][30][24] arrays instead of current [1440][24]
 							//current indexing into LED_data is random/not correct
-							
-							if (array_in_use == 0) begin
-								SDO[11][3] = LED_data_1[0][0];
-								SDO[11][2] = LED_data_1[1][0];
-								SDO[11][1] = LED_data_1[2][0];
-								SDO[11][0] = LED_data_1[3][0];
-							end else begin
-								SDO[11][3] = LED_data_2[0][0];
-								SDO[11][2] = LED_data_2[1][0];
-								SDO[11][1] = LED_data_2[2][0];
-								SDO[11][0] = LED_data_2[3][0];
+							if (!init) begin
+								if (array_in_use == 0) begin
+									SDO[11][3] = LED_data_3[0][0];
+									SDO[11][2] = LED_data_3[1][0];
+									SDO[11][1] = LED_data_3[2][0];
+									SDO[11][0] = LED_data_3[3][0];
+								end else begin
+									SDO[11][3] = LED_data_3[0][0];
+									SDO[11][2] = LED_data_3[1][0];
+									SDO[11][1] = LED_data_3[2][0];
+									SDO[11][0] = LED_data_3[3][0];
+								end
 							end
 							
 							//HDMI end
