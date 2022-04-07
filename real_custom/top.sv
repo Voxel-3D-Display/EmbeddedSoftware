@@ -41,7 +41,7 @@ module top
 	pll pll(
 		.inclk0(CLK_10M),  			//  clk_in.clk
 		.c0(GSCLK),     			//   gsclk.clk
-		.c1(TESTCLK),    		// sclk_x2.clk // unused
+		.c1(TESTCLK),    			// sclk_x2.clk // unused
 		.c2(SDRAM_CLKn),
 		.c3(PIXCLK)
 	);
@@ -295,6 +295,37 @@ module top
 	integer color_channel = 0;
 
 	// assign STATE_CHECK[3:0] = state[3:0];
+
+	// encoder handling
+	localparam NUM_CONSEC_ENC = 'd4;
+	reg [NUM_CONSEC_ENC-1:0] windowing_zeros = 4'b1111;
+	reg [NUM_CONSEC_ENC-1:0] windowing_ones = 4'b0000;
+	reg hadOne = 0;
+	wire enc_transition <= 0;
+	always@(posedge 50MHZ_CLOCK) begin
+		if (!nReset) begin
+			windowing_zeros <= 4'b1111;
+			windowing_ones <= 4'b0000;
+			hadOne <= 0;
+		end else begin
+			windowing_zeros <= (windowing_zeros << 1) & ENC_360;
+			windowing_ones <= (windowing_ones << 1) & ENC_360;
+			if (windowing_zeros^(4'b0000)) begin
+				if (hadOne) begin
+					enc_transition = 1;
+				end
+				hadOne = 0;
+			end else if (windowing_ones^(4'b1111)) begin
+				if (!hadOne) begin
+					enc_transition = 1;
+				end
+				hadOne = 1;
+			end else if (need_new_slice) begin
+				enc_transition = 0;
+			end
+		end
+	end
+
 	
 	always@(posedge TESTCLK) begin
 		if (!nReset) begin
@@ -320,7 +351,7 @@ module top
 							state <= 32'd1;	
 						end else begin
 							//HDMI start
-							need_new_slice <= 1; //triggers HDMI to start populating new slice
+							need_new_slice <= enc_transition; //triggers HDMI to start populating new slice
 							array_in_use <= !array_in_use;
 							//HDMI end
 							state <= 32'd2;
