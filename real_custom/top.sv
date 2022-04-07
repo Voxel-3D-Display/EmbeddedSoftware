@@ -41,7 +41,7 @@ module top
 	pll pll(
 		.inclk0(CLK_10M),  			//  clk_in.clk
 		.c0(GSCLK),     			//   gsclk.clk
-		.c1(TESTCLK),    		// sclk_x2.clk // unused
+		.c1(TESTCLK),    			// sclk_x2.clk // unused
 		.c2(SDRAM_CLKn),
 		.c3(PIXCLK)
 	);
@@ -313,6 +313,37 @@ module top
 	integer color_channel = 0;
 
 	// assign STATE_CHECK[3:0] = state[3:0];
+
+	// encoder handling
+	localparam NUM_CONSEC_ENC = 'd4;
+	reg [NUM_CONSEC_ENC-1:0] windowing_zeros = 4'b1111;
+	reg [NUM_CONSEC_ENC-1:0] windowing_ones = 4'b0000;
+	reg hadOne = 0;
+	wire enc_transition <= 0;
+	always@(posedge 50MHZ_CLOCK) begin
+		if (!nReset) begin
+			windowing_zeros <= 4'b1111;
+			windowing_ones <= 4'b0000;
+			hadOne <= 0;
+		end else begin
+			windowing_zeros <= (windowing_zeros << 1) & ENC_360;
+			windowing_ones <= (windowing_ones << 1) & ENC_360;
+			if (windowing_zeros^(4'b0000)) begin
+				if (hadOne) begin
+					enc_transition = 1;
+				end
+				hadOne = 0;
+			end else if (windowing_ones^(4'b1111)) begin
+				if (!hadOne) begin
+					enc_transition = 1;
+				end
+				hadOne = 1;
+			end else if (need_new_slice) begin
+				enc_transition = 0;
+			end
+		end
+	end
+
 	
 	always@(posedge TESTCLK) begin
 		if (!nReset) begin
@@ -338,7 +369,7 @@ module top
 							state <= 32'd1;	
 						end else begin
 							//HDMI start
-							need_new_slice <= 1; //triggers HDMI to start populating new slice
+							need_new_slice <= enc_transition; //triggers HDMI to start populating new slice
 							array_in_use <= !array_in_use;
 							//HDMI end
 							state <= 32'd2;
@@ -380,9 +411,9 @@ module top
 						data[768] <= '0;	// latch select bit
 
 						for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin   
-							data[(16*0+3*16*led_channel) +: 16] <= 16'h0AFF;     // red color brightness
+							data[(16*0+3*16*led_channel) +: 16] <= 16'hAFFE;     // red color brightness
 							data[(16*1+3*16*led_channel) +: 16] <= 16'h0;  // green color brightness
-							data[(16*2+3*16*led_channel) +: 16] <= 16'h0;     // blue color brightness
+							data[(16*2+3*16*led_channel) +: 16] <= 16'hAFFE;     // blue color brightness
 						end
 						//HDMI start
 						//does this go here or ar the end of state 1?
@@ -400,28 +431,32 @@ module top
 							//HDMI start
 							//might be easier to make LED_data_1/2 into [48][30][24] arrays instead of current [1440][24]
 							//current indexing into LED_data is random/not correct
-							if (!init) begin
-								if (array_in_use == 0) begin
-									SDO[11][3] = LED_data_3[0][0];
-									SDO[11][2] = LED_data_3[1][0];
-									SDO[11][1] = LED_data_3[2][0];
-									SDO[11][0] = LED_data_3[3][0];
-								end else begin
-									SDO[11][3] = LED_data_3[0][0];
-									SDO[11][2] = LED_data_3[1][0];
-									SDO[11][1] = LED_data_3[2][0];
-									SDO[11][0] = LED_data_3[3][0];
-								end
+							/*
+							if (init) begin 
+								SDO[11][3] <= data[bit_num-1] ;
+								SDO[11][2] <= data[bit_num-1] ;
+								SDO[11][1] <= data[bit_num-1] ; 
+								SDO[11][0] <= data[bit_num-1] ; 
+							end else if (array_in_use == 0) begin
+								SDO[11][3] = LED_data_1[0][0];
+								SDO[11][2] = LED_data_1[1][0];
+								SDO[11][1] = LED_data_1[2][0];
+								SDO[11][0] = LED_data_1[3][0];
+							end else begin
+								SDO[11][3] = LED_data_2[0][0];
+								SDO[11][2] = LED_data_2[1][0];
+								SDO[11][1] = LED_data_2[2][0];
+								SDO[11][0] = LED_data_2[3][0];
 							end
-							
+							*/
 							//HDMI end
 							//HDMI code above would replace nexct 4 lines
-							/*
+							
 							SDO[11][3] <= data[bit_num-1] ;
 							SDO[11][2] <= data[bit_num-1] ;
 							SDO[11][1] <= data[bit_num-1] ; 
 							SDO[11][0] <= data[bit_num-1] ; 
-							*/
+							
 							state <= 32'd10; // initialize, shift in	
 						end else begin
 							if (daisy_num == '0) begin
