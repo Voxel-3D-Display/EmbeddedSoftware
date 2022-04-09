@@ -31,15 +31,19 @@ module top
 
 		output                      array_debug,
 		output        [15:0]        led_debug,
-		output                      valid_debug
+		output                      valid_debug,
+		output         [15:0]       fifo_out,
+		output                      pix
 	);
 
 	//HDMI testing start
-	reg [2:0][7:0] HDMI_RGB = 24'b111111111111111111111111;
+	reg [2:0][7:0] HDMI_RGB = 24'b0101010101010101;
 	//HDMI testing end
 
 	assign led_debug = read_LED_data;
 	assign valid_debug = read_data_valid;
+	assign fifo_out = HDMI_fifo_Data;
+	assign pix = pixel_read_cnt[0];
 
 	logic SDRAM_CLKn;
 	assign SDRAM_CLK = !SDRAM_CLKn;
@@ -112,7 +116,7 @@ module top
 		.new_sdram_controller_0_s1_address(Address),       		//input - address to read or write
 		.new_sdram_controller_0_s1_byteenable_n('0),
 		.new_sdram_controller_0_s1_chipselect('1),
-		.new_sdram_controller_0_s1_writedata(test_data),     	//input - HDMI_fifo_Data
+		.new_sdram_controller_0_s1_writedata(HDMI_fifo_Data),     	//input - HDMI_fifo_Data test_data
 		.new_sdram_controller_0_s1_read_n(nRead),        		    //input - read enable
 		.new_sdram_controller_0_s1_write_n(!memWriteRequest),  		//input - write enable
 		.new_sdram_controller_0_s1_readdata(read_LED_data),     	//output - 16 bits of data 
@@ -138,20 +142,34 @@ module top
 	reg [1439:0][23:0] LED_data_1;
 	reg [1439:0][23:0] LED_data_2;
 	reg [1439:0][23:0] LED_data_3;
+	reg [1439:0][23:0] LED_data_4;
+	reg [1439:0][23:0] LED_data_5;
 	integer x;
 	integer y;
 	reg trigger;
 
 	always_ff@(posedge TESTCLK) begin //SDRAM_CLKn
-		if(trigger == 1) begin
+		//if(trigger == 1) begin
 			for (x=0; x<1440; x=x+1) begin   
-				for (y=0; y<24; y=y+1) begin   
-				LED_data_3[x][y] <= 1;     // red dot correction
-				end
+				LED_data_3[x] <= x;     // red dot correction
+			end
+		//end
+	end
+	
+	reg c;
+	reg k;
+	always_ff@(negedge TESTCLK) begin
+		k <= k + 1;
+		if (k == 23) begin
+			if (c < 1440) begin
+				c <= c + 1;
 			end
 		end
+		SDO[11][3] <= LED_data_3[c][k];
+		SDO[11][2] <= LED_data_3[c][k];
+		SDO[11][1] <= LED_data_3[c][k];
+		SDO[11][0] <= LED_data_3[c][k];
 	end
-
 	
 	//reg array_in_use;
 	reg slice_read_complete;
@@ -239,6 +257,7 @@ module top
 					3: //state for reading from SDRAM
 						begin
 							if(read_data_valid) begin //read_data_valid
+								//use two 48 by 24 arrays
 								//trigger <= 1;
 								readCnt <= readCnt + 1;
 								pixel_read_cnt <= pixel_read_cnt + 1;
@@ -366,7 +385,6 @@ module top
 		end
 	end
 
-	
 	always@(posedge TESTCLK) begin
 		if (!nReset) begin
 			state <= 32'd0; // initialize
@@ -454,23 +472,30 @@ module top
 							//might be easier to make LED_data_1/2 into [48][30][24] arrays instead of current [1440][24]
 							//current indexing into LED_data is random/not correct
 							/*
+							k <= k + 1;
+							if (k == 23) begin
+								if (c < 1440) begin
+									c <= c + 1;
+								end
+							end
 							if (init) begin 
 								SDO[11][3] <= data[bit_num-1] ;
 								SDO[11][2] <= data[bit_num-1] ;
 								SDO[11][1] <= data[bit_num-1] ; 
 								SDO[11][0] <= data[bit_num-1] ; 
 							end else if (array_in_use == 0) begin
-								SDO[11][3] = LED_data_1[0][0];
-								SDO[11][2] = LED_data_1[1][0];
-								SDO[11][1] = LED_data_1[2][0];
-								SDO[11][0] = LED_data_1[3][0];
+								SDO[11][3] = LED_data_1[c][k];
+								SDO[11][2] = LED_data_1[c][k];
+								SDO[11][1] = LED_data_1[c][k];
+								SDO[11][0] = LED_data_1[c][k];
 							end else begin
-								SDO[11][3] = LED_data_2[0][0];
-								SDO[11][2] = LED_data_2[1][0];
-								SDO[11][1] = LED_data_2[2][0];
-								SDO[11][0] = LED_data_2[3][0];
+								SDO[11][3] = LED_data_2[c][k];
+								SDO[11][2] = LED_data_2[c][k];
+								SDO[11][1] = LED_data_2[c][k];
+								SDO[11][0] = LED_data_2[c][k];
 							end
-							*/
+							
+
 							//HDMI end
 							//HDMI code above would replace nexct 4 lines
 							
@@ -478,6 +503,7 @@ module top
 							SDO[11][2] <= data[bit_num-1] ;
 							SDO[11][1] <= data[bit_num-1] ; 
 							SDO[11][0] <= data[bit_num-1] ; 
+							*/
 							
 							state <= 32'd10; // initialize, shift in	
 						end else begin
