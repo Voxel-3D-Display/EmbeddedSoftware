@@ -1,0 +1,333 @@
+<session jtag_chain="USB-Blaster [USB-0]" jtag_device="@1: 10CL025(Y|Z)/EP3C25/EP4CE22 (0x020F30DD)" sof_file="output_files/VOXEL.sof">
+  <display_tree gui_logging_enabled="0">
+    <display_branch instance="auto_signaltap_0" signal_set="USE_GLOBAL_TEMP" trigger="USE_GLOBAL_TEMP"/>
+  </display_tree>
+  <instance enabled="true" entity_name="sld_signaltap" is_auto_node="yes" is_expanded="true" name="auto_signaltap_0" source_file="sld_signaltap.vhd">
+    <node_ip_info instance_id="0" mfg_id="110" node_id="0" version="6"/>
+    <position_info>
+      <single attribute="active tab" value="1"/>
+      <single attribute="data horizontal scroll position" value="0"/>
+      <single attribute="data vertical scroll position" value="9"/>
+      <single attribute="setup horizontal scroll position" value="0"/>
+      <single attribute="setup vertical scroll position" value="11"/>
+      <single attribute="zoom level denominator" value="1"/>
+      <single attribute="zoom level numerator" value="1024"/>
+      <single attribute="zoom offset denominator" value="1"/>
+      <single attribute="zoom offset numerator" value="0"/>
+      <multi attribute="timebars" size="2" value="42,120"/>
+    </position_info>
+    <signal_set global_temp="1" name="signal_set: 2022/04/08 20:45:34  #0">
+      <clock name="CLK_10M" polarity="posedge" tap_mode="probeonly"/>
+      <config pipeline_level="0" ram_type="AUTO" reserved_data_nodes="0" reserved_storage_qualifier_nodes="0" reserved_trigger_nodes="0" sample_depth="1024" trigger_in_enable="no" trigger_out_enable="no"/>
+      <top_entity/>
+      <signal_vec>
+        <trigger_input_vec>
+          <wire name="SDRAM_ADDR[0]" tap_mode="classic"/>
+          <wire name="SDRAM_ADDR[1]" tap_mode="classic"/>
+          <wire name="SDRAM_ADDR[2]" tap_mode="classic"/>
+          <wire name="SDRAM_ADDR[3]" tap_mode="classic"/>
+          <wire name="SDRAM_ADDR[4]" tap_mode="classic"/>
+          <wire name="SDRAM_CAS_N" tap_mode="classic"/>
+          <wire name="SDRAM_CKE" tap_mode="classic"/>
+          <wire name="SDRAM_CLK" tap_mode="classic"/>
+          <wire name="SDRAM_CS_N" tap_mode="classic"/>
+          <wire name="SDRAM_RAS_N" tap_mode="classic"/>
+          <wire name="SDRAM_WE_N" tap_mode="classic"/>
+          <wire name="leave" tap_mode="classic"/>
+          <wire name="led_debug[0]" tap_mode="classic"/>
+          <wire name="led_debug[1]" tap_mode="classic"/>
+          <wire name="led_debug[2]" tap_mode="classic"/>
+          <wire name="led_debug[3]" tap_mode="classic"/>
+          <wire name="led_debug[4]" tap_mode="classic"/>
+          <wire name="led_debug[5]" tap_mode="classic"/>
+          <wire name="led_debug[6]" tap_mode="classic"/>
+          <wire name="led_debug[7]" tap_mode="classic"/>
+          <wire name="led_debug[8]" tap_mode="classic"/>
+          <wire name="led_debug[9]" tap_mode="classic"/>
+          <wire name="m_state[2]" tap_mode="classic"/>
+          <wire name="sdram:sdram|new_sdram_controller_0_s1_waitrequest" tap_mode="classic"/>
+          <wire name="valid_debug" tap_mode="classic"/>
+          <wire name="writeCnt[0]" tap_mode="classic"/>
+          <wire name="writeCnt[1]" tap_mode="classic"/>
+          <wire name="writeCnt[2]" tap_mode="classic"/>
+          <wire name="write_request" tap_mode="classic"/>
+          <wire name="wrreq" tap_mode="classic"/>
+          <wire name="array_in_use" tap_mode="probeonly"/>
+          <wire name="m_state[0]" tap_mode="probeonly"/>
+          <wire name="m_state[1]" tap_mode="probeonly"/>
+          <wire name="nReset" tap_mode="probeonly"/>
+          <wire name="need_new_slice" tap_mode="probeonly"/>
+          <wire name="read_request" tap_mode="probeonly"/>
+          <wire name="writeAddress[0]" tap_mode="probeonly"/>
+          <wire name="writeAddress[1]" tap_mode="probeonly"/>
+          <wire name="writeAddress[2]" tap_mode="probeonly"/>
+          <wire name="writeAddress[3]" tap_mode="probeonly"/>
+        </trigger_input_vec>
+        <data_input_vec>
+          <wire name="SDRAM_ADDR[0]" tap_mode="classic"/>
+          <wire name="SDRAM_ADDR[1]" tap_mode="classic"/>
+          <wire name="SDRAM_ADDR[2]" tap_mode="classic"/>
+          <wire name="SDRAM_ADDR[3]" tap_mode="classic"/>
+          <wire name="SDRAM_ADDR[4]" tap_mode="classic"/>
+          <wire name="SDRAM_CAS_N" tap_mode="classic"/>
+          <wire name="SDRAM_CKE" tap_mode="classic"/>
+          <wire name="SDRAM_CLK" tap_mode="classic"/>
+          <wire name="SDRAM_CS_N" tap_mode="classic"/>
+          <wire name="SDRAM_RAS_N" tap_mode="classic"/>
+          <wire name="SDRAM_WE_N" tap_mode="classic"/>
+          <wire name="leave" tap_mode="classic"/>
+          <wire name="led_debug[0]" tap_mode="classic"/>
+          <wire name="led_debug[1]" tap_mode="classic"/>
+          <wire name="led_debug[2]" tap_mode="classic"/>
+          <wire name="led_debug[3]" tap_mode="classic"/>
+          <wire name="led_debug[4]" tap_mode="classic"/>
+          <wire name="led_debug[5]" tap_mode="classic"/>
+          <wire name="led_debug[6]" tap_mode="classic"/>
+          <wire name="led_debug[7]" tap_mode="classic"/>
+          <wire name="led_debug[8]" tap_mode="classic"/>
+          <wire name="led_debug[9]" tap_mode="classic"/>
+          <wire name="m_state[2]" tap_mode="classic"/>
+          <wire name="sdram:sdram|new_sdram_controller_0_s1_waitrequest" tap_mode="classic"/>
+          <wire name="valid_debug" tap_mode="classic"/>
+          <wire name="writeCnt[0]" tap_mode="classic"/>
+          <wire name="writeCnt[1]" tap_mode="classic"/>
+          <wire name="writeCnt[2]" tap_mode="classic"/>
+          <wire name="write_request" tap_mode="classic"/>
+          <wire name="wrreq" tap_mode="classic"/>
+          <wire name="array_in_use" tap_mode="probeonly"/>
+          <wire name="m_state[0]" tap_mode="probeonly"/>
+          <wire name="m_state[1]" tap_mode="probeonly"/>
+          <wire name="nReset" tap_mode="probeonly"/>
+          <wire name="need_new_slice" tap_mode="probeonly"/>
+          <wire name="read_request" tap_mode="probeonly"/>
+          <wire name="writeAddress[0]" tap_mode="probeonly"/>
+          <wire name="writeAddress[1]" tap_mode="probeonly"/>
+          <wire name="writeAddress[2]" tap_mode="probeonly"/>
+          <wire name="writeAddress[3]" tap_mode="probeonly"/>
+        </data_input_vec>
+        <storage_qualifier_input_vec>
+          <wire name="SDRAM_ADDR[0]" tap_mode="classic"/>
+          <wire name="SDRAM_ADDR[1]" tap_mode="classic"/>
+          <wire name="SDRAM_ADDR[2]" tap_mode="classic"/>
+          <wire name="SDRAM_ADDR[3]" tap_mode="classic"/>
+          <wire name="SDRAM_ADDR[4]" tap_mode="classic"/>
+          <wire name="SDRAM_CAS_N" tap_mode="classic"/>
+          <wire name="SDRAM_CKE" tap_mode="classic"/>
+          <wire name="SDRAM_CLK" tap_mode="classic"/>
+          <wire name="SDRAM_CS_N" tap_mode="classic"/>
+          <wire name="SDRAM_RAS_N" tap_mode="classic"/>
+          <wire name="SDRAM_WE_N" tap_mode="classic"/>
+          <wire name="leave" tap_mode="classic"/>
+          <wire name="led_debug[0]" tap_mode="classic"/>
+          <wire name="led_debug[1]" tap_mode="classic"/>
+          <wire name="led_debug[2]" tap_mode="classic"/>
+          <wire name="led_debug[3]" tap_mode="classic"/>
+          <wire name="led_debug[4]" tap_mode="classic"/>
+          <wire name="led_debug[5]" tap_mode="classic"/>
+          <wire name="led_debug[6]" tap_mode="classic"/>
+          <wire name="led_debug[7]" tap_mode="classic"/>
+          <wire name="led_debug[8]" tap_mode="classic"/>
+          <wire name="led_debug[9]" tap_mode="classic"/>
+          <wire name="m_state[2]" tap_mode="classic"/>
+          <wire name="sdram:sdram|new_sdram_controller_0_s1_waitrequest" tap_mode="classic"/>
+          <wire name="valid_debug" tap_mode="classic"/>
+          <wire name="writeCnt[0]" tap_mode="classic"/>
+          <wire name="writeCnt[1]" tap_mode="classic"/>
+          <wire name="writeCnt[2]" tap_mode="classic"/>
+          <wire name="write_request" tap_mode="classic"/>
+          <wire name="wrreq" tap_mode="classic"/>
+          <wire name="array_in_use" tap_mode="probeonly"/>
+          <wire name="m_state[0]" tap_mode="probeonly"/>
+          <wire name="m_state[1]" tap_mode="probeonly"/>
+          <wire name="nReset" tap_mode="probeonly"/>
+          <wire name="need_new_slice" tap_mode="probeonly"/>
+          <wire name="read_request" tap_mode="probeonly"/>
+          <wire name="writeAddress[0]" tap_mode="probeonly"/>
+          <wire name="writeAddress[1]" tap_mode="probeonly"/>
+          <wire name="writeAddress[2]" tap_mode="probeonly"/>
+          <wire name="writeAddress[3]" tap_mode="probeonly"/>
+        </storage_qualifier_input_vec>
+      </signal_vec>
+      <presentation>
+        <unified_setup_data_view>
+          <node data_index="33" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="need_new_slice" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="33" tap_mode="probeonly" trigger_index="33" type="unknown"/>
+          <node data_index="34" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="read_request" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="34" tap_mode="probeonly" trigger_index="34" type="unknown"/>
+          <node data_index="30" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="m_state[0]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="30" tap_mode="probeonly" trigger_index="30" type="unknown"/>
+          <node data_index="31" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="m_state[1]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="31" tap_mode="probeonly" trigger_index="31" type="unknown"/>
+          <node data_index="35" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="writeAddress[0]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="35" tap_mode="probeonly" trigger_index="35" type="unknown"/>
+          <node data_index="36" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="writeAddress[1]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="36" tap_mode="probeonly" trigger_index="36" type="unknown"/>
+          <node data_index="37" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="writeAddress[2]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="37" tap_mode="probeonly" trigger_index="37" type="unknown"/>
+          <node data_index="38" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="writeAddress[3]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="38" tap_mode="probeonly" trigger_index="38" type="unknown"/>
+          <node data_index="32" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="nReset" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="32" tap_mode="probeonly" trigger_index="32" type="unknown"/>
+          <node data_index="10" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="either edge" name="SDRAM_WE_N" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="10" tap_mode="classic" trigger_index="10" type="unknown"/>
+          <node data_index="9" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="SDRAM_RAS_N" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="9" tap_mode="classic" trigger_index="9" type="unknown"/>
+          <node data_index="8" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="SDRAM_CS_N" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="8" tap_mode="classic" trigger_index="8" type="unknown"/>
+          <node data_index="7" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="SDRAM_CLK" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="7" tap_mode="classic" trigger_index="7" type="unknown"/>
+          <node data_index="6" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="SDRAM_CKE" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="6" tap_mode="classic" trigger_index="6" type="unknown"/>
+          <node data_index="5" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="SDRAM_CAS_N" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="5" tap_mode="classic" trigger_index="5" type="unknown"/>
+          <node data_index="0" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="SDRAM_ADDR[0]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="0" tap_mode="classic" trigger_index="0" type="unknown"/>
+          <node data_index="1" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="SDRAM_ADDR[1]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="1" tap_mode="classic" trigger_index="1" type="unknown"/>
+          <node data_index="2" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="SDRAM_ADDR[2]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="2" tap_mode="classic" trigger_index="2" type="unknown"/>
+          <node data_index="3" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="SDRAM_ADDR[3]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="3" tap_mode="classic" trigger_index="3" type="unknown"/>
+          <node data_index="4" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="SDRAM_ADDR[4]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="4" tap_mode="classic" trigger_index="4" type="unknown"/>
+          <node data_index="28" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="wrreq" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="28" tap_mode="classic" trigger_index="28" type="unknown"/>
+          <node data_index="27" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="write_request" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="27" tap_mode="classic" trigger_index="27" type="unknown"/>
+          <node data_index="22" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="m_state[2]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="22" tap_mode="classic" trigger_index="22" type="unknown"/>
+          <node data_index="24" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="writeCnt[0]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="24" tap_mode="classic" trigger_index="24" type="unknown"/>
+          <node data_index="25" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="writeCnt[1]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="25" tap_mode="classic" trigger_index="25" type="unknown"/>
+          <node data_index="26" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="writeCnt[2]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="26" tap_mode="classic" trigger_index="26" type="unknown"/>
+          <node data_index="11" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="leave" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="11" tap_mode="classic" trigger_index="11" type="unknown"/>
+          <node data_index="29" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="array_in_use" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="29" tap_mode="probeonly" trigger_index="29" type="unknown"/>
+          <node data_index="12" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[0]" storage_index="12" tap_mode="classic" trigger_index="12" type="unknown"/>
+          <node data_index="13" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[1]" storage_index="13" tap_mode="classic" trigger_index="13" type="unknown"/>
+          <node data_index="14" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[2]" storage_index="14" tap_mode="classic" trigger_index="14" type="unknown"/>
+          <node data_index="15" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[3]" storage_index="15" tap_mode="classic" trigger_index="15" type="unknown"/>
+          <node data_index="16" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[4]" storage_index="16" tap_mode="classic" trigger_index="16" type="unknown"/>
+          <node data_index="17" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[5]" storage_index="17" tap_mode="classic" trigger_index="17" type="unknown"/>
+          <node data_index="18" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[6]" storage_index="18" tap_mode="classic" trigger_index="18" type="unknown"/>
+          <node data_index="19" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[7]" storage_index="19" tap_mode="classic" trigger_index="19" type="unknown"/>
+          <node data_index="20" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[8]" storage_index="20" tap_mode="classic" trigger_index="20" type="unknown"/>
+          <node data_index="21" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[9]" storage_index="21" tap_mode="classic" trigger_index="21" type="unknown"/>
+          <node data_index="23" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="valid_debug" storage_index="23" tap_mode="classic" trigger_index="23" type="unknown"/>
+          <node duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_storage_input="true" is_trigger_input="true" name="sdram:sdram|new_sdram_controller_0_s1_waitrequest" tap_mode="classic" type="combinatorial"/>
+        </unified_setup_data_view>
+        <data_view>
+          <net data_index="34" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="need_new_slice" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="34" tap_mode="probeonly" trigger_index="34" type="unknown"/>
+          <net data_index="35" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="read_request" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="35" tap_mode="probeonly" trigger_index="35" type="unknown"/>
+          <net data_index="31" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="m_state[0]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="31" tap_mode="probeonly" trigger_index="31" type="unknown"/>
+          <net data_index="32" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="m_state[1]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="32" tap_mode="probeonly" trigger_index="32" type="unknown"/>
+          <net data_index="36" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="writeAddress[0]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="36" tap_mode="probeonly" trigger_index="36" type="unknown"/>
+          <net data_index="37" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="writeAddress[1]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="37" tap_mode="probeonly" trigger_index="37" type="unknown"/>
+          <net data_index="38" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="writeAddress[2]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="38" tap_mode="probeonly" trigger_index="38" type="unknown"/>
+          <net data_index="39" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="writeAddress[3]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="39" tap_mode="probeonly" trigger_index="39" type="unknown"/>
+          <net data_index="33" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="nReset" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="33" tap_mode="probeonly" trigger_index="33" type="unknown"/>
+          <net data_index="10" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="either edge" name="SDRAM_WE_N" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="10" tap_mode="classic" trigger_index="10" type="unknown"/>
+          <net data_index="9" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="SDRAM_RAS_N" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="9" tap_mode="classic" trigger_index="9" type="unknown"/>
+          <net data_index="8" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="SDRAM_CS_N" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="8" tap_mode="classic" trigger_index="8" type="unknown"/>
+          <net data_index="7" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="SDRAM_CLK" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="7" tap_mode="classic" trigger_index="7" type="unknown"/>
+          <net data_index="6" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="SDRAM_CKE" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="6" tap_mode="classic" trigger_index="6" type="unknown"/>
+          <net data_index="5" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="SDRAM_CAS_N" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="5" tap_mode="classic" trigger_index="5" type="unknown"/>
+          <net data_index="0" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="SDRAM_ADDR[0]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="0" tap_mode="classic" trigger_index="0" type="unknown"/>
+          <net data_index="1" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="SDRAM_ADDR[1]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="1" tap_mode="classic" trigger_index="1" type="unknown"/>
+          <net data_index="2" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="SDRAM_ADDR[2]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="2" tap_mode="classic" trigger_index="2" type="unknown"/>
+          <net data_index="3" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="SDRAM_ADDR[3]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="3" tap_mode="classic" trigger_index="3" type="unknown"/>
+          <net data_index="4" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="SDRAM_ADDR[4]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="4" tap_mode="classic" trigger_index="4" type="unknown"/>
+          <net data_index="29" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="wrreq" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="29" tap_mode="classic" trigger_index="29" type="unknown"/>
+          <net data_index="28" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="write_request" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="28" tap_mode="classic" trigger_index="28" type="unknown"/>
+          <net data_index="22" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="m_state[2]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="22" tap_mode="classic" trigger_index="22" type="unknown"/>
+          <net data_index="25" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="writeCnt[0]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="25" tap_mode="classic" trigger_index="25" type="unknown"/>
+          <net data_index="26" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="writeCnt[1]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="26" tap_mode="classic" trigger_index="26" type="unknown"/>
+          <net data_index="27" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="writeCnt[2]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="27" tap_mode="classic" trigger_index="27" type="unknown"/>
+          <net data_index="11" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="leave" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="11" tap_mode="classic" trigger_index="11" type="unknown"/>
+          <net data_index="30" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="array_in_use" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="30" tap_mode="probeonly" trigger_index="30" type="unknown"/>
+          <net data_index="12" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[0]" storage_index="12" tap_mode="classic" trigger_index="12" type="unknown"/>
+          <net data_index="13" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[1]" storage_index="13" tap_mode="classic" trigger_index="13" type="unknown"/>
+          <net data_index="14" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[2]" storage_index="14" tap_mode="classic" trigger_index="14" type="unknown"/>
+          <net data_index="15" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[3]" storage_index="15" tap_mode="classic" trigger_index="15" type="unknown"/>
+          <net data_index="16" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[4]" storage_index="16" tap_mode="classic" trigger_index="16" type="unknown"/>
+          <net data_index="17" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[5]" storage_index="17" tap_mode="classic" trigger_index="17" type="unknown"/>
+          <net data_index="18" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[6]" storage_index="18" tap_mode="classic" trigger_index="18" type="unknown"/>
+          <net data_index="19" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[7]" storage_index="19" tap_mode="classic" trigger_index="19" type="unknown"/>
+          <net data_index="20" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[8]" storage_index="20" tap_mode="classic" trigger_index="20" type="unknown"/>
+          <net data_index="21" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[9]" storage_index="21" tap_mode="classic" trigger_index="21" type="unknown"/>
+          <net data_index="24" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="valid_debug" storage_index="24" tap_mode="classic" trigger_index="24" type="unknown"/>
+          <net data_index="23" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_storage_input="true" is_trigger_input="true" name="sdram:sdram|new_sdram_controller_0_s1_waitrequest" storage_index="23" tap_mode="classic" trigger_index="23" type="unknown"/>
+        </data_view>
+        <setup_view>
+          <net data_index="34" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="need_new_slice" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="34" tap_mode="probeonly" trigger_index="34" type="unknown"/>
+          <net data_index="35" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="read_request" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="35" tap_mode="probeonly" trigger_index="35" type="unknown"/>
+          <net data_index="31" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="m_state[0]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="31" tap_mode="probeonly" trigger_index="31" type="unknown"/>
+          <net data_index="32" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="m_state[1]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="32" tap_mode="probeonly" trigger_index="32" type="unknown"/>
+          <net data_index="36" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="writeAddress[0]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="36" tap_mode="probeonly" trigger_index="36" type="unknown"/>
+          <net data_index="37" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="writeAddress[1]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="37" tap_mode="probeonly" trigger_index="37" type="unknown"/>
+          <net data_index="38" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="writeAddress[2]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="38" tap_mode="probeonly" trigger_index="38" type="unknown"/>
+          <net data_index="39" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="writeAddress[3]" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="39" tap_mode="probeonly" trigger_index="39" type="unknown"/>
+          <net data_index="33" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="nReset" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="33" tap_mode="probeonly" trigger_index="33" type="unknown"/>
+          <net data_index="10" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="either edge" name="SDRAM_WE_N" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="10" tap_mode="classic" trigger_index="10" type="unknown"/>
+          <net data_index="9" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="SDRAM_RAS_N" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="9" tap_mode="classic" trigger_index="9" type="unknown"/>
+          <net data_index="8" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="SDRAM_CS_N" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="8" tap_mode="classic" trigger_index="8" type="unknown"/>
+          <net data_index="7" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="SDRAM_CLK" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="7" tap_mode="classic" trigger_index="7" type="unknown"/>
+          <net data_index="6" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="SDRAM_CKE" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="6" tap_mode="classic" trigger_index="6" type="unknown"/>
+          <net data_index="5" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="SDRAM_CAS_N" pwr_level-0="dont_care" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="5" tap_mode="classic" trigger_index="5" type="unknown"/>
+          <net data_index="0" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="SDRAM_ADDR[0]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="0" tap_mode="classic" trigger_index="0" type="unknown"/>
+          <net data_index="1" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="SDRAM_ADDR[1]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="1" tap_mode="classic" trigger_index="1" type="unknown"/>
+          <net data_index="2" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="SDRAM_ADDR[2]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="2" tap_mode="classic" trigger_index="2" type="unknown"/>
+          <net data_index="3" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="SDRAM_ADDR[3]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="3" tap_mode="classic" trigger_index="3" type="unknown"/>
+          <net data_index="4" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="SDRAM_ADDR[4]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="4" tap_mode="classic" trigger_index="4" type="unknown"/>
+          <net data_index="29" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="wrreq" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="29" tap_mode="classic" trigger_index="29" type="unknown"/>
+          <net data_index="28" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="write_request" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="28" tap_mode="classic" trigger_index="28" type="unknown"/>
+          <net data_index="22" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="m_state[2]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="22" tap_mode="classic" trigger_index="22" type="unknown"/>
+          <net data_index="25" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="writeCnt[0]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="25" tap_mode="classic" trigger_index="25" type="unknown"/>
+          <net data_index="26" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="writeCnt[1]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="26" tap_mode="classic" trigger_index="26" type="unknown"/>
+          <net data_index="27" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="writeCnt[2]" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="27" tap_mode="classic" trigger_index="27" type="unknown"/>
+          <net data_index="11" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" level-0="dont_care" name="leave" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="11" tap_mode="classic" trigger_index="11" type="unknown"/>
+          <net data_index="30" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="array_in_use" pwr_storage-0="dont_care" pwr_storage-1="dont_care" pwr_storage-2="dont_care" storage-0="dont_care" storage-1="dont_care" storage-2="dont_care" storage_index="30" tap_mode="probeonly" trigger_index="30" type="unknown"/>
+          <net data_index="12" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[0]" storage_index="12" tap_mode="classic" trigger_index="12" type="unknown"/>
+          <net data_index="13" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[1]" storage_index="13" tap_mode="classic" trigger_index="13" type="unknown"/>
+          <net data_index="14" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[2]" storage_index="14" tap_mode="classic" trigger_index="14" type="unknown"/>
+          <net data_index="15" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[3]" storage_index="15" tap_mode="classic" trigger_index="15" type="unknown"/>
+          <net data_index="16" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[4]" storage_index="16" tap_mode="classic" trigger_index="16" type="unknown"/>
+          <net data_index="17" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[5]" storage_index="17" tap_mode="classic" trigger_index="17" type="unknown"/>
+          <net data_index="18" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[6]" storage_index="18" tap_mode="classic" trigger_index="18" type="unknown"/>
+          <net data_index="19" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[7]" storage_index="19" tap_mode="classic" trigger_index="19" type="unknown"/>
+          <net data_index="20" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[8]" storage_index="20" tap_mode="classic" trigger_index="20" type="unknown"/>
+          <net data_index="21" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="led_debug[9]" storage_index="21" tap_mode="classic" trigger_index="21" type="unknown"/>
+          <net data_index="24" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_selected="false" is_storage_input="true" is_trigger_input="true" name="valid_debug" storage_index="24" tap_mode="classic" trigger_index="24" type="unknown"/>
+          <net data_index="23" duplicate_name_allowed="false" is_data_input="true" is_node_valid="true" is_storage_input="true" is_trigger_input="true" name="sdram:sdram|new_sdram_controller_0_s1_waitrequest" storage_index="23" tap_mode="classic" trigger_index="23" type="unknown"/>
+        </setup_view>
+        <trigger_in_editor/>
+        <trigger_out_editor/>
+      </presentation>
+      <trigger attribute_mem_mode="false" gap_record="true" global_temp="1" name="trigger: 2022/04/08 20:45:34  #1" position="pre" power_up_trigger_mode="false" record_data_gap="true" segment_size="128" storage_mode="off" storage_qualifier_disabled="no" storage_qualifier_port_is_pin="true" storage_qualifier_port_name="auto_stp_external_storage_qualifier" storage_qualifier_port_tap_mode="classic" trigger_type="circular">
+        <power_up_trigger position="pre" storage_qualifier_disabled="no"/>
+        <events use_custom_flow_control="no">
+          <level editor="basic_or" enabled="yes" name="condition1" type="advanced">
+            <power_up enabled="yes">
+              <power_up_expression><![CDATA[(mbpm('X',{'SDRAM_ADDR[0]'}) && variable(1)) || (mbpm('X',{'SDRAM_ADDR[1]'}) && variable(1)) || (mbpm('X',{'SDRAM_ADDR[2]'}) && variable(1)) || (mbpm('X',{'SDRAM_ADDR[3]'}) && variable(1)) || (mbpm('X',{'SDRAM_ADDR[4]'}) && variable(1)) || (mbpm('X',{'SDRAM_CAS_N'}) && variable(1)) || (mbpm('X',{'SDRAM_CKE'}) && variable(1)) || (mbpm('X',{'SDRAM_CLK'}) && variable(1)) || (mbpm('X',{'SDRAM_CS_N'}) && variable(1)) || (mbpm('X',{'SDRAM_RAS_N'}) && variable(1)) || (mbpm('X',{'SDRAM_WE_N'}) && variable(1)) || (mbpm('X',{'array_in_use'}) && variable(1)) || (mbpm('X',{'leave'}) && variable(1)) || (mbpm('X',{'led_debug[0]'}) && variable(1)) || (mbpm('X',{'led_debug[1]'}) && variable(1)) || (mbpm('X',{'led_debug[2]'}) && variable(1)) || (mbpm('X',{'led_debug[3]'}) && variable(1)) || (mbpm('X',{'led_debug[4]'}) && variable(1)) || (mbpm('X',{'led_debug[5]'}) && variable(1)) || (mbpm('X',{'led_debug[6]'}) && variable(1)) || (mbpm('X',{'led_debug[7]'}) && variable(1)) || (mbpm('X',{'led_debug[8]'}) && variable(1)) || (mbpm('X',{'led_debug[9]'}) && variable(1)) || (mbpm('X',{'m_state[0]'}) && variable(1)) || (mbpm('X',{'m_state[1]'}) && variable(1)) || (mbpm('X',{'m_state[2]'}) && variable(1)) || (mbpm('X',{'nReset'}) && variable(1)) || (mbpm('X',{'need_new_slice'}) && variable(1)) || (mbpm('X',{'read_request'}) && variable(1)) || (mbpm('X',{'sdram:sdram|new_sdram_controller_0_s1_waitrequest'}) && variable(1)) || (mbpm('X',{'valid_debug'}) && variable(1)) || (mbpm('X',{'writeAddress[0]'}) && variable(1)) || (mbpm('X',{'writeAddress[1]'}) && variable(1)) || (mbpm('X',{'writeAddress[2]'}) && variable(1)) || (mbpm('X',{'writeAddress[3]'}) && variable(1)) || (mbpm('X',{'writeCnt[0]'}) && variable(1)) || (mbpm('X',{'writeCnt[1]'}) && variable(1)) || (mbpm('X',{'writeCnt[2]'}) && variable(1)) || (mbpm('X',{'write_request'}) && variable(1)) || (mbpm('X',{'wrreq'}) && variable(1))]]>
+              </power_up_expression>
+            </power_up>
+            <expression><![CDATA[(mbpm('X',{'SDRAM_ADDR[0]'}) && variable(0)) || (mbpm('X',{'SDRAM_ADDR[1]'}) && variable(0)) || (mbpm('X',{'SDRAM_ADDR[2]'}) && variable(0)) || (mbpm('X',{'SDRAM_ADDR[3]'}) && variable(0)) || (mbpm('X',{'SDRAM_ADDR[4]'}) && variable(0)) || (mbpm('X',{'SDRAM_CAS_N'}) && variable(0)) || (mbpm('X',{'SDRAM_CKE'}) && variable(0)) || (mbpm('X',{'SDRAM_CLK'}) && variable(0)) || (mbpm('X',{'SDRAM_CS_N'}) && variable(0)) || (mbpm('X',{'SDRAM_RAS_N'}) && variable(0)) || (mbpm('E',{'SDRAM_WE_N'}) && variable(1)) || (mbpm('X',{'array_in_use'}) && variable(0)) || (mbpm('X',{'leave'}) && variable(0)) || (mbpm('X',{'led_debug[0]'}) && variable(0)) || (mbpm('X',{'led_debug[1]'}) && variable(0)) || (mbpm('X',{'led_debug[2]'}) && variable(0)) || (mbpm('X',{'led_debug[3]'}) && variable(0)) || (mbpm('X',{'led_debug[4]'}) && variable(0)) || (mbpm('X',{'led_debug[5]'}) && variable(0)) || (mbpm('X',{'led_debug[6]'}) && variable(0)) || (mbpm('X',{'led_debug[7]'}) && variable(0)) || (mbpm('X',{'led_debug[8]'}) && variable(0)) || (mbpm('X',{'led_debug[9]'}) && variable(0)) || (mbpm('X',{'m_state[0]'}) && variable(0)) || (mbpm('X',{'m_state[1]'}) && variable(0)) || (mbpm('X',{'m_state[2]'}) && variable(0)) || (mbpm('X',{'nReset'}) && variable(0)) || (mbpm('X',{'need_new_slice'}) && variable(0)) || (mbpm('X',{'read_request'}) && variable(0)) || (mbpm('X',{'sdram:sdram|new_sdram_controller_0_s1_waitrequest'}) && variable(0)) || (mbpm('X',{'valid_debug'}) && variable(0)) || (mbpm('X',{'writeAddress[0]'}) && variable(0)) || (mbpm('X',{'writeAddress[1]'}) && variable(0)) || (mbpm('X',{'writeAddress[2]'}) && variable(0)) || (mbpm('X',{'writeAddress[3]'}) && variable(0)) || (mbpm('X',{'writeCnt[0]'}) && variable(0)) || (mbpm('X',{'writeCnt[1]'}) && variable(0)) || (mbpm('X',{'writeCnt[2]'}) && variable(0)) || (mbpm('X',{'write_request'}) && variable(0)) || (mbpm('X',{'wrreq'}) && variable(0))]]>
+            </expression>
+            <op_node/>
+          </level>
+        </events>
+        <storage_qualifier_events>
+          <transitional>1111111111111111111111111111111111111111
+            <pwr_up_transitional>1111111111111111111111111111111111111111</pwr_up_transitional>
+          </transitional>
+          <storage_qualifier_level type="basic">
+            <power_up>
+            </power_up>
+            <op_node/>
+          </storage_qualifier_level>
+          <storage_qualifier_level type="basic">
+            <power_up>
+            </power_up>
+            <op_node/>
+          </storage_qualifier_level>
+          <storage_qualifier_level type="basic">
+            <power_up>
+            </power_up>
+            <op_node/>
+          </storage_qualifier_level>
+        </storage_qualifier_events>
+      </trigger>
+    </signal_set>
+  </instance>
+  <mnemonics/>
+  <static_plugin_mnemonics/>
+  <global_info>
+    <single attribute="active instance" value="0"/>
+    <single attribute="config widget visible" value="1"/>
+    <single attribute="data log widget visible" value="1"/>
+    <single attribute="hierarchy widget height" value="185"/>
+    <single attribute="hierarchy widget visible" value="1"/>
+    <single attribute="instance widget visible" value="1"/>
+    <single attribute="jtag widget visible" value="1"/>
+    <single attribute="lock mode" value="0"/>
+    <single attribute="sof manager visible" value="1"/>
+    <multi attribute="column width" size="23" value="34,34,803,74,68,191,262,96,98,98,88,88,450,101,101,101,101,101,101,101,101,107,78"/>
+    <multi attribute="frame size" size="2" value="2560,1475"/>
+    <multi attribute="jtag widget size" size="2" value="613,347"/>
+  </global_info>
+</session>

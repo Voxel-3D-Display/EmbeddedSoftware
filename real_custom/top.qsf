@@ -232,6 +232,88 @@ set_location_assignment PIN_R11 -to SDO[9][1]
 set_location_assignment PIN_P11 -to SDO[9][2]
 set_location_assignment PIN_R10 -to SDO[9][3]
 
+#SDRAM assignments
+set_location_assignment PIN_G2 -to DQ[0]
+set_location_assignment PIN_G1 -to DQ[1]
+set_location_assignment PIN_L8 -to DQ[2]
+set_location_assignment PIN_K5 -to DQ[3]
+set_location_assignment PIN_K2 -to DQ[4]
+set_location_assignment PIN_J2 -to DQ[5]
+set_location_assignment PIN_J1 -to DQ[6]
+set_location_assignment PIN_R7 -to DQ[7]
+set_location_assignment PIN_T4 -to DQ[8]
+set_location_assignment PIN_T2 -to DQ[9]
+set_location_assignment PIN_T3 -to DQ[10]
+set_location_assignment PIN_R3 -to DQ[11]
+set_location_assignment PIN_R5 -to DQ[12]
+set_location_assignment PIN_P3 -to DQ[13]
+set_location_assignment PIN_N3 -to DQ[14]
+set_location_assignment PIN_K1 -to DQ[15]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[0]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[1]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[2]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[3]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[4]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[5]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[6]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[7]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[8]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[9]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[10]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[11]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[12]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[13]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[14]
+set_instance_assignment -name RESERVE_PIN AS_BIDIRECTIONAL -to DQ[15]
+
+set_location_assignment PIN_R6 -to DQM[0]
+set_location_assignment PIN_T5 -to DQM[1]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to DQM[0]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to DQM[1]
+
+set_location_assignment PIN_C2 -to nWE
+set_location_assignment PIN_L1 -to nCAS
+set_location_assignment PIN_R4 -to SDRAM_CLK
+set_location_assignment PIN_L2 -to nRAS
+set_location_assignment PIN_L7 -to CKE
+set_location_assignment PIN_P6 -to nCS
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to nWE
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to nCAS
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to SDRAM_CLK
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to nRAS
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CKE
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to nCS
+
+set_location_assignment PIN_P2 -to A[0]
+set_location_assignment PIN_N5 -to A[1]
+set_location_assignment PIN_N6 -to A[2]
+set_location_assignment PIN_M8 -to A[3]
+set_location_assignment PIN_P8 -to A[4]
+set_location_assignment PIN_T7 -to A[5]
+set_location_assignment PIN_N8 -to A[6]
+set_location_assignment PIN_T6 -to A[7]
+set_location_assignment PIN_R1 -to A[8]
+set_location_assignment PIN_P1 -to A[9]
+set_location_assignment PIN_N2 -to A[10]
+set_location_assignment PIN_N1 -to A[11]
+set_location_assignment PIN_L4 -to A[12]
+set_location_assignment PIN_M7 -to BA[0]
+set_location_assignment PIN_M6 -to BA[1]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[0]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[1]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[2]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[3]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[4]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[5]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[6]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[7]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[8]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[9]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[10]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[11]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to A[12]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to BA[0]
+set_instance_assignment -name RESERVE_PIN AS_OUTPUT_DRIVING_AN_UNSPECIFIED_SIGNAL -to BA[1]
 
 set_location_assignment PIN_A8 -to ENC_ABS_HOME
 set_location_assignment PIN_B8 -to ENC_360
