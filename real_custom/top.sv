@@ -41,7 +41,7 @@ module top
 	reg [15:0] HDMI_RGB_t;
 	//HDMI testing end
 
-	assign led_debug = HDMI_RGB_t; //CHANGE TO HDMI_RGB to see what HDMI is inputting
+	assign led_debug = read_LED_data; // HDMI_RGB_t; //CHANGE TO HDMI_RGB to see what HDMI is inputting
 	assign valid_debug = read_data_valid;
 	assign fifo_out = HDMI_fifo_Data;
 	//assign pix = pixel_read_cnt[0];
@@ -82,7 +82,7 @@ module top
 		.wrreq, //input - high to request to write to the FIFO
 		
 		.rdclk(SDRAM_CLKn), //CHANGE to SDRAM clock - clock rate for reading
-		.rdreq(buf_empty), //high to request read from FIFO //HDMI_fifo_Enable
+		.rdreq(!buf_empty), //high to request read from FIFO //HDMI_fifo_Enable
 		.q(HDMI_fifo_Data), //output
 		.rdempty(buf_empty)
 		//.rdusedw //8 bit width output (unused?)
@@ -155,7 +155,7 @@ module top
 		.new_sdram_controller_0_wire_cs_n(SDRAM_CS_N),
 		.new_sdram_controller_0_wire_dq(SDRAM_DQ),
 		.new_sdram_controller_0_wire_dqm(SDRAM_DQM),
-		.new_sdram_controller_0_wire_ras_n(nRAS),
+		.new_sdram_controller_0_wire_ras_n(SDRAM_RAS_N),
 		.new_sdram_controller_0_wire_we_n(SDRAM_WE_N)
 	);
 
@@ -209,9 +209,9 @@ module top
 	reg [23:0] writeAddress;
 	reg [23:0] readAddress;
 	logic [23:0] Address;
-	assign Address = m_state == 1 ? writeAddress : readAddress; //select read or write addr to send to SDRAM
+	assign Address = (m_state == 1) ? writeAddress : readAddress; //select read or write addr to send to SDRAM
 
-	logic write_request;
+	reg write_request;
 	reg read_request;
 	logic read_data_valid;
 	logic [10:0] pixel_read_cnt; //fix sizing
@@ -223,22 +223,30 @@ module top
 
 	always_ff@(posedge SDRAM_CLKn) begin //SDRAM_CLKn
 		//state machine here for determining when to read and when to write and where
-		if (!nReset && leave) begin
-				leave <= 1;
-				read_request <= '1; //change back to zero
+		if (!nReset) begin
+				//leave <= 0;
+				read_request <= 1; //change back to zero
                 readCnt <= '0;
 				write_request <= 1;
 				m_state <= '0;
 				slice_cnt <= '0;
-				readAddress <= '0;
+				readAddress <= 24'b0;
 				slice_read_complete <= 0;
-				writeAddress <= 0;
+				writeAddress <= 24'b0;
 				trigger <= 1;
             end else begin
+				/*
 				if(VSYNC) begin //reached end of a frame - move on to next one
 					//idk how this make sense if we are cutting out 3 of every four frames
 					writeAddress <= 0; //could be written twice in one clock edge? But no errors
 				end
+				*/
+				if(!leave && !SDRAM_WE_N) begin
+					writeAddress <= 24'b0;
+					readAddress <= 24'b0;
+					leave <= 1;
+				end
+
 				if(0) begin //LED state machine puts this high when we can start  (slice_read_complete)
 					//to populate the next array
 					read_request <= '1;
@@ -249,7 +257,7 @@ module top
 				case(m_state)
 					0: //state to decide if we should write or read SDRAM
 						begin
-							if(write_request) begin //want to write to sdram
+							if(1) begin //want to write to sdram //write_request
 								m_state <= 1;
 								writeCnt <= '0;
 							end else begin //want to read from sdram
@@ -261,7 +269,11 @@ module top
 							if(!waitRequest) begin //amke sure SDRAM isn't otherwise occupied
 								//trigger <= 1;
 								writeCnt <= writeCnt + 1;
-								writeAddress <= writeAddress + 1; //increment addr
+								if (writeAddress >= 1036800) begin
+									writeAddress <= '0;
+								end else begin
+									writeAddress <= writeAddress + 1'b1; //increment addr
+								end
 								if (writeCnt == WRITE_BURST_SIZE -1 || !write_request) begin
 									//once we have full burst or nothing else to write, move on
 									trigger <= 1;
@@ -271,7 +283,7 @@ module top
 						end
 					2: //we get when there's no write request OR just finished write burst
 						begin
-							if(read_request) begin
+							if(1) begin //read_request
 								readCnt <= '0; //for writes and reads?
 								//pixel_read_cnt <= '0;
 								m_state <= 3;
@@ -286,7 +298,7 @@ module top
 								//trigger <= 1;
 								readCnt <= readCnt + 1;
 								pixel_read_cnt <= pixel_read_cnt + 1;
-								readAddress <= readAddress + 1; //address for next clock cycle
+								readAddress <= writeAddress - 5; //readAddress + 1'b1; //address for next clock cycle
 								//each read will return a 'full' pixel
 								//any reason we'd have to delay a cycle before doing this
 								//^I don't think so bc read was high in state 2, and the address was correct
