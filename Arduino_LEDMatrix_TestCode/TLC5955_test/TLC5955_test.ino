@@ -30,11 +30,22 @@
 #include "TLC5955.h"
 #include "SPI.h"
 
+
 // Pin set-up
-#define GSCLK 10
-#define LAT 23
+#define GSCLK 24
+#define LAT 29
 #define SPI_CLK 13
 #define SPI_MOSI 11
+
+
+#define ALL_BRIGHT 1
+#define ALL_LEDS_ITERATE_COLORS 2 // code to iterate through each color and show each color on all LEDs at once
+#define ITERATE_LEDS_ITERATE_COLORS 3 // code to update each led on each driver one by one, color by color
+#define ALL_DIM 4
+
+int mode = ITERATE_LEDS_ITERATE_COLORS;
+int delay_amnt = 500;
+
 
 const uint8_t TLC5955::chip_count = 2;          // Change to reflect number of TLC chips
 float TLC5955::max_current_amps = 10;      // Maximum current output, amps
@@ -66,15 +77,6 @@ int led_lookup[16] =
     12, // 15
     8, // 16
   };
-int mode = -1;
-
-
-#define ALL_BRIGHT 1
-#define ALL_LEDS_ITERATE_COLORS 2 // code to iterate through each color and show each color on all LEDs at once
-#define ITERATE_LEDS_ITERATE_COLORS 3 // code to update each led on each driver one by one, color by color
-#define ALL_DIM 4
-
-int delay_amnt = 500;
 
   
 void setup() {
@@ -115,31 +117,31 @@ void setup() {
 
   // Provide LED pin order (R,G,B)
   tlc.set_rgb_pin_order(0, 1, 2);
-
-  Serial.print("Enter starting mode: ");
-  while(Serial.available() == 0) {}
-  if (Serial.available() > 0)
-    mode = Serial.parseInt();
-  Serial.println();
-  switch (mode) {
-    case ALL_DIM:
-      Serial.println("Mode selected: ALL_DIM");
-      break;
-    case ALL_BRIGHT:
-      Serial.println("Mode selected: ALL_BRIGHT");
-      break;
-    case ALL_LEDS_ITERATE_COLORS:
-      Serial.println("Mode selected: ALL_LEDS_ITERATE_COLORS");
-      break;
-    case ITERATE_LEDS_ITERATE_COLORS:
-      Serial.println("Mode selected: ITERATE_LEDS_ITERATE_COLORS");
-      break;
-    default:
-      Serial.print("Mode selected: ");
-      Serial.println(mode);
-      break;
-  }
-  
+//
+//  Serial.print("Enter starting mode: ");
+//  while(Serial.available() == 0) {}
+//  if (Serial.available() > 0)
+//    mode = Serial.parseInt();
+//  Serial.println();
+//  switch (mode) {
+//    case ALL_DIM:
+//      Serial.println("Mode selected: ALL_DIM");
+//      break;
+//    case ALL_BRIGHT:
+//      Serial.println("Mode selected: ALL_BRIGHT");
+//      break;
+//    case ALL_LEDS_ITERATE_COLORS:
+//      Serial.println("Mode selected: ALL_LEDS_ITERATE_COLORS");
+//      break;
+//    case ITERATE_LEDS_ITERATE_COLORS:
+//      Serial.println("Mode selected: ITERATE_LEDS_ITERATE_COLORS");
+//      break;
+//    default:
+//      Serial.print("Mode selected: ");
+//      Serial.println(mode);
+//      break;
+//  }
+//  
 
 }
 

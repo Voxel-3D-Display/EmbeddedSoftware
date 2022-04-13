@@ -3,36 +3,18 @@
 
 module led_matrix
 	(
-		TLC5955 led_drivers[11:0][3:0], 
 		input 	CLK,
-		input	ENC_SAYS_GO,
+		input 	GSCLK,
+		input		ENC_SAYS_GO,
 		input    DE, //tells us if we are getting an HSYNC/VSYNC rn or normal data
 		input 	nReset,
-		input   reg LED_data[11:0][3:0][47:0],
+		input    bit [1439:0][47:0] hdmi_data,
+		output 	bit [11:0][3:0] SDO,
 		output 	reg LAT,
-		output 	reg SCLK,
-		output 	GSCLK,
-		output 	TESTCLK,
-		output	reg [3:0] STATE_CHECK,
+		output 	reg SCLK
 
 	);
 
-	reg [1439:0][23:0] LED_data_1;
-	reg [1439:0][23:0] LED_data_2;
-	reg [1439:0][23:0] LED_data_3;
-	integer x;
-	integer y;
-	
-	reg array_in_use;
-	reg slice_read_complete;
-	//assign read_LED_data = readLedData; //translate to register for indexing?
-
-	logic write_request;
-	reg read_request;
-	logic read_data_valid;
-	logic [10:0] pixel_read_cnt; //fix sizing
-	reg [10:0] slice_cnt; //fix sizing
-	reg need_new_slice;
 
 
 	localparam LATCH_SIZE = 'd769;
@@ -43,13 +25,13 @@ module led_matrix
 
 	integer bit_num = LATCH_SIZE;
 	integer daisy_num = NUM_DRIVERS_CHAINED - 1;
-	reg [LATCH_SIZE-1:0] control_data = 769'b1100101100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111111111111111111111000000000001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100;
+	bit [LATCH_SIZE-1:0] control_data = 769'b1100101100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111111111111111111111000000000001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100001010000101000010100;
 	
 	// raw stream from arduino
 	// reg [LATCH_SIZE-1:0] grayscale_data = 769'b0000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111;
 	
 	// shoving all 1's
-	 reg [LATCH_SIZE-1:0] grayscale_data = 769'b0111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111;
+	bit [LATCH_SIZE-1:0] grayscale_data = 769'b0111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111;
 	
 	// all blue
 	//reg [LATCH_SIZE-1:0] grayscale_data = 769'b0111111111111111100000000000000000000000000000000111111111111111100000000000000000000000000000000111111111111111100000000000000000000000000000000111111111111111100000000000000000000000000000000111111111111111100000000000000000000000000000000111111111111111100000000000000000000000000000000111111111111111100000000000000000000000000000000111111111111111100000000000000000000000000000000111111111111111100000000000000000000000000000000111111111111111100000000000000000000000000000000111111111111111100000000000000000000000000000000111111111111111100000000000000000000000000000000111111111111111100000000000000000000000000000000111111111111111100000000000000000000000000000000111111111111111100000000000000000000000000000000111111111111111100000000000000000000000000000000;
@@ -60,41 +42,43 @@ module led_matrix
 	// all red
 	//reg [LATCH_SIZE-1:0] grayscale_data = 769'b0000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111000000000000000000000000000000001111111111111111;
 	
-	reg [LATCH_SIZE-1:0] data = 'd0; 
+	bit [11:0][3:0][LATCH_SIZE-1:0] data = 'd0; 
 	
-	reg init = 1;	// initialize LED driver with control data latch
-	reg [31:0] state = 32'd0;
-	reg [5:0] dot_corr_r = 6'd127;	// dot correction values for red led driver channels
-	reg [5:0] dot_corr_g = 6'd127;	// dot correction values for green led driver channels
-	reg [5:0] dot_corr_b = 6'd127;	// dot correction values for blue led driver channels
-	reg [2:0] mc_r = 3'd0;	// max current for red
-	reg [2:0] mc_g = 3'd0;	// max current for green
-	reg [2:0] mc_b = 3'd0;	// max current for blue
-	reg [5:0] gbc_r = 6'd127;	// global brightness control for red
-	reg [5:0] gbc_g = 6'd127;	// global brightness control for green
-	reg [5:0] gbc_b = 6'd127;	// global brightness control for blue
-	reg dsprpt = 1'b1; // Auto display repeat mode enable
-	reg tmgrst = 1'b0; // Display timing reset mode enable
-	reg rfresh = 1'b0; // Auto data refresh mode enable
-	reg espwm  = 1'b1; // ES-PWM mode enable
-	reg lsdvlt = 1'b1; // LSD detection voltage selection
+	bit init = 1;	// initialize LED driver with control data latch
+	bit [31:0] state = 32'd0;
+	bit [6:0] dot_corr_r = 7'd127;	// dot correction values for red led driver channels
+	bit [6:0] dot_corr_g = 7'd127;	// dot correction values for green led driver channels
+	bit [6:0] dot_corr_b = 7'd127;	// dot correction values for blue led driver channels
+	bit [2:0] mc_r = 3'd0;	// max current for red
+	bit [2:0] mc_g = 3'd0;	// max current for green
+	bit [2:0] mc_b = 3'd0;	// max current for blue
+	bit [6:0] gbc_r = 7'd127;	// global brightness control for red
+	bit [6:0] gbc_g = 7'd127;	// global brightness control for green
+	bit [6:0] gbc_b = 7'd127;	// global brightness control for blue
+	bit dsprpt = 1'b1; // Auto display repeat mode enable
+	bit tmgrst = 1'b0; // Display timing reset mode enable
+	bit rfresh = 1'b0; // Auto data refresh mode enable
+	bit espwm  = 1'b1; // ES-PWM mode enable
+	bit lsdvlt = 1'b1; // LSD detection voltage selection
 	integer i = 0;
+	integer n = 0;
 	integer led_channel = 0;
 	integer color_channel = 0;
 	
-	always@(posedge TESTCLK) begin
-		if (!nReset) begin
-			state <= 32'd0; // initialize
-			LAT <= '0;
-			SCLK <= '0;
-			bit_num <= LATCH_SIZE;
-			daisy_num <= NUM_DRIVERS_CHAINED-1; 
-			init <= 1;
-			//HDMI start
-			need_new_slice <= 0; //don't need slice on start up; control bits first
-			array_in_use <= 0;
-			//HDMI end
-		end else begin
+	
+	always@(posedge CLK) begin
+//		if (!nReset) begin
+//			state <= 32'd0; // initialize
+//			LAT <= '0;
+//			SCLK <= '0;
+//			bit_num <= LATCH_SIZE;
+//			daisy_num <= NUM_DRIVERS_CHAINED-1; 
+//			init <= 1;
+//			//HDMI start
+//			//need_new_slice <= 0; //don't need slice on start up; control bits first
+//			//array_in_use <= 0;
+//			//HDMI end
+//		end else begin
 			case (state)
 				32'd0:	// re-initialize
 					begin
@@ -153,46 +137,55 @@ module led_matrix
 							state <= 32'd1;	
 						end else begin
 							//HDMI start
-							need_new_slice <= enc_transition; //triggers HDMI to start populating new slice
-							array_in_use <= !array_in_use;
+							//need_new_slice <= enc_transition; //triggers HDMI to start populating new slice
+							//array_in_use <= !array_in_use;
 							//HDMI end
 							state <= 32'd2;
 						end
 					end
 				32'd1: // update the data with the control data latch 
 					begin
-						init <= '0;
 						
-						data[768] <= '1;	// latch select bit
+						for (i=0; i<12; i=i+1) begin
+							for (n=0; n<4; n=n+1) begin
+								init <= 1'b0;
+								
+								data[i][n][768] <= 1'b1;	// latch select bit
 
-						// Maximum Current (MC) Data Latch
-						data[338:336] <= mc_r;		// max red current bits 
-						data[341:339] <= mc_g;		// max green current bits 
-						data[344:342] <= mc_b;		// max blue current bits 
+								// Maximum Current (MC) Data Latch
+								data[i][n][336 +: 3] <= mc_r;		// max red current bits 
+								data[i][n][339 +: 3] <= mc_g;		// max green current bits 
+								data[i][n][342 +: 3] <= mc_b;		// max blue current bits 
 
-						// Global Brightness Control (BC) Data Latch
-						data[351:345] <= gbc_r;		// global red brightness control bits 
-						data[358:352] <= gbc_g;		// global green brightness control bits 
-						data[365:359] <= gbc_b;		// global blue brightness control bits 
+								// Global Brightness Control (BC) Data Latch
+								data[i][n][345 +: 7] <= gbc_r;		// global red brightness control bits 
+								data[i][n][352 +: 7] <= gbc_g;		// global green brightness control bits 
+								data[i][n][359 +: 7] <= gbc_b;		// global blue brightness control bits 
 
-						// Function Control (FC) Data Latchdsprpt
-						data[366] <= dsprpt; // Auto display repeat mode enable bit
-						data[367] <= tmgrst; // Display timing reset mode enable bit
-						data[368] <= rfresh; // Auto data refresh mode enable bit
-						data[369] <= espwm; // ES-PWM mode enable bit
-						data[370] <= lsdvlt; // LSD detection voltage selection bit
+								// Function Control (FC) Data Latchdsprpt
+								data[i][n][366] <= dsprpt; // Auto display repeat mode enable bit
+								data[i][n][367] <= tmgrst; // Display timing reset mode enable bit
+								data[i][n][368] <= rfresh; // Auto data refresh mode enable bit
+								data[i][n][369] <= espwm; // ES-PWM mode enable bit
+								data[i][n][370] <= lsdvlt; // LSD detection voltage selection bit
 
-						// Dot Correction (DC) Data Latch
-						for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin   
-							data[7*0+3*7*led_channel +: 7] <= dot_corr_r;     // red dot correction
-							data[7*1+3*7*led_channel +: 7] <= dot_corr_g;  // green dot correction
-							data[7*2+3*7*led_channel +: 7] <= dot_corr_b;     // blue dot correction
+								// Dot Correction (DC) Data Latch
+								for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin   
+									data[i][n][7*0+3*7*led_channel +: 7] <= dot_corr_r;     // red dot correction
+									data[i][n][7*1+3*7*led_channel +: 7] <= dot_corr_g;  // green dot correction
+									data[i][n][7*2+3*7*led_channel +: 7] <= dot_corr_b;     // blue dot correction
+								end
+								state <= 32'd3;
+							end
 						end
-						state <= 32'd3;
 					end
 				32'd2: // update the data with the grayscale data latch
 					begin
-						data[768] <= '0;	// latch select bit
+						for (i=0; i<12; i=i+1) begin
+							for (n=0; n<4; n=n+1) begin
+								data[i][n][768] <= 1'b0;	// latch select bit
+							end
+						end
 
 						// for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin   
 						// 	data[(16*0+3*16*led_channel) +: 16] <= 16'h8000;     // red color brightness
@@ -254,51 +247,51 @@ module led_matrix
 							data[0][0][0+:LATCH_SIZE-1] <= hdmi_data[15+:16];
 							data[0][1][0+:LATCH_SIZE-1] <= hdmi_data[47+:16];
 							data[0][2][0+:LATCH_SIZE-1] <= hdmi_data[79+:16];
-							data[0][3][0+:LATCH_SIZE-1] <= hdmi_data[111+:16];
+							data[0][3][0+:LATCH_SIZE-1] <= hdmi_data[111+:8];
 							data[1][0][0+:LATCH_SIZE-1] <= hdmi_data[135+:16];
 							data[1][1][0+:LATCH_SIZE-1] <= hdmi_data[167+:16];
 							data[1][2][0+:LATCH_SIZE-1] <= hdmi_data[199+:16];
-							data[1][3][0+:LATCH_SIZE-1] <= hdmi_data[231+:16];
+							data[1][3][0+:LATCH_SIZE-1] <= hdmi_data[231+:8];
 							data[2][0][0+:LATCH_SIZE-1] <= hdmi_data[255+:16];
 							data[2][1][0+:LATCH_SIZE-1] <= hdmi_data[287+:16];
 							data[2][2][0+:LATCH_SIZE-1] <= hdmi_data[319+:16];
-							data[2][3][0+:LATCH_SIZE-1] <= hdmi_data[351+:16];
+							data[2][3][0+:LATCH_SIZE-1] <= hdmi_data[351+:8];
 							data[3][0][0+:LATCH_SIZE-1] <= hdmi_data[375+:16];
 							data[3][1][0+:LATCH_SIZE-1] <= hdmi_data[407+:16];
 							data[3][2][0+:LATCH_SIZE-1] <= hdmi_data[439+:16];
-							data[3][3][0+:LATCH_SIZE-1] <= hdmi_data[471+:16];
+							data[3][3][0+:LATCH_SIZE-1] <= hdmi_data[471+:8];
 							data[4][0][0+:LATCH_SIZE-1] <= hdmi_data[495+:16];
 							data[4][1][0+:LATCH_SIZE-1] <= hdmi_data[527+:16];
 							data[4][2][0+:LATCH_SIZE-1] <= hdmi_data[559+:16];
-							data[4][3][0+:LATCH_SIZE-1] <= hdmi_data[591+:16];
+							data[4][3][0+:LATCH_SIZE-1] <= hdmi_data[591+:8];
 							data[5][0][0+:LATCH_SIZE-1] <= hdmi_data[615+:16];
 							data[5][1][0+:LATCH_SIZE-1] <= hdmi_data[647+:16];
 							data[5][2][0+:LATCH_SIZE-1] <= hdmi_data[679+:16];
-							data[5][3][0+:LATCH_SIZE-1] <= hdmi_data[711+:16];
+							data[5][3][0+:LATCH_SIZE-1] <= hdmi_data[711+:8];
 							data[6][0][0+:LATCH_SIZE-1] <= hdmi_data[735+:16];
 							data[6][1][0+:LATCH_SIZE-1] <= hdmi_data[767+:16];
 							data[6][2][0+:LATCH_SIZE-1] <= hdmi_data[799+:16];
-							data[6][3][0+:LATCH_SIZE-1] <= hdmi_data[831+:16];
+							data[6][3][0+:LATCH_SIZE-1] <= hdmi_data[831+:8];
 							data[7][0][0+:LATCH_SIZE-1] <= hdmi_data[855+:16];
 							data[7][1][0+:LATCH_SIZE-1] <= hdmi_data[887+:16];
 							data[7][2][0+:LATCH_SIZE-1] <= hdmi_data[919+:16];
-							data[7][3][0+:LATCH_SIZE-1] <= hdmi_data[951+:16];
+							data[7][3][0+:LATCH_SIZE-1] <= hdmi_data[951+:8];
 							data[8][0][0+:LATCH_SIZE-1] <= hdmi_data[975+:16];
 							data[8][1][0+:LATCH_SIZE-1] <= hdmi_data[1007+:16];
 							data[8][2][0+:LATCH_SIZE-1] <= hdmi_data[1039+:16];
-							data[8][3][0+:LATCH_SIZE-1] <= hdmi_data[1071+:16];
+							data[8][3][0+:LATCH_SIZE-1] <= hdmi_data[1071+:8];
 							data[9][0][0+:LATCH_SIZE-1] <= hdmi_data[1095+:16];
 							data[9][1][0+:LATCH_SIZE-1] <= hdmi_data[1127+:16];
 							data[9][2][0+:LATCH_SIZE-1] <= hdmi_data[1159+:16];
-							data[9][3][0+:LATCH_SIZE-1] <= hdmi_data[1191+:16];
+							data[9][3][0+:LATCH_SIZE-1] <= hdmi_data[1191+:8];
 							data[10][0][0+:LATCH_SIZE-1] <= hdmi_data[1215+:16];
 							data[10][1][0+:LATCH_SIZE-1] <= hdmi_data[1247+:16];
 							data[10][2][0+:LATCH_SIZE-1] <= hdmi_data[1279+:16];
-							data[10][3][0+:LATCH_SIZE-1] <= hdmi_data[1311+:16];
+							data[10][3][0+:LATCH_SIZE-1] <= hdmi_data[1311+:8];
 							data[11][0][0+:LATCH_SIZE-1] <= hdmi_data[1335+:16];
 							data[11][1][0+:LATCH_SIZE-1] <= hdmi_data[1367+:16];
 							data[11][2][0+:LATCH_SIZE-1] <= hdmi_data[1399+:16];
-							data[11][3][0+:LATCH_SIZE-1] <= hdmi_data[1431+:16];
+							data[11][3][0+:LATCH_SIZE-1] <= hdmi_data[1431+:8];
 						end
 						state <= 32'd3;
 					end  
@@ -408,6 +401,6 @@ module led_matrix
 				default:
 					state <= 32'd0;
 			endcase
-		end
+//		end
 	end
 endmodule

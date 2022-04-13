@@ -1,0 +1,91 @@
+# do VOXEL.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 19:07:08 on Apr 08,2022
+# vlog -work work VOXEL.vo 
+# -- Compiling module top
+# 
+# Top level modules:
+# 	top
+# End time: 19:07:08 on Apr 08,2022, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 19:07:09 on Apr 08,2022
+# vlog -work work Waveform.vwf.vt 
+# -- Compiling module top_vlg_vec_tst
+# 
+# Top level modules:
+# 	top_vlg_vec_tst
+# End time: 19:07:09 on Apr 08,2022, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vsim -novopt -c -t 1ps -L cycloneive_ver -L altera_ver -L altera_mf_ver -L 220model_ver -L sgate_ver -L altera_lnsim_ver work.top_vlg_vec_tst 
+# Start time: 19:07:09 on Apr 08,2022
+# Loading work.top_vlg_vec_tst
+# Loading work.top
+# Loading cycloneive_ver.cycloneive_io_obuf
+# Loading cycloneive_ver.cycloneive_io_ibuf
+# Loading cycloneive_ver.cycloneive_clkctrl
+# Loading cycloneive_ver.cycloneive_mux41
+# Loading cycloneive_ver.cycloneive_ena_reg
+# Loading cycloneive_ver.cycloneive_lcell_comb
+# Loading altera_ver.dffeas
+# Loading cycloneive_ver.cycloneive_pll
+# Loading cycloneive_ver.cycloneive_m_cntr
+# Loading cycloneive_ver.cycloneive_n_cntr
+# Loading cycloneive_ver.cycloneive_scale_cntr
+# ** Warning: (vsim-3017) Waveform.vwf.vt(108): [TFMPC] - Too few port connections. Expected 70, found 22.
+#    Time: 0 ps  Iteration: 0  Instance: /top_vlg_vec_tst/i1 File: VOXEL.vo
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_0_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_0_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_0_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_0_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_1_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_1_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_1_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_1_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_2_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_2_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_2_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_2_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_3_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_3_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_3_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_3_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_4_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_4_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_4_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_4_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_5_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_5_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_5_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_5_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_6_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_6_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_6_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_6_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_7_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_7_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_7_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_7_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_8_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_8_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_8_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_8_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_9_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_9_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_9_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_9_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_10_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_10_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_10_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_10_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_11_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_11_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_11_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_11_3'.
+# Loading altera_ver.PRIM_GDFF_LOW
+# after#25
+# ** Note: $finish    : Waveform.vwf.vt(135)
+#    Time: 10 us  Iteration: 0  Instance: /top_vlg_vec_tst
+# End time: 19:07:09 on Apr 08,2022, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 49

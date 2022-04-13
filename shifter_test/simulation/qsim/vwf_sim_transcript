@@ -1,0 +1,267 @@
+Determining the location of the ModelSim executable...
+
+Using: f:/quartus19.1/modelsim_ase/win32aloem/
+
+To specify a ModelSim executable directory, select: Tools -> Options -> EDA Tool Options
+Note: if both ModelSim-Altera and ModelSim executables are available, ModelSim-Altera will be used.
+
+**** Generating the ModelSim Testbench ****
+
+quartus_eda --gen_testbench --tool=modelsim_oem --format=verilog --write_settings_files=off VOXEL -c VOXEL --vector_source="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/Waveform.vwf" --testbench_file="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/simulation/qsim/Waveform.vwf.vt"
+
+Info: *******************************************************************
+Info: Running Quartus Prime EDA Netlist Writer
+    Info: Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
+    Info: Copyright (C) 2019  Intel Corporation. All rights reserved.
+    Info: Your use of Intel Corporation's design tools, logic functions 
+    Info: and other software and tools, and any partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Intel Program License 
+    Info: Subscription Agreement, the Intel Quartus Prime License Agreement,
+    Info: the Intel FPGA IP License Agreement, or other applicable license
+    Info: agreement, including, without limitation, that your use is for
+    Info: the sole purpose of programming logic devices manufactured by
+    Info: Intel and sold by Intel or its authorized distributors.  Please
+    Info: refer to the applicable agreement for further details, at
+    Info: https://fpgasoftware.intel.com/eula.
+    Info: Processing started: Fri Apr 08 19:07:07 2022
+Info: Command: quartus_eda --gen_testbench --tool=modelsim_oem --format=verilog --write_settings_files=off VOXEL -c VOXEL --vector_source=C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/Waveform.vwf --testbench_file=C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/simulation/qsim/Waveform.vwf.vt
+Warning (125092): Tcl Script File pll/pll.qip not found
+    Info (125063): set_global_assignment -name QIP_FILE pll/pll.qip
+Warning (125092): Tcl Script File SDRAM/synthesis/SDRAM.qip not found
+    Info (125063): set_global_assignment -name QIP_FILE SDRAM/synthesis/SDRAM.qip
+Warning (125092): Tcl Script File VideoFifo.qip not found
+    Info (125063): set_global_assignment -name QIP_FILE VideoFifo.qip
+Warning (20013): Ignored 35 assignments for entity "altera_reset_controller" -- entity does not exist in design
+Warning (20013): Ignored 19 assignments for entity "unsaved" -- entity does not exist in design
+Warning (20013): Ignored 34 assignments for entity "unsaved_new_sdram_controller_0" -- entity does not exist in design
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+
+'t find port "daisy_num[12]" in design
+
+Completed successfully. 
+
+Completed successfully. 
+
+**** Generating the functional simulation netlist ****
+
+quartus_eda --write_settings_files=off --simulation --functional=on --flatten_buses=off --tool=modelsim_oem --format=verilog --output_directory="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/simulation/qsim/" VOXEL -c VOXEL
+
+Info: *******************************************************************
+Info: Running Quartus Prime EDA Netlist Writer
+    Info: Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
+    Info: Copyright (C) 2019  Intel Corporation. All rights reserved.
+    Info: Your use of Intel Corporation's design tools, logic functions 
+    Info: and other software and tools, and any partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Intel Program License 
+    Info: Subscription Agreement, the Intel Quartus Prime License Agreement,
+    Info: the Intel FPGA IP License Agreement, or other applicable license
+    Info: agreement, including, without limitation, that your use is for
+    Info: the sole purpose of programming logic devices manufactured by
+    Info: Intel and sold by Intel or its authorized distributors.  Please
+    Info: refer to the applicable agreement for further details, at
+    Info: https://fpgasoftware.intel.com/eula.
+    Info: Processing started: Fri Apr 08 19:07:08 2022
+Info: Command: quartus_eda --write_settings_files=off --simulation=on --functional=on --flatten_buses=off --tool=modelsim_oem --format=verilog --output_directory=C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/simulation/qsim/ VOXEL -c VOXEL
+Warning (125092): Tcl Script File pll/pll.qip not found
+    Info (125063): set_global_assignment -name QIP_FILE pll/pll.qip
+Warning (125092): Tcl Script File SDRAM/synthesis/SDRAM.qip not found
+    Info (125063): set_global_assignment -name QIP_FILE SDRAM/synthesis/SDRAM.qip
+Warning (125092): Tcl Script File VideoFifo.qip not found
+    Info (125063): set_global_assignment -name QIP_FILE VideoFifo.qip
+Warning (20013): Ignored 35 assignments for entity "altera_reset_controller" -- entity does not exist in design
+Warning (20013): Ignored 19 assignments for entity "unsaved" -- entity does not exist in design
+Warning (20013): Ignored 34 assignments for entity "unsaved_new_sdram_controller_0" -- entity does not exist in design
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (204001): Port "SDO[0][0]" is changed into "SDO_0_0" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[0][1]" is changed into "SDO_0_1" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[0][2]" is changed into "SDO_0_2" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[0][3]" is changed into "SDO_0_3" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[1][0]" is changed into "SDO_1_0" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[1][1]" is changed into "SDO_1_1" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[1][2]" is changed into "SDO_1_2" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[1][3]" is changed into "SDO_1_3" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[2][0]" is changed into "SDO_2_0" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[2][1]" is changed into "SDO_2_1" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[2][2]" is changed into "SDO_2_2" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[2][3]" is changed into "SDO_2_3" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[3][0]" is changed into "SDO_3_0" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[3][1]" is changed into "SDO_3_1" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[3][2]" is changed into "SDO_3_2" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[3][3]" is changed into "SDO_3_3" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[4][0]" is changed into "SDO_4_0" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[4][1]" is changed into "SDO_4_1" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[4][2]" is changed into "SDO_4_2" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[4][3]" is changed into "SDO_4_3" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[5][0]" is changed into "SDO_5_0" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[5][1]" is changed into "SDO_5_1" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[5][2]" is changed into "SDO_5_2" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[5][3]" is changed into "SDO_5_3" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[6][0]" is changed into "SDO_6_0" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[6][1]" is changed into "SDO_6_1" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[6][2]" is changed into "SDO_6_2" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[6][3]" is changed into "SDO_6_3" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[7][0]" is changed into "SDO_7_0" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[7][1]" is changed into "SDO_7_1" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[7][2]" is changed into "SDO_7_2" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[7][3]" is changed into "SDO_7_3" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[8][0]" is changed into "SDO_8_0" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[8][1]" is changed into "SDO_8_1" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[8][2]" is changed into "SDO_8_2" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[8][3]" is changed into "SDO_8_3" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[9][0]" is changed into "SDO_9_0" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[9][1]" is changed into "SDO_9_1" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[9][2]" is changed into "SDO_9_2" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[9][3]" is changed into "SDO_9_3" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[10][0]" is changed into "SDO_10_0" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[10][1]" is changed into "SDO_10_1" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[10][2]" is changed into "SDO_10_2" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[10][3]" is changed into "SDO_10_3" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[11][0]" is changed into "SDO_11_0" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[11][1]" is changed into "SDO_11_1" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[11][2]" is changed into "SDO_11_2" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204001): Port "SDO[11][3]" is changed into "SDO_11_3" because it's a member of 2-D array port "SDO" File: C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/top.sv Line: 18
+Info (204019): Generated file VOXEL.vo in folder
+ "C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/simulation/qsim//" for EDA simulation tool
+Info: Quartus Prime EDA Netlist Writer was successful. 0 errors, 7 warnings
+    Info: Peak virtual memory: 4640 megabytes
+    Info: Processing ended: Fri Apr 08 19:07:08 2022
+    Info: Elapsed time: 00:00:00
+    Info: Total CPU time (on all processors): 00:00:00
+
+Completed successfully. 
+
+**** Generating the ModelSim .do script ****
+
+C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/simulation/qsim/VOXEL.do generated.
+
+Completed successfully. 
+
+**** Running the ModelSim simulation ****
+
+f:/quartus19.1/modelsim_ase/win32aloem//vsim -c -do VOXEL.do
+
+Reading F:/Quartus19.1/modelsim_ase/tcl/vsim/pref.tcl
+
+# 10.5b
+
+# do VOXEL.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 19:07:08 on Apr 08,2022
+# vlog -work work VOXEL.vo 
+
+# -- Compiling module top
+# 
+# Top level modules:
+# 	top
+# End time: 19:07:08 on Apr 08,2022, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 19:07:09 on Apr 08,2022
+# vlog -work work Waveform.vwf.vt 
+# -- Compiling module top_vlg_vec_tst
+# 
+# Top level modules:
+# 	top_vlg_vec_tst
+# End time: 19:07:09 on Apr 08,2022, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+
+# vsim -novopt -c -t 1ps -L cycloneive_ver -L altera_ver -L altera_mf_ver -L 220model_ver -L sgate_ver -L altera_lnsim_ver work.top_vlg_vec_tst 
+# Start time: 19:07:09 on Apr 08,2022
+# Loading work.top_vlg_vec_tst
+# Loading work.top
+# Loading cycloneive_ver.cycloneive_io_obuf
+# Loading cycloneive_ver.cycloneive_io_ibuf
+# Loading cycloneive_ver.cycloneive_clkctrl
+# Loading cycloneive_ver.cycloneive_mux41
+# Loading cycloneive_ver.cycloneive_ena_reg
+# Loading cycloneive_ver.cycloneive_lcell_comb
+# Loading altera_ver.dffeas
+# Loading cycloneive_ver.cycloneive_pll
+# Loading cycloneive_ver.cycloneive_m_cntr
+# Loading cycloneive_ver.cycloneive_n_cntr
+# Loading cycloneive_ver.cycloneive_scale_cntr
+# ** Warning: (vsim-3017) Waveform.vwf.vt(108): [TFMPC] - Too few port connections. Expected 70, found 22.
+#    Time: 0 ps  Iteration: 0  Instance: /top_vlg_vec_tst/i1 File: VOXEL.vo
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_0_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_0_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_0_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_0_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_1_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_1_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_1_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_1_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_2_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_2_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_2_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_2_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_3_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_3_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_3_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_3_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_4_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_4_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_4_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_4_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_5_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_5_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_5_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_5_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_6_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_6_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_6_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_6_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_7_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_7_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_7_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_7_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_8_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_8_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_8_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_8_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_9_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_9_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_9_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_9_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_10_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_10_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_10_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_10_3'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_11_0'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_11_1'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_11_2'.
+# ** Warning: (vsim-3722) Waveform.vwf.vt(108): [TFMPC] - Missing connection for port 'SDO_11_3'.
+# Loading altera_ver.PRIM_GDFF_LOW
+# after#25
+# ** Note: $finish    : Waveform.vwf.vt(135)
+#    Time: 10 us  Iteration: 0  Instance: /top_vlg_vec_tst
+# End time: 19:07:09 on Apr 08,2022, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 49
+
+Completed successfully. 
+
+**** Converting ModelSim VCD to vector waveform ****
+
+Reading C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/Waveform.vwf...
+
+Reading C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/simulation/qsim/VOXEL.msim.vcd...
+
+Processing channel transitions... 
+
+Warning: state - signal not found in VCD.
+
+Warning: SDO[11][3] - signal not found in VCD.
+
+Writing the resulting VWF to C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/shifter_test/simulation/qsim/VOXEL_20220408190709.sim.vwf
+
+Finished VCD to VWF conversion.
+
+Completed successfully. 
+
+All completed.
