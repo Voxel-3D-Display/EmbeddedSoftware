@@ -92,7 +92,7 @@ void setup() {
   
   // The library does not ininiate SPI for you, so as to prevent issues with other SPI libraries
   SPI.begin();
-  SPI.setClockDivider(SPI_CLOCK_DIV128);
+//  SPI.setClockDivider(SPI_CLOCK_DIV2);
   tlc.init(LAT, SPI_MOSI, SPI_CLK, GSCLK);
 
   // We must set dot correction values, so set them all to the brightest adjustment
@@ -103,7 +103,7 @@ void setup() {
 
   // Set Function Control Data Latch values. See the TLC5955 Datasheet for the purpose of this latch.
   // Order: DSPRPT, TMGRST, RFRESH, ESPWM, LSDVLT
-  tlc.set_function_data(true, true, true, true, true);
+  tlc.set_function_data(true, true, false, true, true);
 
 //  // set all brightness levels to max (127)
 //  int currentR = 127;
@@ -219,8 +219,8 @@ void loop() {
 //          Serial.println(led);
 //          Serial.println();
           tlc.set_all_rgb(0,0,0);
-          tlc.set_single_rgb(led_lookup[led],color_channel,32767);
-          tlc.set_single_rgb(led_lookup[led]+16,color_channel,32767);
+          tlc.set_single_rgb(led_lookup[led],color_channel,128*200);
+          tlc.set_single_rgb(led_lookup[led]+16,color_channel,128*200);
           tlc.update();
           delay(delay_amnt);
         }
