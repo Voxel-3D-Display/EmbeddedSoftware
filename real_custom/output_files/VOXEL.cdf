@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE22F17) Path("C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/output_files/") File("VOXEL.sof") MfrSpec(OpMask(1));
+		Device PartName(EP4CE22F17) Path("C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/output_files/") File("turn_all_off.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 

@@ -274,19 +274,20 @@ module top
 	
 	reg [LATCH_SIZE-1:0] data = 'd0; 
 	
+	
 	reg init = 1;	// initialize LED driver with control data latch
 	reg [31:0] state = 32'd0;
-	reg [5:0] dot_corr_r = 6'd127;	// dot correction values for red led driver channels
-	reg [5:0] dot_corr_g = 6'd127;	// dot correction values for green led driver channels
-	reg [5:0] dot_corr_b = 6'd127;	// dot correction values for blue led driver channels
+	reg [6:0] dot_corr_r = 7'd127;	// dot correction values for red led driver channels
+	reg [6:0] dot_corr_g = 7'd127;	// dot correction values for green led driver channels
+	reg [6:0] dot_corr_b = 7'd127;	// dot correction values for blue led driver channels
 	reg [2:0] mc_r = 3'd0;	// max current for red
 	reg [2:0] mc_g = 3'd0;	// max current for green
 	reg [2:0] mc_b = 3'd0;	// max current for blue
-	reg [5:0] gbc_r = 6'd127;	// global brightness control for red
-	reg [5:0] gbc_g = 6'd127;	// global brightness control for green
-	reg [5:0] gbc_b = 6'd127;	// global brightness control for blue
+	reg [6:0] gbc_r = 7'd127;	// global brightness control for red
+	reg [6:0] gbc_g = 7'd127;	// global brightness control for green
+	reg [6:0] gbc_b = 7'd127;	// global brightness control for blue
 	reg dsprpt = 1'b1; // Auto display repeat mode enable
-	reg tmgrst = 1'b0; // Display timing reset mode enable
+	reg tmgrst = 1'b1; // Display timing reset mode enable
 	reg rfresh = 1'b0; // Auto data refresh mode enable
 	reg espwm  = 1'b1; // ES-PWM mode enable
 	reg lsdvlt = 1'b1; // LSD detection voltage selection
@@ -315,7 +316,7 @@ module top
 						LAT <= '0;
 						SCLK <= '0;
 						bit_num <= LATCH_SIZE;
-						data[LATCH_SIZE-1:0] <= 0;	
+						data[LATCH_SIZE-1:0] <= 769'd0;	
 						if (init) begin
 							state <= 32'd1;	
 						end else begin
@@ -328,10 +329,6 @@ module top
 					end
 				32'd1: // update the data with the control data latch 
 					begin
-						init <= '0;
-						
-						data[768] <= '1;	// latch select bit
-
 						// Maximum Current (MC) Data Latch
 						data[338:336] <= mc_r;		// max red current bits 
 						data[341:339] <= mc_g;		// max green current bits 
@@ -342,12 +339,6 @@ module top
 						data[358:352] <= gbc_g;		// global green brightness control bits 
 						data[365:359] <= gbc_b;		// global blue brightness control bits 
 
-						// Function Control (FC) Data Latchdsprpt
-						data[366] <= dsprpt; // Auto display repeat mode enable bit
-						data[367] <= tmgrst; // Display timing reset mode enable bit
-						data[368] <= rfresh; // Auto data refresh mode enable bit
-						data[369] <= espwm; // ES-PWM mode enable bit
-						data[370] <= lsdvlt; // LSD detection voltage selection bit
 
 						// Dot Correction (DC) Data Latch
 						for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin   
@@ -355,22 +346,42 @@ module top
 							data[7*1+3*7*led_channel +: 7] <= dot_corr_g;  // green dot correction
 							data[7*2+3*7*led_channel +: 7] <= dot_corr_b;     // blue dot correction
 						end
+
+						data[768] <= 1'b1;	// latch select bit
+
+
+						// Function Control (FC) Data Latchdsprpt
+						data[366] <= dsprpt; // Auto display repeat mode enable bit
+						data[367] <= tmgrst; // Display timing reset mode enable bit
+						data[368] <= rfresh; // Auto data refresh mode enable bit
+						data[369] <= espwm; // ES-PWM mode enable bit
+						data[370] <= lsdvlt; // LSD detection voltage selection bit
+
+
 						state <= 32'd3;
 					end
 				32'd2: // update the data with the grayscale data latch
 					begin
-						data[768] <= '0;	// latch select bit
-
-						for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin   
-							data[(16*0+3*16*led_channel) +: 16] <= 16'hAFFE;     // red color brightness
-							data[(16*1+3*16*led_channel) +: 16] <= 16'h0;  // green color brightness
-							data[(16*2+3*16*led_channel) +: 16] <= 16'hAFFE;     // blue color brightness
+						if (daisy_num == 1) begin 
+							for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin  
+								data[(16*0+3*16*led_channel) +: 16] <= 16'h8001;     // red color brightness
+								data[(16*1+3*16*led_channel) +: 16] <= 16'h0;  // green color brightness
+								data[(16*2+3*16*led_channel) +: 16] <= 16'h0;     // blue color brightness
+							end
+						end else if (daisy_num == 0) begin
+							for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin   
+								data[(16*0+3*16*led_channel) +: 16] <= 16'h0;     // red color brightness
+								data[(16*1+3*16*led_channel) +: 16] <= 16'h8001;  // green color brightness
+								data[(16*2+3*16*led_channel) +: 16] <= 16'h0;     // blue color brightness
+							end
 						end
+						
 						//HDMI start
 						//does this go here or ar the end of state 1?
 						need_new_slice <= 1;
 						array_in_use <= !array_in_use;
 						//HDMI end
+						data[768] <= 1'b0;	// latch select bit
 						state <= 32'd3;
 					end  
 
@@ -378,7 +389,7 @@ module top
 					begin
 						need_new_slice <= 0;
 						SCLK <= '0;
-						if (bit_num != '0) begin
+						if (bit_num != 'd0) begin
 							//HDMI start
 							//might be easier to make LED_data_1/2 into [48][30][24] arrays instead of current [1440][24]
 							//current indexing into LED_data is random/not correct
@@ -402,12 +413,55 @@ module top
 							*/
 							//HDMI end
 							//HDMI code above would replace nexct 4 lines
-							
-							SDO[11][3] <= data[bit_num-1] ;
-							SDO[11][2] <= data[bit_num-1] ;
-							SDO[11][1] <= data[bit_num-1] ; 
-							SDO[11][0] <= data[bit_num-1] ; 
-							
+//							SDO[0][0] <= data[bit_num-1];
+//							SDO[0][1] <= data[bit_num-1];
+//							SDO[0][2] <= data[bit_num-1];
+//							SDO[0][3] <= data[bit_num-1];
+//							SDO[1][0] <= data[bit_num-1];
+//							SDO[1][1] <= data[bit_num-1];
+//							SDO[1][2] <= data[bit_num-1];
+//							SDO[1][3] <= data[bit_num-1];
+							SDO[2][0] <= data[bit_num-1];
+							SDO[2][1] <= data[bit_num-1];
+							SDO[2][2] <= data[bit_num-1];
+							SDO[2][3] <= data[bit_num-1];
+							SDO[3][0] <= data[bit_num-1];
+							SDO[3][1] <= data[bit_num-1];
+							SDO[3][2] <= data[bit_num-1];
+							SDO[3][3] <= data[bit_num-1];
+							SDO[4][0] <= data[bit_num-1];
+							SDO[4][1] <= data[bit_num-1];
+							SDO[4][2] <= data[bit_num-1];
+							SDO[4][3] <= data[bit_num-1];
+							SDO[5][0] <= data[bit_num-1];
+							SDO[5][1] <= data[bit_num-1];
+							SDO[5][2] <= data[bit_num-1];
+							SDO[5][3] <= data[bit_num-1];
+							SDO[6][0] <= data[bit_num-1];
+							SDO[6][1] <= data[bit_num-1];
+							SDO[6][2] <= data[bit_num-1];
+							SDO[6][3] <= data[bit_num-1];
+							SDO[7][0] <= data[bit_num-1];
+							SDO[7][1] <= data[bit_num-1];
+							SDO[7][2] <= data[bit_num-1];
+							SDO[7][3] <= data[bit_num-1];
+							SDO[8][0] <= data[bit_num-1];
+							SDO[8][1] <= data[bit_num-1];
+							SDO[8][2] <= data[bit_num-1];
+							SDO[8][3] <= data[bit_num-1];
+							SDO[9][0] <= data[bit_num-1];
+							SDO[9][1] <= data[bit_num-1];
+							SDO[9][2] <= data[bit_num-1];
+							SDO[9][3] <= data[bit_num-1];
+							SDO[10][0] <= data[bit_num-1];
+							SDO[10][1] <= data[bit_num-1];
+							SDO[10][2] <= data[bit_num-1];
+							SDO[10][3] <= data[bit_num-1];
+							SDO[11][0] <= data[bit_num-1];
+							SDO[11][1] <= data[bit_num-1];
+							SDO[11][2] <= data[bit_num-1];
+							SDO[11][3] <= data[bit_num-1];
+//							
 							state <= 32'd10; // initialize, shift in	
 						end else begin
 							if (daisy_num == '0) begin
@@ -427,6 +481,7 @@ module top
 					end
 				32'd11: // latch
 					begin
+						init <= '0;
 						LAT <= '1;
 						daisy_num <= NUM_DRIVERS_CHAINED-1; 
 						bit_num <= LATCH_SIZE;
