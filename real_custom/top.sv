@@ -413,10 +413,10 @@ module top
 							*/
 							//HDMI end
 							//HDMI code above would replace nexct 4 lines
-//							SDO[0][0] <= data[bit_num-1];
-//							SDO[0][1] <= data[bit_num-1];
-//							SDO[0][2] <= data[bit_num-1];
-//							SDO[0][3] <= data[bit_num-1];
+							SDO[0][0] <= data[bit_num-1];
+							SDO[0][1] <= data[bit_num-1];
+							SDO[0][2] <= data[bit_num-1];
+							SDO[0][3] <= data[bit_num-1];
 //							SDO[1][0] <= data[bit_num-1];
 //							SDO[1][1] <= data[bit_num-1];
 //							SDO[1][2] <= data[bit_num-1];
