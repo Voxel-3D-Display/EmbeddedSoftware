@@ -120,10 +120,6 @@ module top
 			bit_num <= LATCH_SIZE;
 			daisy_num <= NUM_DRIVERS_CHAINED-1; 
 			init <= 1;
-			//HDMI start
-			need_new_slice <= 0; //don't need slice on start up; control bits first
-			array_in_use <= 0;
-			//HDMI end
 		end else begin
 			case (state)
 				32'd0:	// re-initialize
@@ -135,10 +131,6 @@ module top
 						if (init) begin
 							state <= 32'd1;	
 						end else begin
-							//HDMI start
-							need_new_slice <= 1; //triggers HDMI to start populating new slice
-							array_in_use <= !array_in_use;
-							//HDMI end
 							state <= 32'd2;
 						end
 					end
@@ -162,8 +154,7 @@ module top
 							data[7*2+3*7*led_channel +: 7] <= dot_corr_b;     // blue dot correction
 						end
 
-						data[768] <= 1'b1;	// latch select bit
-
+						
 
 						// Function Control (FC) Data Latchdsprpt
 						data[366] <= dsprpt; // Auto display repeat mode enable bit
@@ -171,6 +162,9 @@ module top
 						data[368] <= rfresh; // Auto data refresh mode enable bit
 						data[369] <= espwm; // ES-PWM mode enable bit
 						data[370] <= lsdvlt; // LSD detection voltage selection bit
+						
+						data[767:760] <= 8'h96;
+						data[768] <= 1'b1;	// latch select bit
 
 
 						state <= 32'd3;
@@ -191,18 +185,12 @@ module top
 							end
 						end
 						
-						//HDMI start
-						//does this go here or ar the end of state 1?
-						need_new_slice <= 1;
-						array_in_use <= !array_in_use;
-						//HDMI end
 						data[768] <= 1'b0;	// latch select bit
 						state <= 32'd3;
 					end  
 
 				32'd3: // load 
 					begin
-						need_new_slice <= 0;
 						SCLK <= '0;
 						if (bit_num != 'd0) begin
 							//HDMI start
