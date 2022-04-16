@@ -4,29 +4,37 @@
 module led_matrix
 	(
 		input 	CLK,
-		input	ENC_SAYS_GO,
-		input    DE, //tells us if we are getting an HSYNC/VSYNC rn or normal data
 		input 	nReset,
-		input    bit [11:0][7:0][767:0] memory_data,
+
+		// Encoder
+		input	ENC_SAYS_GO,
+		
+		// LED Driver 
 		output 	bit [11:0][3:0] SDO,
 		output 	reg LAT,
 		output 	reg SCLK,
-		output	n_reading_memory
+
+		// SDRAM 
+		input    bit [11:0][7:0][767:0] memory_data,
+		output	reading_memory
 
 	);
 
 	localparam LATCH_SIZE = 'd769;
 	localparam NUM_DRIVERS_CHAINED = 'd2;
-	localparam BRIGHTNESS_RED = 16'd30000;
-	localparam BRIGHTNESS_GREEN = 16'd0;
-	localparam BRIGHTNESS_BLUE = 16'd0;
 
-	integer bit_num = LATCH_SIZE;	// bit counter for 769 bit latch
-	integer daisy_num = NUM_DRIVERS_CHAINED - 1;	// counter for the driver in the daisy-chain
 	bit [767:0] data;
-	
 	reg init = 1;	// initialize LED driver with control data latch
 	reg [31:0] state = 32'd0;
+	integer bit_num = LATCH_SIZE;	// bit counter for 769 bit latch
+	integer daisy_num = NUM_DRIVERS_CHAINED - 1;	// counter for the driver in the daisy-chain
+	
+	integer i = 0;	// for-loop counter
+	integer n = 0;	// for-loop counter
+	integer led_channel = 0;
+	integer color_channel = 0;
+
+	// Control Data Latch Values
 	reg [6:0] dot_corr_r = 7'd127;	// dot correction values for red led driver channels
 	reg [6:0] dot_corr_g = 7'd127;	// dot correction values for green led driver channels
 	reg [6:0] dot_corr_b = 7'd127;	// dot correction values for blue led driver channels
@@ -41,10 +49,6 @@ module led_matrix
 	reg rfresh = 1'b0; // Auto data refresh mode enable
 	reg espwm  = 1'b1; // ES-PWM mode enable
 	reg lsdvlt = 1'b1; // LSD detection voltage selection
-	integer i = 0;	// for-loop counter
-	integer n = 0;	// for-loop counter
-	integer led_channel = 0;
-	integer color_channel = 0;
 
 	
 
@@ -56,13 +60,14 @@ module led_matrix
 			bit_num <= LATCH_SIZE;
 			daisy_num <= NUM_DRIVERS_CHAINED-1; 
 			init <= 1;
-			n_reading_memory <= 1;
+			reading_memory <= 0;
 		end else begin
 			case (state)
 				32'd0:	// initialize 
 					begin
 						LAT <= '0;
-						SCLK <= '0;
+						SCLK <= '0;			
+						reading_memory <= 0;
 						bit_num <= LATCH_SIZE;
 						data[767:0] <= 768'd0;	
 						if (init) begin
@@ -70,7 +75,6 @@ module led_matrix
 						end else begin
 							state <= 32'd2;
 						end
-						n_reading_memory <= 1;
 					end
 				32'd1: // update the data with the control data latch 
 					begin
@@ -105,7 +109,8 @@ module led_matrix
 					end
 				32'd2: // update the data with the grayscale data latch 			// read from memory
 					begin
-						n_reading_memory <= 0;
+						reading_memory <= 1;
+						
 						if (daisy_num == 1) begin 
 							for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin  
 								data[(16*0+3*16*led_channel) +: 16] <= 16'h8001;     // red color brightness
@@ -120,44 +125,41 @@ module led_matrix
 							end
 						end
 						
+						
+						
 						state <= 32'd3;
 					end  
 					
 				32'd3: // prepare data to be shifted out
 					begin
 						SCLK <= '0;
-						n_reading_memory <= 1;
+						reading_memory <= 0;
 						
-						if (bit_num != 'd0)	begin 	// continue shifting out bits
-							if (bit_num == LATCH_SIZE) begin	// control bit (768)
-								if (init) begin			// set control bit to 1 to change control data latch
-									for (i=0; i<12; i=i+1) begin
-										for (n=0; n<4; n=n+1) begin
-											SDO[i][n] <= 1;
-										end
-									end
-								end else begin			// set control bit to 0 to change grayscale data latch
-									for (i=0; i<12; i=i+1) begin
-										for (n=0; n<4; n=n+1) begin
-											SDO[i][n] <= 0;
-										end
-									end
-								end
-								state <= 32'd10;
-							end else begin		// bits 767:0
+						if (bit_num != 'd0)	begin 	// continue shifting out bits	
 								for (i=0; i<12; i=i+1) begin
 									for (n=0; n<4; n=n+1) begin
-										if (i != 1)
-											SDO[i][n] <= data[bit_num-1];
+										
+										if (i != 1) begin
+											if (bit_num == LATCH_SIZE) begin	// control bit (768)	
+												if (init) begin
+													SDO[i][n] <= 1; // set control bit to 1 to change control data latch
+												end else begin
+													SDO[i][n] <= 0; // set control bit to 0 to change grayscale data latch
+												end
+											end else begin		// bits 767:0
+												// SDO[i][n] <= memory_data[i][n][bit_num-1];
+												SDO[i][n] <= data[bit_num-1];
+											end
+										end
 									end
 								end
 								state <= 32'd10;
-							end
+
 						end else begin		// if all bits have been shifted out
 							if (daisy_num == '0) begin
 								state <= 32'd11; 
 							end else begin 
-								daisy_num <= daisy_num -1;
+								daisy_num <= daisy_num - 1;
 								state <= 32'd0; 
 							end
 						end
