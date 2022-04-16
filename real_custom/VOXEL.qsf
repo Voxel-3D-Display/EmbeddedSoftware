@@ -155,7 +155,11 @@ set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 
-
+set_location_assignment PIN_G16 -to VSYNC
+set_location_assignment PIN_F14 -to HSYNC
+set_location_assignment PIN_G15 -to DE
+set_location_assignment PIN_F16 -to ACTIVE
+set_location_assignment PIN_F15 -to PIXCLK
 
 set_location_assignment PIN_A14 -to HDMI_RGB[0][0]
 set_location_assignment PIN_B16 -to HDMI_RGB[0][1]
@@ -469,5 +473,5 @@ set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=79" 
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_BITS=79" -section_id auto_signaltap_0
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[30] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=sld_reserved_VOXEL_auto_signaltap_0_1_99ad," -section_id auto_signaltap_0
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name SLD_FILE db/led_driver_auto_stripped.stp
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

@@ -2,13 +2,15 @@
 
 module top
 	(
-		input 	CLK_10M,
-		input		ENC_ABS_HOME,
-		input 	ENC_360,
-		//input 	[2:0][7:0]   HDMI_RGB, //UNCOMMENT TO TEST HDMI
+		input 	 CLK_10M,
+		input	 ENC_ABS_HOME,
+		input 	 ENC_360,
+		input 	 [2:0][7:0]   HDMI_RGB, //UNCOMMENT TO TEST HDMI
 		input    VSYNC,
-		//input    PIXCLK, //UNCOMMENT TO TEST HDMI; CHECK PIN
+		input    HSYNC,
+		input    PIXCLK, //UNCOMMENT TO TEST HDMI; CHECK PIN
 		input    DE, //CHECK PIN
+		input    ACTIVE,
 		//input 	nReset,
 		output 	wire LAT,
 		output 	wire SCLK,
@@ -26,14 +28,14 @@ module top
 		inout 		    [15:0]		SDRAM_DQ, //SDRAM data
 		output		     [1:0]		SDRAM_DQM, //SDRAM byte data mask
 		output		          		SDRAM_RAS_N, //row address strobe
-		output		          		SDRAM_WE_N, //write enable
+		output		          		SDRAM_WE_N //write enable
 
-		output                      array_debug,
-		output        [15:0]        led_debug,
-		output                      valid_debug,
-		output         [15:0]       fifo_out,
-		output         [1:0]        refresh,
-		output                      empty
+		//output                      array_debug,
+		//output        [15:0]        led_debug,
+		//output                      valid_debug,
+		//output         [15:0]       fifo_out,
+		//output         [1:0]        refresh,
+		//output                      empty
 	);
 	
 	
@@ -43,23 +45,23 @@ module top
 	reg [15:0] HDMI_RGB_t;
 	//HDMI testing end
 
-	assign led_debug = read_LED_data; // HDMI_RGB_t; //CHANGE TO HDMI_RGB to see what HDMI is inputting
-	assign valid_debug = read_data_valid;
-	assign fifo_out = HDMI_fifo_Data;
+	//assign led_debug = read_LED_data; // HDMI_RGB_t; //CHANGE TO HDMI_RGB to see what HDMI is inputting
+	//assign valid_debug = read_data_valid;
+	//assign fifo_out = HDMI_fifo_Data;
 	//assign pix = pixel_read_cnt[0];
-	assign refresh = refreshCnt;
-	assign empty = buf_empty;
+	//assign refresh = refreshCnt;
+	//assign empty = buf_empty;
 
 	logic SDRAM_CLKn;
 	assign SDRAM_CLK = !SDRAM_CLKn;
-	logic PIXCLK;
+	//logic PIXCLK;
 
 	pll pll(
 		.inclk0(CLK_10M),  			//  clk_in.clk
 		.c0(GSCLK_CLK),     			//   gsclk.clk
 		.c1(TESTCLK),    			// sclk_x2.clk // unused
 		.c2(SDRAM_CLKn),            //25MHz
-		.c3(PIXCLK)                 //12.5MHz
+		//.c3(PIXCLK)                 //12.5MHz
 	);
 
 	reg gsclk_state = 3'd0;
@@ -93,12 +95,13 @@ module top
 
 	reg [1:0] refreshCnt;
 	//assign HDMI_fifo_Enable = '1; //(m_state == 1)  && !waitRequest;
-	assign wrreq = 1; //= DE //only read when DE is high
+	//assign wrreq = 1; //= DE //only read when DE is high
 	assign HDMI_fifo_Enable = !buf_empty; //only read from the buffer when it's not empty
 	logic buf_empty;
 
+	assign wrreq = (col_counter < 1536) && (row_counter < 360) && DE;
 	HDMI_fifo hdmi(
-		.data(HDMI_RGB_t), //input //CHANGE TO{HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3]} TO TEST HDMI
+		.data({HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3]}), //input //CHANGE TO{HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3]} TO TEST HDMI
 		
 		.wrclk(PIXCLK), //clock rate for writing to FIFO
 		.wrreq, //input - high to request to write to the FIFO
@@ -110,38 +113,23 @@ module top
 		//.rdusedw //8 bit width output (unused?)
 	);
 
-	//Begin testing to mimic HDMI signal
-	//used to update refreshCnt - we only write every 4th frame to the FIFO/SDRAM
-	always_ff@(negedge PIXCLK) begin //CHANGE BACK TO PIXCLK!!!!
-		if (!nReset) begin
-			//HDMI_fifo_Enable <= '1;
-			refreshCnt <= '0;
+	reg [10:0] col_counter;
+	reg [8:0] row_counter;
+	always_ff@(negedge PIXCLK) begin
+		if(!nReset) begin
+			col_counter <= 0;
+			row_counter <= 0;
 		end else begin
-			//end fake data code
-			//if(VSYNC) begin
-				if (refreshCnt == 3) begin
-					refreshCnt <= 0;
-				end else begin
-					refreshCnt <= refreshCnt + 1;
-				end
-			//end
+			if (VSYNC && (DE == 0)) begin
+				row_counter <= 0;
+			end else if (HSYNC && DE == 0) begin //we are getting HYSNC and DE is low (sending HSYNC/VSYNC)
+				col_counter <= '0;
+				row_counter <= row_counter + 1;
+			end else begin
+				col_counter <= col_counter + 1;
+			end
 		end
 	end
-	
-	always_ff@(posedge PIXCLK) begin
-		if (!nReset) begin
-			HDMI_RGB_t <= 16'b0000000000000000;
-		end else begin
-			//if (refreshCnt == 0) begin
-				if (HDMI_RGB_t >= 16'b1111111111111111) begin
-					HDMI_RGB_t <= 16'b0000000000000000;
-				end else begin
-					HDMI_RGB_t <= HDMI_RGB_t + 1'b1;
-				end
-			//end
-		end
-	end
-	//end testing to mimic HDMI signal
 
 	logic memWriteRequest;
 	assign memWriteRequest = (m_state == 1); //waitrequest handled in state machine
@@ -185,8 +173,8 @@ module top
 	//the online example projects suggested using 0x08000000 as the base address, but I couldn't
 	//find a way to change it
 
-	reg [1439:0][23:0] LED_data_1;
-	reg [1439:0][23:0] LED_data_2;
+	bit [11:0][7:0][767:0] LED_data_1;
+	bit [11:0][7:0][767:0] LED_data_2;
 	reg [1439:0][23:0] LED_data_3;
 	reg [1439:0][23:0] LED_data_4;
 	reg [1439:0][23:0] LED_data_5;
@@ -194,30 +182,6 @@ module top
 	integer y;
 	reg trigger;
 
-	//seeing how goo Quartus is at optimizing - probably want to remove
-	always_ff@(posedge TESTCLK) begin //SDRAM_CLKn
-		//if(trigger == 1) begin
-			for (x=0; x<1440; x=x+1) begin   
-				LED_data_3[x] <= x;     // red dot correction
-			end
-		//end
-	end
-	
-	// reg c;
-	// reg k;
-	// always_ff@(negedge TESTCLK) begin
-	// 	k <= k + 1;
-	// 	if (k == 23) begin
-	// 		if (c < 1440) begin
-	// 			c <= c + 1;
-	// 		end
-	// 	end
-	// 	SDO[11][3] <= LED_data_3[c][k];
-	// 	SDO[11][2] <= LED_data_3[c][k];
-	// 	SDO[11][1] <= LED_data_3[c][k];
-	// 	SDO[11][0] <= LED_data_3[c][k];
-	// end
-	
 	//reg array_in_use;
 	reg slice_read_complete;
 	//assign read_LED_data = readLedData; //translate to register for indexing?
@@ -257,20 +221,22 @@ module top
 				writeAddress <= 24'b0;
 				trigger <= 1;
             end else begin
-				/*
+				
 				if(VSYNC) begin //reached end of a frame - move on to next one
 					//idk how this make sense if we are cutting out 3 of every four frames
 					writeAddress <= 0; //could be written twice in one clock edge? But no errors
 				end
-				*/
+				/*
 				if(!leave && !SDRAM_WE_N) begin
 					writeAddress <= 24'b0;
 					readAddress <= 24'b0;
 					leave <= 1;
 				end
+				*/
 
 				if(0) begin //LED state machine puts this high when we can start  (slice_read_complete)
 					//to populate the next array
+					array_in_use <= !array_in_use;
 					read_request <= '1;
 					//this gets set back to zero in the state machine after we read a slice
 				end
@@ -279,7 +245,7 @@ module top
 				case(m_state)
 					0: //state to decide if we should write or read SDRAM
 						begin
-							if(1) begin //want to write to sdram //write_request
+							if(write_request) begin //want to write to sdram //write_request
 								m_state <= 1;
 								writeCnt <= '0;
 							end else begin //want to read from sdram
@@ -291,7 +257,7 @@ module top
 							if(!waitRequest) begin //amke sure SDRAM isn't otherwise occupied
 								//trigger <= 1;
 								writeCnt <= writeCnt + 1;
-								if (writeAddress >= 1036800) begin
+								if (writeAddress >= 552960) begin
 									writeAddress <= '0;
 								end else begin
 									writeAddress <= writeAddress + 1'b1; //increment addr
@@ -305,7 +271,7 @@ module top
 						end
 					2: //we get when there's no write request OR just finished write burst
 						begin
-							if(1) begin //read_request
+							if(read_request) begin //read_request
 								readCnt <= '0; //for writes and reads?
 								//pixel_read_cnt <= '0;
 								m_state <= 3;
@@ -320,23 +286,23 @@ module top
 								//trigger <= 1;
 								readCnt <= readCnt + 1;
 								pixel_read_cnt <= pixel_read_cnt + 1;
-								readAddress <= writeAddress - 5; //readAddress + 1'b1; //address for next clock cycle
+								readAddress <= readAddress + 1'b1; //address for next clock cycle
 								//each read will return a 'full' pixel
 								//any reason we'd have to delay a cycle before doing this
 								//^I don't think so bc read was high in state 2, and the address was correct
 								if (array_in_use == 0) begin
 									//as we read it out, make it 24 bits again
-									LED_data_2[readAddress] <= {read_LED_data[15:11], 3'b000, read_LED_data[10:5], 2'b00, read_LED_data[4:0], 3'b000};
+									LED_data_2[pixel_read_cnt[10:7]][pixel_read_cnt[6:4]][pixel_read_cnt[3:0]*48 +: 48] <= {read_LED_data[15:11], 11'b000, read_LED_data[10:5], 10'b00, read_LED_data[4:0], 11'b000};
 								end else begin
-									LED_data_1[readAddress] <= {read_LED_data[15:11], 3'b000, read_LED_data[10:5], 2'b00, read_LED_data[4:0], 3'b000};
+									LED_data_1[pixel_read_cnt[10:7]][pixel_read_cnt[6:4]][pixel_read_cnt[3:0]*48 +: 48] <= {read_LED_data[15:11], 11'b000, read_LED_data[10:5], 10'b00, read_LED_data[4:0], 11'b000};
 								end
-								if (pixel_read_cnt == 1440) begin 
+								if (pixel_read_cnt == 1536) begin 
 									//have iterated through all the pixels in a slice
 									pixel_read_cnt <= '0;
 									slice_cnt <= slice_cnt + 1;
 									slice_read_complete <= 1;
 									read_request <= '0; //stop reading till LED tells us to start again
-									if (slice_cnt == 720) begin
+									if (slice_cnt == 360) begin
 										//have iterated through an entire frame
 										readAddress <= '0;
 										slice_cnt <= '0;

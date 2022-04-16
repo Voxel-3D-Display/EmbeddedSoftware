@@ -157,7 +157,11 @@ set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 
-
+set_location_assignment PIN_G16 -to VSYNC
+set_location_assignment PIN_F14 -to HSYNC
+set_location_assignment PIN_G15 -to DE
+set_location_assignment PIN_F16 -to ACTIVE
+set_location_assignment PIN_F15 -to PIXCLK
 
 set_location_assignment PIN_A14 -to HDMI_RGB[0][0]
 set_location_assignment PIN_B16 -to HDMI_RGB[0][1]
