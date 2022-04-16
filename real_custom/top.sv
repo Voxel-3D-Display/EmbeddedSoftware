@@ -369,12 +369,11 @@ localparam LATCH_SIZE = 'd769;
 	reg init = 1;	// initialize LED driver with control data latch
 	reg [31:0] state = 32'd0;
 	reg [9:0] bit_num = LATCH_SIZE;	// bit counter for 769 bit latch
-	reg daisy_num = NUM_DRIVERS_CHAINED - 1;	// counter for the driver in the daisy-chain
+	integer daisy_num = NUM_DRIVERS_CHAINED - 1;	// counter for the driver in the daisy-chain
 	
 	integer i = 0;	// for-loop counter
 	integer n = 0;	// for-loop counter
-	reg [4:0] led_channel = 0;
-	reg heehee = 0;
+	integer led_channel = 0;
 
 	// Control Data Latch Values
 	reg [6:0] dot_corr_r = 7'd127;	// dot correction values for red led driver channels
@@ -392,7 +391,7 @@ localparam LATCH_SIZE = 'd769;
 	reg espwm  = 1'b1; // ES-PWM mode enable
 	reg lsdvlt = 1'b1; // LSD detection voltage selection
 
-always@(posedge CLK_10M) begin
+always@(posedge TESTCLK) begin
 		if (!nReset) begin
 			state <= 32'd0; 
 			LAT <= '0;
@@ -476,26 +475,24 @@ always@(posedge CLK_10M) begin
 						slice_read_complete <= 0;
 						
 						if (bit_num != 'd0)	begin 	// continue shifting out bits	
-								for (i=0; i<12; i=i+1) begin
-									for (n=0; n<4; n=n+1) begin
-										
-										if (i != 1) begin
-											if (bit_num == LATCH_SIZE) begin	// control bit (768)	
-												if (init) begin
-													SDO[i][n] <= 1; // set control bit to 1 to change control data latch
-												end else begin
-													SDO[i][n] <= 0; // set control bit to 0 to change grayscale data latch
-												end
-											end else begin		// bits 767:0
-												if (bit_num < 239) begin // which led
-														if ((array_in_use == 0) && (daisy_num == 1)) begin //just use one for faster compilation
-															SDO[i][n] <= LED_data_1[i][n][bit_num-1];
-														end else if (daisy_num == 0) begin
-															SDO[i][n] <= LED_data_2[i][n][bit_num-1];
-														end
-														//SDO[i][n] <= data[bit_num-1];
-												end
+								if (i != 1) begin
+									if (bit_num == LATCH_SIZE) begin	// control bit (768)	
+										if (init) begin
+											SDO[i][n] <= 1; // set control bit to 1 to change control data latch
+										end else begin
+											SDO[i][n] <= 0; // set control bit to 0 to change grayscale data latch
+										end
+									end else begin		// bits 767:0
+										if (bit_num[3:0] > 10) begin // which led
+//													if ((array_in_use == 0) && (daisy_num == 1)) begin //just use one for faster compilation
+											if (daisy_num == 1) begin //just use one for faster compilation
+												SDO[i][n] <= LED_data_1[i][n][(bit_num[9:4])*5 + bit_num[3:0] - 11];
+											end else if (daisy_num == 0) begin
+												SDO[i][n] <= LED_data_2[i][n][(bit_num[9:4])*5 + bit_num[3:0] - 11];
 											end
+											//SDO[i][n] <= data[bit_num-1];
+										end else begin
+											SDO[i][n] <= 1'b0;
 										end
 									end
 								end
