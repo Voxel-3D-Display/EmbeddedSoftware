@@ -15,11 +15,11 @@ module led_matrix
 		output 	reg SCLK,
 
 		// SDRAM 
-		input    bit [11:0][7:0][767:0] memory_data,
+		input   bit [73727:0] memory_data, //[11:0][7:0][767:0],
 		output	reading_memory
 
 	);
-
+	
 	localparam LATCH_SIZE = 'd769;
 	localparam NUM_DRIVERS_CHAINED = 'd2;
 
@@ -51,7 +51,7 @@ module led_matrix
 	reg lsdvlt = 1'b1; // LSD detection voltage selection
 
 	
-
+	/*
 	always@(posedge CLK) begin
 		if (!nReset) begin
 			state <= 32'd0; 
@@ -194,4 +194,5 @@ module led_matrix
 			endcase
 		end
 	end
+	*/
 endmodule
