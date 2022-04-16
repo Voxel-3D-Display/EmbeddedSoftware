@@ -167,8 +167,11 @@ module top
 	//the online example projects suggested using 0x08000000 as the base address, but I couldn't
 	//find a way to change it
 
-	bit [11:0][7:0][767:0] LED_data_1; //[11:0][7:0][767:0];
-	bit [11:0][7:0][767:0] LED_data_2; //[11:0][7:0][767:0];
+	bit [11:0][3:0][239:0] LED_data_1; //[11:0][7:0][767:0];
+	bit [11:0][3:0][239:0] LED_data_2; //[11:0][7:0][767:0];
+	// reg [1439:0][23:0] LED_data_3;
+	// reg [1439:0][23:0] LED_data_4;
+	// reg [1439:0][23:0] LED_data_5;
 	integer x;
 	integer y;
 	reg trigger;
@@ -287,17 +290,17 @@ module top
 								//^I don't think so bc read was high in state 2, and the address was correct
 								if (array_in_use == 0) begin
 									//as we read it out, make it 24 bits again
-									LED_data_2[pixel_read_cnt[10:7]][pixel_read_cnt[6:4]][pixel_read_cnt[3:0]*48 +: 48] <= {read_LED_data[15:11], 11'b000, read_LED_data[10:5], 10'b00, read_LED_data[4:0], 11'b000};
+									LED_data_2[pixel_read_cnt[9:6]][pixel_read_cnt[5:4]][pixel_read_cnt[3:0]*15 +: 15] <= {read_LED_data[15:11], read_LED_data[10:6],read_LED_data[4:0]};
 								end else begin
-									LED_data_1[pixel_read_cnt[10:7]][pixel_read_cnt[6:4]][pixel_read_cnt[3:0]*48 +: 48] <= {read_LED_data[15:11], 11'b000, read_LED_data[10:5], 10'b00, read_LED_data[4:0], 11'b000};
+									LED_data_1[pixel_read_cnt[9:6]][pixel_read_cnt[5:4]][pixel_read_cnt[3:0]*15 +: 15] <= {read_LED_data[15:11], read_LED_data[10:6],read_LED_data[4:0]};
 								end
-								if (pixel_read_cnt == 1536) begin 
+								if (pixel_read_cnt == 768) begin 
 									//have iterated through all the pixels in a slice
 									pixel_read_cnt <= '0;
 									slice_cnt <= slice_cnt + 1;
 									//slice_read_complete <= 1;
 									read_request <= '0; //stop reading till LED tells us to start again
-									if (slice_cnt == 360) begin
+									if (slice_cnt == 720) begin
 										//have iterated through an entire frame
 										readAddress <= '0;
 										slice_cnt <= '0;
@@ -365,13 +368,13 @@ localparam LATCH_SIZE = 'd769;
 	bit [767:0] data;
 	reg init = 1;	// initialize LED driver with control data latch
 	reg [31:0] state = 32'd0;
-	integer bit_num = LATCH_SIZE;	// bit counter for 769 bit latch
-	integer daisy_num = NUM_DRIVERS_CHAINED - 1;	// counter for the driver in the daisy-chain
+	reg [9:0] bit_num = LATCH_SIZE;	// bit counter for 769 bit latch
+	reg daisy_num = NUM_DRIVERS_CHAINED - 1;	// counter for the driver in the daisy-chain
 	
 	integer i = 0;	// for-loop counter
 	integer n = 0;	// for-loop counter
-	integer led_channel = 0;
-//	integer color_channel = 0;
+	reg [4:0] led_channel = 0;
+	reg heehee = 0;
 
 	// Control Data Latch Values
 	reg [6:0] dot_corr_r = 7'd127;	// dot correction values for red led driver channels
@@ -389,7 +392,7 @@ localparam LATCH_SIZE = 'd769;
 	reg espwm  = 1'b1; // ES-PWM mode enable
 	reg lsdvlt = 1'b1; // LSD detection voltage selection
 
-always@(posedge TESTCLK) begin
+always@(posedge CLK_10M) begin
 		if (!nReset) begin
 			state <= 32'd0; 
 			LAT <= '0;
@@ -448,19 +451,19 @@ always@(posedge TESTCLK) begin
 					begin
 						slice_read_complete <= 1;
 						
-//						if (daisy_num == 1) begin 
-//							for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin  
-//								data[(16*0+3*16*led_channel) +: 16] <= 16'h8001;     // red color brightness
-//								data[(16*1+3*16*led_channel) +: 16] <= 16'h0;  // green color brightness
-//								data[(16*2+3*16*led_channel) +: 16] <= 16'h0;     // blue color brightness
-//							end
-//						end else if (daisy_num == 0) begin
-//							for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin   
-//								data[(16*0+3*16*led_channel) +: 16] <= 16'h0;     // red color brightness
-//								data[(16*1+3*16*led_channel) +: 16] <= 16'h8001;  // green color brightness
-//								data[(16*2+3*16*led_channel) +: 16] <= 16'h0;     // blue color brightness
-//							end
-//						end
+						// if (daisy_num == 1) begin 
+						// 	for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin  
+						// 		data[(16*0+3*16*led_channel) +: 16] <= 16'h8001;     // red color brightness
+						// 		data[(16*1+3*16*led_channel) +: 16] <= 16'h0;  // green color brightness
+						// 		data[(16*2+3*16*led_channel) +: 16] <= 16'h0;     // blue color brightness
+						// 	end
+						// end else if (daisy_num == 0) begin
+						// 	for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin   
+						// 		data[(16*0+3*16*led_channel) +: 16] <= 16'h0;     // red color brightness
+						// 		data[(16*1+3*16*led_channel) +: 16] <= 16'h8001;  // green color brightness
+						// 		data[(16*2+3*16*led_channel) +: 16] <= 16'h0;     // blue color brightness
+						// 	end
+						// end
 						
 						
 						
@@ -484,12 +487,14 @@ always@(posedge TESTCLK) begin
 													SDO[i][n] <= 0; // set control bit to 0 to change grayscale data latch
 												end
 											end else begin		// bits 767:0
-												if (array_in_use == 0) begin
-													SDO[i][n] <= LED_data_1[i][n][bit_num-1];
-												end else begin
-													SDO[i][n] <= LED_data_2[i][n][bit_num-1];
+												if (bit_num < 239) begin // which led
+														if ((array_in_use == 0) && (daisy_num == 1)) begin //just use one for faster compilation
+															SDO[i][n] <= LED_data_1[i][n][bit_num-1];
+														end else if (daisy_num == 0) begin
+															SDO[i][n] <= LED_data_2[i][n][bit_num-1];
+														end
+														//SDO[i][n] <= data[bit_num-1];
 												end
-												//SDO[i][n] <= data[bit_num-1];
 											end
 										end
 									end
