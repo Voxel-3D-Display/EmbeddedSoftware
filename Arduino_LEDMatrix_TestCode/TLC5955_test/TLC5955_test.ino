@@ -31,20 +31,24 @@
 #include "SPI.h"
 
 
-// Pin set-up
-#define GSCLK 24
-#define LAT 29
-#define SPI_CLK 13
-#define SPI_MOSI 11
 
+#define WAIT 0  // wait for keypress
 
 #define ALL_BRIGHT 1
 #define ALL_LEDS_ITERATE_COLORS 2 // code to iterate through each color and show each color on all LEDs at once
 #define ITERATE_LEDS_ITERATE_COLORS 3 // code to update each led on each driver one by one, color by color
 #define ALL_DIM 4
 
+// Pin set-up
+#define GSCLK 24
+#define LAT 29
+#define SPI_CLK 13
+#define SPI_MOSI 11
+#define PIN_BUTTON 40
+
+
 int mode = ITERATE_LEDS_ITERATE_COLORS;
-int delay_amnt = 500;
+int delay_amnt = 50;
 
 
 const uint8_t TLC5955::chip_count = 2;          // Change to reflect number of TLC chips
@@ -78,7 +82,17 @@ int led_lookup[16] =
     8, // 16
   };
 
-  
+void wait_keypress() {
+    while (!Serial.available()) {
+      }
+    Serial.println(Serial.read());
+}
+
+void submatrix_update() {
+  tlc.update();
+  if (WAIT) 
+    wait_keypress();
+}
 void setup() {
   Serial.begin(9600);
 
@@ -86,7 +100,7 @@ void setup() {
   // Set pins (non-serial) to output mode
   pinMode(GSCLK, OUTPUT);
   pinMode(LAT, OUTPUT);
-
+  pinMode(PIN_BUTTON, INPUT_PULLUP);
   // Adjust PWM timer for maximum GSCLK frequency
   analogWrite(GSCLK, 127);
   
@@ -167,69 +181,75 @@ void loop() {
 //        break;
 //    }
 //  }
-  
-  int overall_brightness = 65535;
-  switch (mode) {
-    case ALL_DIM:
-      tlc.set_all(100);
-      tlc.update();
-      delay(delay_amnt);
-      break;
-    case ALL_BRIGHT:
-      tlc.set_all(65535);
-      tlc.update();
-      delay(delay_amnt);
-      break;
-    case ALL_LEDS_ITERATE_COLORS:
-      // code to iterate through each color and show each color on all LEDs at once
-      for (int color_channel = 0; color_channel < 3; color_channel++) {
-        // wait for keypress before changing to next color
-        //    while(Serial.available() == 0) {
-        //    }
-        //    int mydata = Serial.read();
-        
-        tlc.set_all_rgb(0,0,0);
-        for (int led = 0; led < 16; led++) {
-          switch (color_channel) {
-            case 0:
-              tlc.set_all_rgb(overall_brightness,0,0);
-              break;
-            case 1:
-              tlc.set_all_rgb(0,overall_brightness,0);
-              break;
-            case 2:
-              tlc.set_all_rgb(0,0,overall_brightness);
-              break;
-            default:
-              tlc.set_all_rgb(0,0,0);
-              break;
+  for (mode = 0; mode < 5; mode++) {
+    int overall_brightness = 15000;
+    switch (mode) {
+      case ALL_DIM:
+        tlc.set_all(100);
+        submatrix_update();
+        delay(delay_amnt*10);
+        break;
+      case ALL_BRIGHT:
+        tlc.set_all(overall_brightness);
+        submatrix_update();
+        delay(delay_amnt*5);
+        break;
+      case ALL_LEDS_ITERATE_COLORS:
+        // code to iterate through each color and show each color on all LEDs at once
+        for (int color_channel = 0; color_channel < 3; color_channel++) {
+          // wait for keypress before changing to next color
+          //    while(Serial.available() == 0) {
+          //    }
+          //    int mydata = Serial.read();
+          
+          tlc.set_all_rgb(0,0,0);
+          for (int led = 0; led < 16; led++) {
+            switch (color_channel) {
+              case 0:
+                tlc.set_all_rgb(overall_brightness,0,0);
+                break;
+              case 1:
+                tlc.set_all_rgb(0,overall_brightness,0);
+                break;
+              case 2:
+                tlc.set_all_rgb(0,0,overall_brightness);
+                break;
+              default:
+                tlc.set_all_rgb(0,0,0);
+                break;
+            }
+          }
+          submatrix_update();
+          delay(delay_amnt*5);
+        }
+        break;
+      case ITERATE_LEDS_ITERATE_COLORS:  
+        // code to update each led on each driver one by one, color by color
+        for (int color_channel = 0; color_channel < 3; color_channel++) {
+          for (int led = 0; led < 16; led++) {
+  //          Serial.print("Color channel: ");
+  //          Serial.println(color_channel);
+  //          Serial.print("LED: ");
+  //          Serial.println(led);
+  //          Serial.println();
+            tlc.set_all_rgb(0,0,0);
+            tlc.set_single_rgb(led_lookup[led],color_channel,overall_brightness);
+            tlc.set_single_rgb(led_lookup[led]+16,color_channel,overall_brightness);
+            submatrix_update();
+            delay(delay_amnt);
+            
           }
         }
-        tlc.update();
+     
+        
+        break;
+      default:
+        tlc.set_all(0);
+        submatrix_update();
         delay(delay_amnt);
-      }
-      break;
-    case ITERATE_LEDS_ITERATE_COLORS:  
-      // code to update each led on each driver one by one, color by color
-      for (int color_channel = 0; color_channel < 3; color_channel++) {
-        for (int led = 0; led < 16; led++) {
-//          Serial.print("Color channel: ");
-//          Serial.println(color_channel);
-//          Serial.print("LED: ");
-//          Serial.println(led);
-//          Serial.println();
-          tlc.set_all_rgb(0,0,0);
-          tlc.set_single_rgb(led_lookup[led],color_channel,128*200);
-          tlc.set_single_rgb(led_lookup[led]+16,color_channel,128*200);
-          tlc.update();
-          delay(delay_amnt);
-        }
-      }
-      break;
-    default:
-      tlc.set_all(0);
-      tlc.update();
-      delay(delay_amnt);
-      break;
+        break;
+    }
+
+    
   }
 }
