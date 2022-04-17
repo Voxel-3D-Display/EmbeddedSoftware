@@ -46,7 +46,7 @@ module top
 	//assign led_debug = read_LED_data; // HDMI_RGB_t; //CHANGE TO HDMI_RGB to see what HDMI is inputting
 	//assign valid_debug = read_data_valid;
 	//assign fifo_out = HDMI_fifo_Data;
-	logic ENC_SAYS_GO = 1;
+	logic ENC_SAYS_GO = 0; //1
 	//assign pix = pixel_read_cnt[0];
 	//assign refresh = refreshCnt;
 	//assign empty = buf_empty;
@@ -89,6 +89,8 @@ module top
 	logic buf_empty;
 	logic [10:0] cur_buf_size; //cur number words stored in fifo
 	logic write_full; //should NEVER be high - indicates FIFO is full
+	logic [15:0] hdmi_stuff;
+	assign hdmi_stuff = {HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3]};
 
 	assign HDMI_fifo_Enable = (m_state == 1)  && !waitRequest && !buf_empty;
 	assign wrreq = (col_counter < 1536) && (row_counter < 360) && DE; //read when DE high and in range
@@ -165,8 +167,8 @@ module top
 	//the online example projects suggested using 0x08000000 as the base address, but I couldn't
 	//find a way to change it
 
-	bit [47:0][15:0] LED_data_1; //[11:0][7:0][767:0];
-	bit [47:0][15:0] LED_data_2; //[11:0][7:0][767:0];
+	bit [47:0][47:0] LED_data_1; //[11:0][7:0][767:0];
+	bit [47:0][47:0] LED_data_2; //[11:0][7:0][767:0];
 	reg trigger;
 
 	reg need_new_LED_data;
@@ -215,7 +217,7 @@ module top
 				if((need_new_LED_data != dummy) && need_new_LED_data) begin
 					//have to get this signal before the first ever read from SDRAM
 					//make sure SDRAM is always ahead of the LEDs
-					array_in_use <= !array_in_use;
+					// array_in_use <= !array_in_use;
 					read_request <= '1;
 					//this gets set back to zero in the state machine after we read a slice
 				end
@@ -261,10 +263,10 @@ module top
 								readAddress <= readAddress + 1'b1; //address for next clock cycle
 								//any reason we'd have to delay a cycle before doing this
 								//^I don't think so bc read was high in state 2, and the address was correct
-								if (array_in_use == 0) begin
-									LED_data_2[SDO_count] <= {read_LED_data[15:11], read_LED_data[10:6],read_LED_data[4:0]};
+								if (LED_latch_in_use == 0) begin
+									LED_data_2[SDO_count] <= {read_LED_data[15:11], 11'b0, read_LED_data[10:5], 10'b0, read_LED_data[4:0], 11'b0};
 								end else begin
-									LED_data_1[SDO_count] <= {read_LED_data[15:11], read_LED_data[10:6],read_LED_data[4:0]};
+									LED_data_1[SDO_count] <= {read_LED_data[15:11], 11'b0, read_LED_data[10:5], 10'b0, read_LED_data[4:0], 11'b0};
 								end
 								if (SDO_count < 47) begin
 									SDO_count <= SDO_count + 1;
@@ -333,7 +335,7 @@ module top
 localparam LATCH_SIZE = 'd769;
 	localparam NUM_DRIVERS_CHAINED = 'd2;
 
-	bit [767:0] data;
+	bit [768:0] init_data;
 	reg init = 1;	// initialize LED driver with control data latch
 	reg [31:0] state = 32'd0;
 	reg [9:0] bit_num = LATCH_SIZE;	// bit counter for 769 bit latch
@@ -342,6 +344,8 @@ localparam LATCH_SIZE = 'd769;
 	integer i = 0;	// for-loop counter
 	integer n = 0;	// for-loop counter
 	integer led_channel = 0;
+
+	bit LED_latch_in_use = '0;
 
 	// Control Data Latch Values
 	reg [6:0] dot_corr_r = 7'd127;	// dot correction values for red led driver channels
@@ -358,6 +362,19 @@ localparam LATCH_SIZE = 'd769;
 	reg rfresh = 1'b0; // Auto data refresh mode enable
 	reg espwm  = 1'b1; // ES-PWM mode enable
 	reg lsdvlt = 1'b1; // LSD detection voltage selection
+	bit [47:0][47:0] LED_data_1_test; //[11:0][7:0][767:0];
+	bit [47:0][47:0] LED_data_2_test; //[11:0][7:0][767:0];
+
+
+reg [25:0] counter_t;
+always@(negedge TESTCLK) begin
+	counter_t <= counter_t + 1;
+	if (counter_t == 26'b11111111111111111111111111) begin
+		ENC_SAYS_GO <= 1;
+	end else begin
+		ENC_SAYS_GO <= 0;
+	end
+end
 
 always@(posedge TESTCLK) begin
 		if (!nReset) begin
@@ -368,121 +385,136 @@ always@(posedge TESTCLK) begin
 			daisy_num <= NUM_DRIVERS_CHAINED-1; 
 			init <= 1;
 			need_new_LED_data <= 0;
+			LED_latch_in_use <= '0;
 		end else begin
 			case (state)
-				32'd0:	// initialize 
+				32'd0:	// Re-init variables
 					begin
 						LAT <= '0;
 						SCLK <= '0;			
+						LED_latch_in_use <= '0;
 						need_new_LED_data <= 0;
-						bit_num <= LATCH_SIZE;
-						data[767:0] <= 768'd0;	
+						bit_num <= LATCH_SIZE; // 769
+						// data[767:0] <= 768'd0;	
 						if (init) begin
 							state <= 32'd1;	
 						end else begin
-							state <= 32'd2;
+							state <= 32'd8;
 						end
 					end
-				32'd1: // update the data with the control data latch 
+				32'd1: // Init: Set init_data
 					begin
 						// Control Data Latch Bits
-						data[767:760] <= 8'h96; 
+						init_data[768] <= 1'b1;
+						init_data[767:760] <= 8'h96; 
 
 						// Maximum Current (MC) Data Latch
-						data[338:336] <= mc_r;		// max red current bits 
-						data[341:339] <= mc_g;		// max green current bits 
-						data[344:342] <= mc_b;		// max blue current bits 
+						init_data[338:336] <= mc_r;		// max red current bits 
+						init_data[341:339] <= mc_g;		// max green current bits 
+						init_data[344:342] <= mc_b;		// max blue current bits 
 
 						// Global Brightness Control (BC) Data Latch
-						data[351:345] <= gbc_r;		// global red brightness control bits 
-						data[358:352] <= gbc_g;		// global green brightness control bits 
-						data[365:359] <= gbc_b;		// global blue brightness control bits 
+						init_data[351:345] <= gbc_r;		// global red brightness control bits 
+						init_data[358:352] <= gbc_g;		// global green brightness control bits 
+						init_data[365:359] <= gbc_b;		// global blue brightness control bits 
 
 						// Dot Correction (DC) Data Latch
 						for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin   
-							data[7*0+3*7*led_channel +: 7] <= dot_corr_r;     // red dot correction
-							data[7*1+3*7*led_channel +: 7] <= dot_corr_g;  // green dot correction
-							data[7*2+3*7*led_channel +: 7] <= dot_corr_b;     // blue dot correction
+							init_data[7*0+3*7*led_channel +: 7] <= dot_corr_r;     // red dot correction
+							init_data[7*1+3*7*led_channel +: 7] <= dot_corr_g;  // green dot correction
+							init_data[7*2+3*7*led_channel +: 7] <= dot_corr_b;     // blue dot correction
 						end
 
 						// Function Control (FC) Data Latch
-						data[366] <= dsprpt; // Auto display repeat mode enable bit
-						data[367] <= tmgrst; // Display timing reset mode enable bit
-						data[368] <= rfresh; // Auto data refresh mode enable bit
-						data[369] <= espwm; // ES-PWM mode enable bit
-						data[370] <= lsdvlt; // LSD detection voltage selection bit
+						init_data[366] <= dsprpt; // Auto display repeat mode enable bit
+						init_data[367] <= tmgrst; // Display timing reset mode enable bit
+						init_data[368] <= rfresh; // Auto data refresh mode enable bit
+						init_data[369] <= espwm; // ES-PWM mode enable bit
+						init_data[370] <= lsdvlt; // LSD detection voltage selection bit
+
+						for (i = 0; i < 48; i++) begin
+							LED_data_1_test[i] <= 48'hFFFF00000000;
+							LED_data_2_test[i] <= 48'h0000FFFF0000;
+						end
 						
-						state <= 32'd3;
+						state <= 32'd2;
 					end
-				32'd2: // update the data with the grayscale data latch 			// read from memory
-					begin
-						need_new_LED_data <= 1;
-						
-						// if (daisy_num == 1) begin 
-						// 	for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin  
-						// 		data[(16*0+3*16*led_channel) +: 16] <= 16'h8001;     // red color brightness
-						// 		data[(16*1+3*16*led_channel) +: 16] <= 16'h0;  // green color brightness
-						// 		data[(16*2+3*16*led_channel) +: 16] <= 16'h0;     // blue color brightness
-						// 	end
-						// end else if (daisy_num == 0) begin
-						// 	for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin   
-						// 		data[(16*0+3*16*led_channel) +: 16] <= 16'h0;     // red color brightness
-						// 		data[(16*1+3*16*led_channel) +: 16] <= 16'h8001;  // green color brightness
-						// 		data[(16*2+3*16*led_channel) +: 16] <= 16'h0;     // blue color brightness
-						// 	end
-						// end
-						
-						
-						
-						state <= 32'd3;
-					end  
-					
-				32'd3: // prepare data to be shifted out
+				32'd2: // Init: Set SDO lines to shift out init_data
 					begin
 						SCLK <= '0;
-						need_new_LED_data <= 0;
-						
-						if (bit_num != 'd0)	begin 	// continue shifting out bits	
-								if (i != 1) begin
-									if (bit_num == LATCH_SIZE) begin	// control bit (768)	
-										if (init) begin
-											SDO[i][n] <= 1; // set control bit to 1 to change control data latch
+						if (bit_num != 'd0)	begin 	// continue shifting out bits		 
+							for (i = 0; i < 11; i++) begin
+								for (n = 0; n < 4; n++) begin
+									if (i != 1) begin // Artificially skip drivers
+										SDO[i][n] <= init_data[bit_num - 1];
+									end
+								end
+							end
+							state <= 32'd3;
+						end else begin		// if all bits have been shifted out
+							if (daisy_num != '0) begin
+								daisy_num <= daisy_num - 1;
+								state <= 32'd0; 
+							end else begin 
+								state <= 32'd11;
+							end
+						end
+					end
+				32'd3: // Init: Raise Clock and decrement bit_num.
+					begin
+						SCLK <= '1;
+						bit_num <= bit_num - 1;
+						state <= 32'd2; 
+					end
+				
+				32'd8: // GS Data (regular op): Set SDO lines to shift out data.
+					begin 
+						SCLK <= '0;
+						if (bit_num == LATCH_SIZE) begin
+							for (i = 0; i < 11; i++) begin
+								for (n = 0; n < 4; n++) begin
+									if (i != 1) begin // Artificially skip drivers
+										SDO[i][n] <= '0; // Set control bit flag
+									end
+								end
+							end
+							state <= 'd9;
+						end else if (bit_num != '0) begin 
+							for (i = 0; i < 12; i++) begin
+								for (n = 0; n < 4; n++) begin
+									if (i != 1) begin // Artificially skip drivers
+									 	if (LED_latch_in_use == '0) begin
+											SDO[i][n] <= LED_data_1[i*4 + n][(bit_num-1) % 48];
 										end else begin
-											SDO[i][n] <= 0; // set control bit to 0 to change grayscale data latch
-										end
-									end else begin		// bits 767:0
-										if (bit_num[3:0] > 10) begin // which led
-//													if ((array_in_use == 0) && (daisy_num == 1)) begin //just use one for faster compilation
-											if (daisy_num == 1) begin //just use one for faster compilation
-												SDO[i][n] <= LED_data_1[i][n][(bit_num[9:4])*5 + bit_num[3:0] - 11];
-											end else if (daisy_num == 0) begin
-												SDO[i][n] <= LED_data_2[i][n][(bit_num[9:4])*5 + bit_num[3:0] - 11];
-											end
-											//SDO[i][n] <= data[bit_num-1];
-										end else begin
-											SDO[i][n] <= 1'b0;
+											SDO[i][n] <= LED_data_2[i*4 + n][(bit_num-1) % 48];
 										end
 									end
 								end
-								state <= 32'd10;
-
-						end else begin		// if all bits have been shifted out
-							if (daisy_num == '0) begin
-								state <= 32'd11; 
+							end
+							if ((bit_num-1) % 48 == '0) begin
+								LED_latch_in_use <= !LED_latch_in_use;
+								need_new_LED_data <= '1;
 							end else begin 
+								need_new_LED_data <= '0;
+							end
+							state <= 'd9;
+						end else begin 
+							if (daisy_num != '0) begin
 								daisy_num <= daisy_num - 1;
 								state <= 32'd0; 
+							end else begin 
+								state <= 32'd11;
 							end
 						end
 					end
 
-				32'd10: // shift out one bit 
+				32'd9: // GS Data (regular op): Raise Clock and decrement bit_num.
 					begin
 						SCLK <= '1;
 						bit_num <= bit_num - 1;
-						state <= 32'd3; 
+						state <= 32'd8;
 					end
-					
+
 				32'd11: // latch 
 					begin
 						// proceed only if initializing or when encoder says go
