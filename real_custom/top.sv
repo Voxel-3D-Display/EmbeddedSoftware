@@ -93,11 +93,11 @@ module top
 	assign hdmi_stuff = {HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3]};
 
 	assign HDMI_fifo_Enable = (m_state == 1)  && !waitRequest && !buf_empty;
-	assign wrreq = (col_counter < 1536) && (row_counter < 360) && DE; //read when DE high and in range
+	assign wrreq = (col_counter < 11'd1536) && (row_counter < 11'd360) && DE; //read when DE high and in range
 	HDMI_fifo hdmi(
 		.data({HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3]}), //input //CHANGE TO{HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3]} TO TEST HDMI
 		
-		.wrclk(PIXCLK), //clock rate for writing to FIFO
+		.wrclk(!PIXCLK), //clock rate for writing to FIFO
 		.wrreq, //input - high to request to write to the FIFO
 		
 		.rdclk(SDRAM_CLKn), //CHANGE to SDRAM clock - clock rate for reading
@@ -108,23 +108,50 @@ module top
 		.wrfull(write_full)
 	);
 
-	reg [10:0] col_counter;
-	reg [8:0] row_counter;
+	logic [10:0] col_counter;
+	logic [10:0] row_counter;
+	reg HSYNC_prev;
+	reg VSYNC_prev;
+
 	always_ff@(negedge PIXCLK) begin //does this need to be a posedge?
 		if(!nReset) begin
-			col_counter <= 0;
-			row_counter <= 0;
+			col_counter <= '0;
 		end else begin
-			if (VSYNC && (DE == 0)) begin
-				row_counter <= '0;
-			end else if (HSYNC && (DE == 0)) begin //we are getting HYSNC and DE is low (sending HSYNC/VSYNC)
+			if (DE == 0) begin //we are getting HYSNC and DE is low (sending HSYNC/VSYNC)
 				col_counter <= '0;
-				row_counter <= row_counter + 1;
 			end else begin
 				col_counter <= col_counter + 1;
 			end
 		end
 	end
+
+	// always_ff@(negedge PIXCLK) begin
+	// 	if(!nReset) begin
+	// 		row_counter <= '0;
+	// 		HSYNC_prev <= 0;
+	// 	end else begin
+	// 		if (VSYNC_prev == '1 && VSYNC == '0) begin
+	// 			row_counter <= '0; // Possibly make -1 based off of timings
+	// 		end
+	// 		if (HSYNC_prev == )
+
+	// 		if (VSYNC && (DE == 0)) begin
+	// 			row_counter <= '0;
+	// 		end else if((DE == 0) && (HSYNC != HSYNC_prev)) begin
+	// 			row_counter <= row_counter + 1;
+	// 		end
+	// 		HSYNC_prev <= HSYNC;
+	// 		VSYNC_prev <= VSYNC;
+	// 	end
+	// end
+
+	always_ff@(negedge DE) begin
+		if (VSYNC) begin
+			row_counter <= '0;
+		end else if (!DE) begin
+			row_counter <= row_counter + '1;
+		end
+	end 
 
 	logic memWriteRequest;
 	assign memWriteRequest = (m_state == 1); //waitrequest handled in state machine
@@ -214,6 +241,7 @@ module top
 					writeAddress <= 0;
 				end
 				
+				
 				if((need_new_LED_data != dummy) && need_new_LED_data) begin
 					//have to get this signal before the first ever read from SDRAM
 					//make sure SDRAM is always ahead of the LEDs
@@ -238,7 +266,11 @@ module top
 						begin
 							if(!waitRequest) begin //make sure SDRAM isn't otherwise occupied
 								writeCnt <= writeCnt + 1;
-								writeAddress <= writeAddress + 1'b1; //increment addr
+								//if (writeAddress < 'd552959) begin //1536 x 360 = 552960 - wait for a full frame of data
+									writeAddress <= writeAddress + 1; //increment addr
+								//end else begin
+								//	writeAddress <= '0;
+								//end
 								if (writeCnt == WRITE_BURST_SIZE -1 || !write_request) begin
 									//once we have full burst or nothing else to write, move on
 									trigger <= 1;
@@ -248,7 +280,7 @@ module top
 						end
 					2: //we get when there's no write request OR just finished write burst
 						begin
-							if(read_request && (cur_buf_size > 7)) begin //read_request, plus buffer has enough
+							if(read_request && (cur_buf_size > 7)) begin //read_request, plus buffer has enough 
 								readCnt <= '0;
 								m_state <= 3;
 							end else begin
@@ -260,7 +292,7 @@ module top
 							if(read_data_valid) begin //read_data_valid
 								readCnt <= readCnt + 1;
 								pixel_read_cnt <= pixel_read_cnt + 1;
-								readAddress <= readAddress + 1'b1; //address for next clock cycle
+								readAddress <= readAddress + 1; //address for next clock cycle
 								//any reason we'd have to delay a cycle before doing this
 								//^I don't think so bc read was high in state 2, and the address was correct
 								if (LED_latch_in_use == 0) begin
