@@ -32,12 +32,14 @@
 
 
 
-#define WAIT 0  // wait for keypress
+#define WAIT 1  // wait for keypress
 
-#define ALL_BRIGHT 1
-#define ALL_LEDS_ITERATE_COLORS 2 // code to iterate through each color and show each color on all LEDs at once
-#define ITERATE_LEDS_ITERATE_COLORS 3 // code to update each led on each driver one by one, color by color
-#define ALL_DIM 4
+#define WAIT_KEYPRESS 0  // wait for keypress
+
+#define ALL_LEDS_ITERATE_COLORS 1 // code to iterate through each color and show each color on all LEDs at once
+#define ITERATE_LEDS_ITERATE_COLORS 2 // code to update each led on each driver one by one, color by color
+#define ALL_DIM 3
+#define ALL_BRIGHT 4
 
 // Pin set-up
 #define GSCLK 24
@@ -48,7 +50,7 @@
 
 
 int mode = ITERATE_LEDS_ITERATE_COLORS;
-int delay_amnt = 50;
+int delay_amnt = 100;
 
 
 const uint8_t TLC5955::chip_count = 2;          // Change to reflect number of TLC chips
@@ -85,18 +87,21 @@ int led_lookup[16] =
 void wait_keypress() {
     while (!Serial.available()) {
       }
-    Serial.println(Serial.read());
+    while (Serial.available()) {
+      Serial.read();
+    }
 }
 
 void submatrix_update() {
+  
   tlc.update();
-  if (WAIT) 
+  if (WAIT_KEYPRESS) 
     wait_keypress();
+    
 }
 void setup() {
   Serial.begin(9600);
 
-  
   // Set pins (non-serial) to output mode
   pinMode(GSCLK, OUTPUT);
   pinMode(LAT, OUTPUT);
@@ -181,7 +186,9 @@ void loop() {
 //        break;
 //    }
 //  }
-  for (mode = 0; mode < 5; mode++) {
+
+
+  for (mode = 0; mode < 2; mode++) {
     int overall_brightness = 15000;
     switch (mode) {
       case ALL_DIM:
@@ -192,7 +199,8 @@ void loop() {
       case ALL_BRIGHT:
         tlc.set_all(overall_brightness);
         submatrix_update();
-        delay(delay_amnt*5);
+        if (WAIT) 
+          delay(delay_amnt*5);
         break;
       case ALL_LEDS_ITERATE_COLORS:
         // code to iterate through each color and show each color on all LEDs at once
@@ -218,9 +226,12 @@ void loop() {
                 tlc.set_all_rgb(0,0,0);
                 break;
             }
+            
           }
+          
           submatrix_update();
-          delay(delay_amnt*5);
+          if (WAIT) 
+            delay(delay_amnt*5);
         }
         break;
       case ITERATE_LEDS_ITERATE_COLORS:  
@@ -236,7 +247,9 @@ void loop() {
             tlc.set_single_rgb(led_lookup[led],color_channel,overall_brightness);
             tlc.set_single_rgb(led_lookup[led]+16,color_channel,overall_brightness);
             submatrix_update();
-            delay(delay_amnt);
+            
+            if (WAIT) 
+              delay(delay_amnt);
             
           }
         }
@@ -246,7 +259,8 @@ void loop() {
       default:
         tlc.set_all(0);
         submatrix_update();
-        delay(delay_amnt);
+        if (WAIT) 
+          delay(delay_amnt);
         break;
     }
 
