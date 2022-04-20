@@ -6,11 +6,11 @@ module top
 		input	 ENC_ABS_HOME,
 		input 	 ENC_360,
 		input 	 [2:0][7:0]   HDMI_RGB, //UNCOMMENT TO TEST HDMI
-		input    VSYNC,
-		input    HSYNC,
-		input    PIXCLK, //UNCOMMENT TO TEST HDMI; CHECK PIN
-		input    DE, //CHECK PIN
-		input    ACTIVE,
+		input    logic VSYNC,
+		input    logic HSYNC,
+		input    logic PIXCLK, //UNCOMMENT TO TEST HDMI; CHECK PIN
+		input    logic DE, //CHECK PIN
+		input    logic ACTIVE,
 		input 	nReset,
 		output 	wire LAT,
 		output 	wire SCLK,
@@ -93,12 +93,12 @@ module top
 	assign hdmi_stuff = {HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3]};
 
 	assign HDMI_fifo_Enable = (m_state == 1)  && !waitRequest && !buf_empty;
-	assign wrreq = (col_counter < 11'd1536) && (row_counter < 11'd360) && DE; //read when DE high and in range
+	assign wrreq = (col_counter < 12'd768) && (row_counter < 12'd720) && DE; //read when DE high and in range
 	HDMI_fifo hdmi(
 		.data({HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3]}), //input //CHANGE TO{HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3]} TO TEST HDMI
 		
 		.wrclk(!PIXCLK), //clock rate for writing to FIFO
-		.wrreq, //input - high to request to write to the FIFO
+		.wrreq(wrreq), //input - high to request to write to the FIFO
 		
 		.rdclk(SDRAM_CLKn), //CHANGE to SDRAM clock - clock rate for reading
 		.rdreq(HDMI_fifo_Enable), //high to request read from FIFO //!buf_empty
@@ -108,17 +108,17 @@ module top
 		.wrfull(write_full)
 	);
 
-	logic [10:0] col_counter;
-	logic [10:0] row_counter;
+	logic [11:0] col_counter;
+	logic [11:0] row_counter;
 	reg HSYNC_prev;
 	reg VSYNC_prev;
 
 	always_ff@(negedge PIXCLK) begin //does this need to be a posedge?
 		if(!nReset) begin
-			col_counter <= '0;
+			col_counter <= 0;
 		end else begin
 			if (DE == 0) begin //we are getting HYSNC and DE is low (sending HSYNC/VSYNC)
-				col_counter <= '0;
+				col_counter <= 0;
 			end else begin
 				col_counter <= col_counter + 1;
 			end
@@ -145,18 +145,19 @@ module top
 	// 	end
 	// end
 
-	always_ff@(negedge DE) begin
+	always_ff@(negedge DE or posedge VSYNC) begin
 		if (VSYNC) begin
-			row_counter <= '0;
-		end else if (!DE) begin
-			row_counter <= row_counter + '1;
+			row_counter <= 0;
+		end else begin
+			row_counter <= row_counter + 1;
 		end
 	end 
 
 	logic memWriteRequest;
 	assign memWriteRequest = (m_state == 1); //waitrequest handled in state machine
 	//do we want to have the m_state == 2 in here?
-	assign nRead = ((m_state == 3 || m_state == 2) && !waitRequest) ? 1'b0 : 1'b1; //  && readRequestCnt < BURST_SIZE) ? 1'b0 : 1'b1 ;
+	reg [3:0] read_counter;
+	assign nRead = ((m_state == 3 ) && !waitRequest && (read_counter < READ_BURST_SIZE)) ? 1'b0 : 1'b1; //  && readRequestCnt < BURST_SIZE) ? 1'b0 : 1'b1 ; //|| m_state == 2
 	reg [15:0] read_LED_data;
 
 	//SDRAM block
@@ -205,7 +206,7 @@ module top
 	localparam READ_BURST_SIZE = 8; //read 8 words at once from SDRAM
 
 	reg [$clog2(READ_BURST_SIZE)-1:0] readCnt; //count up to 8 writes 
-	reg [$clog2(WRITE_BURST_SIZE)-1:0] writeCnt; //count up to 8 reads
+	reg [5:0] writeCnt; //count up to 8 reads
 	reg [2:0] m_state;
 	reg [23:0] writeAddress;
 	reg [23:0] readAddress;
@@ -214,13 +215,13 @@ module top
 
 	reg read_request;
 	logic read_data_valid;
-	logic [10:0] pixel_read_cnt; //fix sizing
+	logic [19:0] pixel_read_cnt; //fix sizing
 	reg [10:0] slice_cnt; //fix sizing
 	reg need_new_slice;
 
 	reg trigger_2;
 	reg dummy;
-	reg [4:0] SDO_count;
+	reg [5:0] SDO_count;
 
 	logic write_request;
 	assign write_request = !buf_empty;
@@ -234,7 +235,9 @@ module top
 				slice_cnt <= '0;
 				readAddress <= 24'b0;
 				writeAddress <= 24'b0;
+				read_counter <= '0;
 				trigger <= 1;
+				SDO_count <= '0;
             end else begin
 				
 				if(VSYNC) begin //reached end of a frame - move on to next one
@@ -267,11 +270,11 @@ module top
 							if(!waitRequest) begin //make sure SDRAM isn't otherwise occupied
 								writeCnt <= writeCnt + 1;
 								//if (writeAddress < 'd552959) begin //1536 x 360 = 552960 - wait for a full frame of data
-									writeAddress <= writeAddress + 1; //increment addr
+								writeAddress <= writeAddress + 1; //increment addr
 								//end else begin
 								//	writeAddress <= '0;
 								//end
-								if (writeCnt == WRITE_BURST_SIZE -1 || !write_request) begin
+								if (writeCnt ==  WRITE_BURST_SIZE-1 || !write_request) begin //|| !write_request
 									//once we have full burst or nothing else to write, move on
 									trigger <= 1;
 									m_state <= 2;
@@ -280,8 +283,9 @@ module top
 						end
 					2: //we get when there's no write request OR just finished write burst
 						begin
-							if(read_request && (cur_buf_size > 7)) begin //read_request, plus buffer has enough 
+							if(read_request) begin //read_request, plus buffer has enough // && (cur_buf_size > 7)
 								readCnt <= '0;
+								read_counter <= '0;
 								m_state <= 3;
 							end else begin
 								m_state <= 0; //no read request - back to start state
@@ -289,10 +293,18 @@ module top
 						end
 					3: //state for reading from SDRAM
 						begin
+							if(!nRead) begin
+								read_counter <= read_counter + 1;
+							end
 							if(read_data_valid) begin //read_data_valid
 								readCnt <= readCnt + 1;
-								pixel_read_cnt <= pixel_read_cnt + 1;
-								readAddress <= readAddress + 1; //address for next clock cycle
+								if (pixel_read_cnt < 20'd552690) begin
+									pixel_read_cnt <= pixel_read_cnt + 1;
+									readAddress <= readAddress + 1; //address for next clock cycle
+								end else begin
+									pixel_read_cnt <= '0;
+									readAddress <= '0;
+								end
 								//any reason we'd have to delay a cycle before doing this
 								//^I don't think so bc read was high in state 2, and the address was correct
 								if (LED_latch_in_use == 0) begin
@@ -300,18 +312,19 @@ module top
 								end else begin
 									LED_data_1[SDO_count] <= {read_LED_data[15:11], 11'b0, read_LED_data[10:5], 10'b0, read_LED_data[4:0], 11'b0};
 								end
-								if (SDO_count < 47) begin
+								if (SDO_count < 6'd48) begin
 									SDO_count <= SDO_count + 1;
 								end else begin
 									SDO_count <= '0;
 									read_request <= '0;
 									//notify the LED matrix we want to switch arrays
 								end
-								if (pixel_read_cnt == 1536) begin 
+								/*
+								if (pixel_read_cnt == 1535) begin 
 									//have iterated through all the pixels in a slice
 									pixel_read_cnt <= '0;
 									slice_cnt <= slice_cnt + 1;
-									if (slice_cnt == 360) begin
+									if (slice_cnt == 359) begin
 										//have iterated through an entire frame
 										readAddress <= '0;
 										slice_cnt <= '0;
@@ -319,12 +332,13 @@ module top
 									readCnt <= 0;
 									m_state <= 0;
 								end else begin
+								*/
 									//should this be -2 and not -1?
-									if(readCnt == READ_BURST_SIZE - 1) begin
-										readCnt <= 0;
-										m_state <= 0;
-									end
+								if(readCnt == READ_BURST_SIZE-2) begin
+									readCnt <= '0;
+									m_state <= '0;
 								end
+								//end
 							end
 							//should we go to a different state next time if the read data was not valid?
 						end
@@ -333,6 +347,8 @@ module top
 				endcase
 			end
 	end
+
+	//
 
 	// encoder handling
 	localparam NUM_CONSEC_ENC = 'd4;
@@ -387,7 +403,7 @@ localparam LATCH_SIZE = 'd769;
 	reg [2:0] mc_g = 3'd0;	// max current for green
 	reg [2:0] mc_b = 3'd0;	// max current for blue
 	reg [6:0] gbc_r = 7'd127;	// global brightness control for red
-	reg [6:0] gbc_g = 7'd127;	// global brightness control for green
+	reg [6:0] gbc_g = 7'd20;	// global brightness control for green
 	reg [6:0] gbc_b = 7'd127;	// global brightness control for blue
 	reg dsprpt = 1'b1; // Auto display repeat mode enable
 	reg tmgrst = 1'b1; // Display timing reset mode enable
@@ -398,10 +414,10 @@ localparam LATCH_SIZE = 'd769;
 	bit [47:0][47:0] LED_data_2_test; //[11:0][7:0][767:0];
 
 
-reg [25:0] counter_t;
+reg [20:0] counter_t;
 always@(negedge TESTCLK) begin
 	counter_t <= counter_t + 1;
-	if (counter_t == 26'b11111111111111111111111111) begin
+	if (counter_t == '0) begin
 		ENC_SAYS_GO <= 1;
 	end else begin
 		ENC_SAYS_GO <= 0;
@@ -423,7 +439,7 @@ always@(posedge TESTCLK) begin
 				32'd0:	// Re-init variables
 					begin
 						LAT <= '0;
-						SCLK <= '0;			
+						SCLK <= '0;	
 						LED_latch_in_use <= '0;
 						need_new_LED_data <= 0;
 						bit_num <= LATCH_SIZE; // 769
@@ -475,7 +491,7 @@ always@(posedge TESTCLK) begin
 					begin
 						SCLK <= '0;
 						if (bit_num != 'd0)	begin 	// continue shifting out bits		 
-							for (i = 0; i < 11; i++) begin
+							for (i = 0; i < 12; i++) begin
 								for (n = 0; n < 4; n++) begin
 									if (i != 1) begin // Artificially skip drivers
 										SDO[i][n] <= init_data[bit_num - 1];
@@ -503,7 +519,7 @@ always@(posedge TESTCLK) begin
 					begin 
 						SCLK <= '0;
 						if (bit_num == LATCH_SIZE) begin
-							for (i = 0; i < 11; i++) begin
+							for (i = 0; i < 12; i++) begin
 								for (n = 0; n < 4; n++) begin
 									if (i != 1) begin // Artificially skip drivers
 										SDO[i][n] <= '0; // Set control bit flag
