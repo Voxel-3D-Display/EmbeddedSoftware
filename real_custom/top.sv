@@ -81,6 +81,7 @@ module top
 	reg   wrreq;
 	logic	[8:0]  rdusedw;
 	reg   [15:0]   HDMI_fifo_Data;
+	reg   [15:0]   testing_HDMI_fifo_Data;
 	reg   HDMI_fifo_Enable;
 	reg array_in_use;
 	assign array_debug = array_in_use;
@@ -108,10 +109,46 @@ module top
 		.wrfull(write_full)
 	);
 
+	//what if we made an address fifo???
+	logic addr_buf_empty;
+	logic [10:0] addr_cur_buf_size; //cur number words stored in fifo
+	logic addr_write_full; //should NEVER be high - indicates FIFO is full
+
+	addr_fifo addresses(
+		.data(), //input
+		
+		.wrclk(!PIXCLK), //clock rate for writing to FIFO
+		.wrreq(wrreq), //input - high to request to write to the FIFO
+		
+		.rdclk(SDRAM_CLKn), //CHANGE to SDRAM clock - clock rate for reading
+		.rdreq(HDMI_fifo_Enable), //high to request read from FIFO //!buf_empty
+		.q(test_write_address), //output
+		.rdempty(addr_buf_empty),
+		.rdusedw(addr_cur_buf_size), //11 bit width output (unused?)
+		.wrfull(addr_write_full)
+	);
+
+	always_ff@(negedge PIXCLK) begin
+		if (nReset) begin
+			new_writeAddress <= '0;
+		end else begin
+			new_writeAddress <= new_writeAddress + 1;
+		end
+	end
+
+
 	logic [11:0] col_counter;
 	logic [11:0] row_counter;
 	reg HSYNC_prev;
 	reg VSYNC_prev;
+
+	always_ff@(negedge PIXCLK) begin
+		if(!nReset) begin
+			testing_HDMI_fifo_Data <= '0;
+		end else begin
+			testing_HDMI_fifo_Data <= testing_HDMI_fifo_Data + 1;
+		end
+	end
 
 	always_ff@(negedge PIXCLK) begin //does this need to be a posedge?
 		if(!nReset) begin
@@ -173,7 +210,7 @@ module top
 		.new_sdram_controller_0_s1_address(Address),       		//input - address to read or write
 		.new_sdram_controller_0_s1_byteenable_n('0),
 		.new_sdram_controller_0_s1_chipselect('1),
-		.new_sdram_controller_0_s1_writedata(HDMI_fifo_Data),     	//input - HDMI_fifo_Data test_data
+		.new_sdram_controller_0_s1_writedata(testing_HDMI_fifo_Data),     	//input - HDMI_fifo_Data
 		.new_sdram_controller_0_s1_read_n(nRead),        		    //input - read enable
 		.new_sdram_controller_0_s1_write_n(!memWriteRequest),  		//input - write enable
 		.new_sdram_controller_0_s1_readdata(read_LED_data),     	//output - 16 bits of data 
@@ -224,7 +261,7 @@ module top
 	reg [5:0] SDO_count;
 
 	logic write_request;
-	assign write_request = !buf_empty;
+	assign write_request = !buf_empty; //is staying high past last address
 	//reg [23:0] led_base;
 
 	always_ff@(posedge SDRAM_CLKn) begin //SDRAM_CLKn
@@ -241,7 +278,7 @@ module top
             end else begin
 				
 				if(!VSYNC && !DE) begin //reached end of a frame - move on to next one
-					writeAddress <= 0;
+					writeAddress <= '0;
 				end
 				
 				
