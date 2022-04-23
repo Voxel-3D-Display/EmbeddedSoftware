@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy
- date="2022.04.08.19:26:32"
- outputDirectory="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/">
+ date="2022.04.21.22:48:18"
+ outputDirectory="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/">
  <perimeter>
   <parameter
      name="AUTO_GENERATION_ID"
@@ -214,13 +214,13 @@
  </perimeter>
  <entity
    path=""
-   parameterizationKey="sdram:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=EP4CE22F17C6,AUTO_DEVICE_FAMILY=Cyclone IV E,AUTO_DEVICE_SPEEDGRADE=6,AUTO_GENERATION_ID=1649460390,AUTO_UNIQUE_ID=(altera_avalon_new_sdram_controller:19.1:TAC=5.5,TMRD=3,TRCD=20.0,TRFC=70.0,TRP=20.0,TWR=14.0,addressWidth=24,bankWidth=2,casLatency=3,clockRate=50000000,columnWidth=9,componentName=sdram_new_sdram_controller_0,dataWidth=16,generateSimulationModel=false,initNOPDelay=0.0,initRefreshCommands=2,masteredTristateBridgeSlave=0,model=single_Micron_MT48LC4M32B2_7_chip,numberOfBanks=4,numberOfChipSelects=1,pinsSharedViaTriState=false,powerUpDelay=100.0,refreshPeriod=15.625,registerDataIn=true,rowWidth=13,size=33554432)(altera_up_avalon_sys_sdram_pll:18.0:AUTO_DEVICE=EP4CE22F17C6,AUTO_DEVICE_SPEEDGRADE=6,CIII_boards=DE0,CIV_boards=DE0-Nano,CV_boards=DE10-Standard,MAX10_boards=DE10-Lite,board=DE0-Nano,device_family=Cyclone IV E,gui_outclk=50.0,gui_refclk=50.0,other_boards=None,outclk=50.0,refclk=50.0(altera_up_altpll:18.0:DEVICE_FAMILY=Cyclone IV,OUTCLK0_DIV=1,OUTCLK0_MULT=1,OUTCLK1_DIV=1,OUTCLK1_MULT=1,OUTCLK2_DIV=1,OUTCLK2_MULT=1,PHASE_SHIFT=-3000,audio_clk_freq=12.288,gui_device_family=Cyclone IV E,type=System/SDRAM,video_in=5MP Digital Camera (THDB_D5M),video_out=4.3&quot; LCD (TRDB_LTM))(altera_up_avalon_reset_from_locked_signal:18.0:)(conduit:19.1:endPort=,endPortLSB=0,startPort=,startPortLSB=0,width=0))(clock:19.1:)(reset:19.1:)"
+   parameterizationKey="sdram:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=EP4CE22F17C6,AUTO_DEVICE_FAMILY=Cyclone IV E,AUTO_DEVICE_SPEEDGRADE=6,AUTO_GENERATION_ID=1650595697,AUTO_UNIQUE_ID=(altera_avalon_new_sdram_controller:19.1:TAC=5.5,TMRD=3,TRCD=20.0,TRFC=70.0,TRP=20.0,TWR=14.0,addressWidth=24,bankWidth=2,casLatency=3,clockRate=50000000,columnWidth=9,componentName=sdram_new_sdram_controller_0,dataWidth=16,generateSimulationModel=false,initNOPDelay=0.0,initRefreshCommands=2,masteredTristateBridgeSlave=0,model=single_Micron_MT48LC4M32B2_7_chip,numberOfBanks=4,numberOfChipSelects=1,pinsSharedViaTriState=false,powerUpDelay=100.0,refreshPeriod=15.625,registerDataIn=true,rowWidth=13,size=33554432)(altera_up_avalon_sys_sdram_pll:18.0:AUTO_DEVICE=EP4CE22F17C6,AUTO_DEVICE_SPEEDGRADE=6,CIII_boards=DE0,CIV_boards=DE0-Nano,CV_boards=DE10-Standard,MAX10_boards=DE10-Lite,board=DE0-Nano,device_family=Cyclone IV E,gui_outclk=50.0,gui_refclk=50.0,other_boards=None,outclk=50.0,refclk=50.0(altera_up_altpll:18.0:DEVICE_FAMILY=Cyclone IV,OUTCLK0_DIV=1,OUTCLK0_MULT=1,OUTCLK1_DIV=1,OUTCLK1_MULT=1,OUTCLK2_DIV=1,OUTCLK2_MULT=1,PHASE_SHIFT=-3000,audio_clk_freq=12.288,gui_device_family=Cyclone IV E,type=System/SDRAM,video_in=5MP Digital Camera (THDB_D5M),video_out=4.3&quot; LCD (TRDB_LTM))(altera_up_avalon_reset_from_locked_signal:18.0:)(conduit:19.1:endPort=,endPortLSB=0,startPort=,startPortLSB=0,width=0))(clock:19.1:)(reset:19.1:)"
    instancePathKey="sdram"
    kind="sdram"
    version="1.0"
    name="sdram">
   <parameter name="AUTO_CLK_CLOCK_RATE" value="-1" />
-  <parameter name="AUTO_GENERATION_ID" value="1649460390" />
+  <parameter name="AUTO_GENERATION_ID" value="1650595697" />
   <parameter name="AUTO_DEVICE" value="EP4CE22F17C6" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone IV E" />
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="-1" />
@@ -229,53 +229,53 @@
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="6" />
   <generatedFiles>
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/sdram.v"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/sdram.v"
        type="VERILOG" />
   </generatedFiles>
   <childGeneratedFiles>
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/sdram_new_sdram_controller_0.v"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/sdram_new_sdram_controller_0.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/sdram_sys_sdram_pll_0.v"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/sdram_sys_sdram_pll_0.v"
        type="VERILOG" />
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_up_altpll.v"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_up_altpll.v"
        type="VERILOG"
        attributes="TOP_LEVEL_FILE" />
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_up_avalon_reset_from_locked_signal.v"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_up_avalon_reset_from_locked_signal.v"
        type="VERILOG"
        attributes="TOP_LEVEL_FILE" />
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_reset_controller.v"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_reset_controller.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_reset_synchronizer.v"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_reset_synchronizer.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_reset_controller.sdc"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_reset_controller.sdc"
        type="SDC"
        attributes="" />
   </childGeneratedFiles>
   <sourceFiles>
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram.qsys" />
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram.qsys" />
   </sourceFiles>
   <childSourceFiles>
    <file
-       path="C:/intelfpga_lite/19.1/ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller/altera_avalon_new_sdram_controller_hw.tcl" />
+       path="F:/quartus19.1/ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller/altera_avalon_new_sdram_controller_hw.tcl" />
    <file
-       path="C:/intelfpga_lite/19.1/ip/altera/university_program/clocks/altera_up_avalon_sys_sdram_pll/altera_up_avalon_sys_sdram_pll_hw.tcl" />
+       path="F:/quartus19.1/ip/altera/university_program/clocks/altera_up_avalon_sys_sdram_pll/altera_up_avalon_sys_sdram_pll_hw.tcl" />
    <file
-       path="C:/intelfpga_lite/19.1/ip/altera/university_program/clocks/altera_up_altpll/altera_up_altpll_hw.tcl" />
+       path="F:/quartus19.1/ip/altera/university_program/clocks/altera_up_altpll/altera_up_altpll_hw.tcl" />
    <file
-       path="C:/intelfpga_lite/19.1/ip/altera/university_program/clocks/altera_up_avalon_reset_from_locked_signal/altera_up_avalon_reset_from_locked_signal_hw.tcl" />
+       path="F:/quartus19.1/ip/altera/university_program/clocks/altera_up_avalon_reset_from_locked_signal/altera_up_avalon_reset_from_locked_signal_hw.tcl" />
    <file
-       path="C:/intelfpga_lite/19.1/ip/altera/merlin/altera_reset_controller/altera_reset_controller_hw.tcl" />
+       path="F:/quartus19.1/ip/altera/merlin/altera_reset_controller/altera_reset_controller_hw.tcl" />
   </childSourceFiles>
   <messages>
    <message level="Debug" culprit="sdram">queue size: 0 starting:sdram "sdram"</message>
@@ -300,7 +300,7 @@
    <message level="Debug" culprit="sdram"><![CDATA["<b>sdram</b>" reuses <b>altera_reset_controller</b> "<b>submodules/altera_reset_controller</b>"]]></message>
    <message level="Debug" culprit="sdram">queue size: 2 starting:altera_avalon_new_sdram_controller "submodules/sdram_new_sdram_controller_0"</message>
    <message level="Info" culprit="new_sdram_controller_0">Starting RTL generation for module 'sdram_new_sdram_controller_0'</message>
-   <message level="Info" culprit="new_sdram_controller_0">  Generation command is [exec C:/intelfpga_lite/19.1/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/19.1/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/19.1/quartus/sopc_builder/bin -I C:/intelfpga_lite/19.1/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/19.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller -- C:/intelfpga_lite/19.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller/generate_rtl.pl --name=sdram_new_sdram_controller_0 --dir=C:/Users/annam/AppData/Local/Temp/alt9090_4978205519069137420.dir/0002_new_sdram_controller_0_gen/ --quartus_dir=C:/intelfpga_lite/19.1/quartus --verilog --config=C:/Users/annam/AppData/Local/Temp/alt9090_4978205519069137420.dir/0002_new_sdram_controller_0_gen//sdram_new_sdram_controller_0_component_configuration.pl  --do_build_sim=0  ]</message>
+   <message level="Info" culprit="new_sdram_controller_0">  Generation command is [exec F:/quartus19.1/quartus/bin64/perl/bin/perl.exe -I F:/quartus19.1/quartus/sopc_builder/bin/europa -I F:/quartus19.1/quartus/sopc_builder/bin -I F:/quartus19.1/quartus/../ip/altera/sopc_builder_ip/common -I F:/quartus19.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller -- F:/quartus19.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller/generate_rtl.pl --name=sdram_new_sdram_controller_0 --dir=C:/Users/itsan/AppData/Local/Temp/alt9104_1581114427592641967.dir/0002_new_sdram_controller_0_gen/ --quartus_dir=F:/quartus19.1/quartus --verilog --config=C:/Users/itsan/AppData/Local/Temp/alt9104_1581114427592641967.dir/0002_new_sdram_controller_0_gen//sdram_new_sdram_controller_0_component_configuration.pl  --do_build_sim=0  ]</message>
    <message level="Info" culprit="new_sdram_controller_0">Done RTL generation for module 'sdram_new_sdram_controller_0'</message>
    <message level="Info" culprit="new_sdram_controller_0"><![CDATA["<b>sdram</b>" instantiated <b>altera_avalon_new_sdram_controller</b> "<b>new_sdram_controller_0</b>"]]></message>
    <message level="Debug" culprit="sdram">queue size: 1 starting:altera_up_avalon_sys_sdram_pll "submodules/sdram_sys_sdram_pll_0"</message>
@@ -361,21 +361,21 @@
   <parameter name="numberOfBanks" value="4" />
   <generatedFiles>
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/sdram_new_sdram_controller_0.v"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/sdram_new_sdram_controller_0.v"
        type="VERILOG"
        attributes="" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="C:/intelfpga_lite/19.1/ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller/altera_avalon_new_sdram_controller_hw.tcl" />
+       path="F:/quartus19.1/ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller/altera_avalon_new_sdram_controller_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="sdram" as="new_sdram_controller_0" />
   <messages>
    <message level="Debug" culprit="sdram">queue size: 2 starting:altera_avalon_new_sdram_controller "submodules/sdram_new_sdram_controller_0"</message>
    <message level="Info" culprit="new_sdram_controller_0">Starting RTL generation for module 'sdram_new_sdram_controller_0'</message>
-   <message level="Info" culprit="new_sdram_controller_0">  Generation command is [exec C:/intelfpga_lite/19.1/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/19.1/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/19.1/quartus/sopc_builder/bin -I C:/intelfpga_lite/19.1/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/19.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller -- C:/intelfpga_lite/19.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller/generate_rtl.pl --name=sdram_new_sdram_controller_0 --dir=C:/Users/annam/AppData/Local/Temp/alt9090_4978205519069137420.dir/0002_new_sdram_controller_0_gen/ --quartus_dir=C:/intelfpga_lite/19.1/quartus --verilog --config=C:/Users/annam/AppData/Local/Temp/alt9090_4978205519069137420.dir/0002_new_sdram_controller_0_gen//sdram_new_sdram_controller_0_component_configuration.pl  --do_build_sim=0  ]</message>
+   <message level="Info" culprit="new_sdram_controller_0">  Generation command is [exec F:/quartus19.1/quartus/bin64/perl/bin/perl.exe -I F:/quartus19.1/quartus/sopc_builder/bin/europa -I F:/quartus19.1/quartus/sopc_builder/bin -I F:/quartus19.1/quartus/../ip/altera/sopc_builder_ip/common -I F:/quartus19.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller -- F:/quartus19.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller/generate_rtl.pl --name=sdram_new_sdram_controller_0 --dir=C:/Users/itsan/AppData/Local/Temp/alt9104_1581114427592641967.dir/0002_new_sdram_controller_0_gen/ --quartus_dir=F:/quartus19.1/quartus --verilog --config=C:/Users/itsan/AppData/Local/Temp/alt9104_1581114427592641967.dir/0002_new_sdram_controller_0_gen//sdram_new_sdram_controller_0_component_configuration.pl  --do_build_sim=0  ]</message>
    <message level="Info" culprit="new_sdram_controller_0">Done RTL generation for module 'sdram_new_sdram_controller_0'</message>
    <message level="Info" culprit="new_sdram_controller_0"><![CDATA["<b>sdram</b>" instantiated <b>altera_avalon_new_sdram_controller</b> "<b>new_sdram_controller_0</b>"]]></message>
   </messages>
@@ -402,28 +402,28 @@
   <parameter name="board" value="DE0-Nano" />
   <generatedFiles>
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/sdram_sys_sdram_pll_0.v"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/sdram_sys_sdram_pll_0.v"
        type="VERILOG" />
   </generatedFiles>
   <childGeneratedFiles>
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_up_altpll.v"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_up_altpll.v"
        type="VERILOG"
        attributes="TOP_LEVEL_FILE" />
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_up_avalon_reset_from_locked_signal.v"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_up_avalon_reset_from_locked_signal.v"
        type="VERILOG"
        attributes="TOP_LEVEL_FILE" />
   </childGeneratedFiles>
   <sourceFiles>
    <file
-       path="C:/intelfpga_lite/19.1/ip/altera/university_program/clocks/altera_up_avalon_sys_sdram_pll/altera_up_avalon_sys_sdram_pll_hw.tcl" />
+       path="F:/quartus19.1/ip/altera/university_program/clocks/altera_up_avalon_sys_sdram_pll/altera_up_avalon_sys_sdram_pll_hw.tcl" />
   </sourceFiles>
   <childSourceFiles>
    <file
-       path="C:/intelfpga_lite/19.1/ip/altera/university_program/clocks/altera_up_altpll/altera_up_altpll_hw.tcl" />
+       path="F:/quartus19.1/ip/altera/university_program/clocks/altera_up_altpll/altera_up_altpll_hw.tcl" />
    <file
-       path="C:/intelfpga_lite/19.1/ip/altera/university_program/clocks/altera_up_avalon_reset_from_locked_signal/altera_up_avalon_reset_from_locked_signal_hw.tcl" />
+       path="F:/quartus19.1/ip/altera/university_program/clocks/altera_up_avalon_reset_from_locked_signal/altera_up_avalon_reset_from_locked_signal_hw.tcl" />
   </childSourceFiles>
   <instantiator instantiator="sdram" as="sys_sdram_pll_0" />
   <messages>
@@ -458,22 +458,22 @@
    name="altera_reset_controller">
   <generatedFiles>
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_reset_controller.v"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_reset_controller.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_reset_synchronizer.v"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_reset_synchronizer.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_reset_controller.sdc"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_reset_controller.sdc"
        type="SDC"
        attributes="" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="C:/intelfpga_lite/19.1/ip/altera/merlin/altera_reset_controller/altera_reset_controller_hw.tcl" />
+       path="F:/quartus19.1/ip/altera/merlin/altera_reset_controller/altera_reset_controller_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="sdram" as="rst_controller" />
@@ -501,14 +501,14 @@
   <parameter name="OUTCLK1_MULT" value="1" />
   <generatedFiles>
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_up_altpll.v"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_up_altpll.v"
        type="VERILOG"
        attributes="TOP_LEVEL_FILE" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="C:/intelfpga_lite/19.1/ip/altera/university_program/clocks/altera_up_altpll/altera_up_altpll_hw.tcl" />
+       path="F:/quartus19.1/ip/altera/university_program/clocks/altera_up_altpll/altera_up_altpll_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="sdram_sys_sdram_pll_0" as="sys_pll" />
@@ -526,14 +526,14 @@
    name="altera_up_avalon_reset_from_locked_signal">
   <generatedFiles>
    <file
-       path="C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_up_avalon_reset_from_locked_signal.v"
+       path="C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/sdram/synthesis/submodules/altera_up_avalon_reset_from_locked_signal.v"
        type="VERILOG"
        attributes="TOP_LEVEL_FILE" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
    <file
-       path="C:/intelfpga_lite/19.1/ip/altera/university_program/clocks/altera_up_avalon_reset_from_locked_signal/altera_up_avalon_reset_from_locked_signal_hw.tcl" />
+       path="F:/quartus19.1/ip/altera/university_program/clocks/altera_up_avalon_reset_from_locked_signal/altera_up_avalon_reset_from_locked_signal_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="sdram_sys_sdram_pll_0" as="reset_from_locked" />

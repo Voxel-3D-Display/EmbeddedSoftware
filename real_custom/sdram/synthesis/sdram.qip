@@ -2,7 +2,7 @@ set_global_assignment -entity "sdram" -library "sdram" -name IP_TOOL_NAME "Qsys"
 set_global_assignment -entity "sdram" -library "sdram" -name IP_TOOL_VERSION "19.1"
 set_global_assignment -entity "sdram" -library "sdram" -name IP_TOOL_ENV "Qsys"
 set_global_assignment -library "sdram" -name SOPCINFO_FILE [file join $::quartus(qip_path) "../../sdram.sopcinfo"]
-set_global_assignment -entity "sdram" -library "sdram" -name SLD_INFO "QSYS_NAME sdram HAS_SOPCINFO 1 GENERATION_ID 1649460390"
+set_global_assignment -entity "sdram" -library "sdram" -name SLD_INFO "QSYS_NAME sdram HAS_SOPCINFO 1 GENERATION_ID 1650595697"
 set_global_assignment -library "sdram" -name MISC_FILE [file join $::quartus(qip_path) "../sdram.cmp"]
 set_global_assignment -library "sdram" -name SLD_FILE [file join $::quartus(qip_path) "sdram.debuginfo"]
 set_global_assignment -entity "sdram" -library "sdram" -name IP_TARGETED_DEVICE_FAMILY "Cyclone IV E"
@@ -15,7 +15,7 @@ set_global_assignment -entity "sdram" -library "sdram" -name IP_COMPONENT_DISPLA
 set_global_assignment -entity "sdram" -library "sdram" -name IP_COMPONENT_REPORT_HIERARCHY "On"
 set_global_assignment -entity "sdram" -library "sdram" -name IP_COMPONENT_INTERNAL "Off"
 set_global_assignment -entity "sdram" -library "sdram" -name IP_COMPONENT_VERSION "MS4w"
-set_global_assignment -entity "sdram" -library "sdram" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTY0OTQ2MDM5MA==::QXV0byBHRU5FUkFUSU9OX0lE"
+set_global_assignment -entity "sdram" -library "sdram" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTY1MDU5NTY5Nw==::QXV0byBHRU5FUkFUSU9OX0lE"
 set_global_assignment -entity "sdram" -library "sdram" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfRkFNSUxZ::Q3ljbG9uZSBJViBF::QXV0byBERVZJQ0VfRkFNSUxZ"
 set_global_assignment -entity "sdram" -library "sdram" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0U=::RVA0Q0UyMkYxN0M2::QXV0byBERVZJQ0U="
 set_global_assignment -entity "sdram" -library "sdram" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfU1BFRURHUkFERQ==::Ng==::QXV0byBERVZJQ0VfU1BFRURHUkFERQ=="

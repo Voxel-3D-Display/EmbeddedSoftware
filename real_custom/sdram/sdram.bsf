@@ -198,7 +198,7 @@ https://fpgasoftware.intel.com/eula.
 		(text "reset" (rect 261 443 552 896)(font "Arial" (color 0 0 0)))
 		(text "sys_sdram_pll_0_sdram_clk" (rect 353 43 856 99)(font "Arial" (color 128 0 0)(font_size 9)))
 		(text "clk" (rect 337 67 692 144)(font "Arial" (color 0 0 0)))
-		(text " system " (rect 573 464 1194 938)(font "Arial" ))
+		(text " sdram " (rect 578 464 1198 938)(font "Arial" ))
 		(line (pt 256 32)(pt 352 32)(line_width 1))
 		(line (pt 352 32)(pt 352 464)(line_width 1))
 		(line (pt 256 464)(pt 352 464)(line_width 1))

@@ -28,6 +28,22 @@
 					"strict" : false
 				},
 				{
+					"name" : "SDO[1][0]",
+					"strict" : false
+				},
+				{
+					"name" : "SDO[1][1]",
+					"strict" : false
+				},
+				{
+					"name" : "SDO[1][2]",
+					"strict" : false
+				},
+				{
+					"name" : "SDO[1][3]",
+					"strict" : false
+				},
+				{
 					"name" : "SDO[2][0]",
 					"strict" : false
 				},
@@ -169,6 +185,22 @@
 				},
 				{
 					"name" : "SDO[10][3]",
+					"strict" : false
+				},
+				{
+					"name" : "SDO[11][0]",
+					"strict" : false
+				},
+				{
+					"name" : "SDO[11][1]",
+					"strict" : false
+				},
+				{
+					"name" : "SDO[11][2]",
+					"strict" : false
+				},
+				{
+					"name" : "SDO[11][3]",
 					"strict" : false
 				},
 				{
@@ -316,30 +348,6 @@
 					"strict" : false
 				},
 				{
-					"name" : "HDMI_RGB[1][7]",
-					"strict" : false
-				},
-				{
-					"name" : "HDMI_RGB[2][3]",
-					"strict" : false
-				},
-				{
-					"name" : "HDMI_RGB[2][4]",
-					"strict" : false
-				},
-				{
-					"name" : "HDMI_RGB[2][5]",
-					"strict" : false
-				},
-				{
-					"name" : "HDMI_RGB[2][6]",
-					"strict" : false
-				},
-				{
-					"name" : "HDMI_RGB[2][7]",
-					"strict" : false
-				},
-				{
 					"name" : "HDMI_RGB[0][4]",
 					"strict" : false
 				},
@@ -373,6 +381,30 @@
 				},
 				{
 					"name" : "HDMI_RGB[1][6]",
+					"strict" : false
+				},
+				{
+					"name" : "HDMI_RGB[1][7]",
+					"strict" : false
+				},
+				{
+					"name" : "HDMI_RGB[2][3]",
+					"strict" : false
+				},
+				{
+					"name" : "HDMI_RGB[2][4]",
+					"strict" : false
+				},
+				{
+					"name" : "HDMI_RGB[2][5]",
+					"strict" : false
+				},
+				{
+					"name" : "HDMI_RGB[2][6]",
+					"strict" : false
+				},
+				{
+					"name" : "HDMI_RGB[2][7]",
 					"strict" : false
 				},
 				{
