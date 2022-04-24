@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE22) Path("C:/Users/annam/Downloads/Senior_Design/FPGA_Code/EmbeddedSoftware/real_custom/") File("globe_test_1.jic") MfrSpec(OpMask(1) SEC_Device(EPCS64) Child_OpMask(1 1));
+		Device PartName(EP4CE22F17) Path("C:/Users/itsan/Documents/1GitRepositories/Voxel/EmbeddedSoftware/real_custom/output_files/") File("VOXEL.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
