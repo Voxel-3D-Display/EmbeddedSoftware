@@ -729,6 +729,7 @@ always@(posedge TESTCLK) begin
 						state <= 32'd2; 
 					end
 				
+/////////////////////////////////////////////////////////////////////////////////////////
 				32'd8: // GS Data (regular op): Set SDO lines to shift out data.
 					begin 
 						SCLK <= '0;
@@ -768,7 +769,10 @@ always@(posedge TESTCLK) begin
 								end
 							end
 
-							if ((bit_num-1) % 48 == 'b0) begin
+	// 48 x 48 bit long vectors (from mem) into 48x48 array
+	// [sdo line row index , single pixel 48 bits per line]
+
+							if ((bit_num-1) % 48 == 'b0) begin // swapping to next array
 								delay_counter <= delay_counter + 1;
 //								if (delay_counter == 2'b11) begin
 									// if (((bit_num-1) == 'b0) && (daisy_num == 'b0) && (slice_cnt == 'd359)) begin
@@ -779,7 +783,7 @@ always@(posedge TESTCLK) begin
 									// 	need_new_LED_base <= 'd1280*('d2*(slice_cnt + 'd1));
 									LED_latch_in_use <= !LED_latch_in_use;
 								
-									if ((bit_num-1) == 'd48 && daisy_num == 'b0 && slice_cnt == 'd359) begin
+									if ((bit_num-1) == 'd48 && daisy_num == 'b0 && slice_cnt == 'd359) begin // 
 										need_new_LED_base <= 'd0;
 									end else if ((bit_num-1) == 'd0 && daisy_num == 'b0 && slice_cnt == 'd359) begin
 										need_new_LED_base <= 'd48;
@@ -792,7 +796,7 @@ always@(posedge TESTCLK) begin
 									end else if ((bit_num-1) == 'd48 && daisy_num == 'b0) begin
 										need_new_LED_base <= 'd1280*('d2*(slice_cnt + 'd1));
 									end else begin
-										need_new_LED_base <= 'd1280*('d2*slice_cnt + ('d1 - daisy_num)) + 'd48*('d17 - (bit_num-1)/48);
+										need_new_LED_base <= 'd1280*('d2*slice_cnt + ('d1 - daisy_num)) + 'd48*('d17 - (bit_num-1)/48); // Need two pixels ahead of current position
 	//									need_new_LED_base <= 'd48*(('d16 - (bit_num-1)/48 + 'd16*(('d1 - daisy_num) + 'd2*slice_cnt)));
 									end
 									need_new_LED_data <= '1;
