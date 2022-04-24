@@ -78,7 +78,7 @@ module top
 	);
 	*/
 
-	reg   wrreq;
+	logic   wrreq;
 	logic	[8:0]  rdusedw;
 	logic   [15:0]   HDMI_fifo_Data;
 	reg   [15:0]   testing_HDMI_fifo_Data;
@@ -94,7 +94,7 @@ module top
 	assign hdmi_stuff = {HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3]};
 
 	assign HDMI_fifo_Enable = (m_state == 1)  && !waitRequest && !buf_empty;
-	assign wrreq = DE && (col_counter < 12'd768); //&& (row_counter < 12'd720) && 
+	assign wrreq = DE && (col_counter < 12'd768) && (row_counter < 12'd720); // && 
 	/*
 	reg [2:0][7:0] fake_HDMI;
 	reg [5:0] hehe_counter;
@@ -116,7 +116,7 @@ module top
 	
 	logic[39:0] hdmi_fifo_output;
 	HDMI_fifo hdmi(
-		.data({HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3], new_writeAddress}), //(col_counter < 12'd768) ? 16'b0000011111100000 : 16'b1111100000000000), //input //CHANGE TO{HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3]} TO TEST HDMI
+		.data({HDMI_RGB[0][7:3], HDMI_RGB[1][7:2], HDMI_RGB[2][7:3], new_writeAddress}), //(col_counter < 12'd768) ? 16'b0000011111100000 : 16'b1111100000000000), //input //CHANGE TO{HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3]} TO TEST HDMI
 		//{HDMI_RGB[2][7:3], HDMI_RGB[1][7:2], HDMI_RGB[0][7:3]})
 		.wrclk(!PIXCLK), //clock rate for writing to FIFO
 		.wrreq(wrreq), //input - high to request to write to the FIFO
@@ -248,7 +248,7 @@ module top
 		.new_sdram_controller_0_s1_address(Address),       		//input - address to read or write
 		.new_sdram_controller_0_s1_byteenable_n('0),
 		.new_sdram_controller_0_s1_chipselect('1),
-		.new_sdram_controller_0_s1_writedata(HDMI_fifo_Data),     	//input - HDMI_fifo_Data //Address[15:0]
+		.new_sdram_controller_0_s1_writedata(hdmi_fifo_output[39:24]),     	//input - HDMI_fifo_Data //Address[15:0]
 		.new_sdram_controller_0_s1_read_n(nRead),        		    //input - read enable
 		.new_sdram_controller_0_s1_write_n(!memWriteRequest),  		//input - write enable
 		.new_sdram_controller_0_s1_readdata(read_LED_data),     	//output - 16 bits of data 
@@ -459,7 +459,7 @@ module top
 									//^I don't think so bc read was high in state 2, and the address was correct
 
 									if (SDO_count < 6'd48) begin
-										if (LED_latch_in_use == 0) begin
+										if (LED_latch_in_use == '0) begin
 											LED_data_2[SDO_count] <= {read_LED_data[15:11], 11'b0, read_LED_data[10:5], 10'b0, read_LED_data[4:0], 11'b0};
 										end else begin
 											LED_data_1[SDO_count] <= {read_LED_data[15:11], 11'b0, read_LED_data[10:5], 10'b0, read_LED_data[4:0], 11'b0};
@@ -568,9 +568,10 @@ localparam LATCH_SIZE = 'd769;
 	reg lsdvlt = 1'b1; // LSD detection voltage selection
 	bit [47:0][47:0] LED_data_1_test; //[11:0][7:0][767:0];
 	bit [47:0][47:0] LED_data_2_test; //[11:0][7:0][767:0];
+	bit [47:0][47:0] LED_data_3_test; //[11:0][7:0][767:0];
 
 
-reg [20:0] counter_t;
+reg [11:0] counter_t;
 always@(negedge TESTCLK) begin
 	counter_t <= counter_t + 1;
 	if (counter_t == '0) begin
@@ -582,6 +583,7 @@ end
 
 reg [23:0] need_new_LED_base;
 reg [1:0] delay_counter;
+reg [1:0] taco_counter;
 
 always@(posedge TESTCLK) begin
 		if (!nReset) begin
@@ -596,13 +598,14 @@ always@(posedge TESTCLK) begin
 			LED_latch_in_use <= '0;
 			slice_cnt <= '0;
 			delay_counter <= '0;
+			taco_counter <= '0;
 		end else begin
 			case (state)
 				32'd0:	// Re-init variables
 					begin
 						LAT <= '0;
 						SCLK <= '0;	
-						// LED_latch_in_use <= '0;
+						//LED_latch_in_use <= '0;
 						need_new_LED_data <= 0;
 						bit_num <= LATCH_SIZE; // 769
 						// data[767:0] <= 768'd0;	
@@ -646,6 +649,7 @@ always@(posedge TESTCLK) begin
 						for (i = 0; i < 48; i++) begin
 							LED_data_1_test[i] <= 48'hFFFF00000000;
 							LED_data_2_test[i] <= 48'h0000FFFF0000;
+							LED_data_3_test[i] <= 48'h00000000FFFF;
 						end
 						
 						state <= 32'd2;
@@ -694,7 +698,21 @@ always@(posedge TESTCLK) begin
 							for (i = 0; i < 12; i++) begin
 								for (n = 0; n < 4; n++) begin
 									//if (i != 1) begin // Artificially skip drivers
-									 	if (LED_latch_in_use == '0) begin
+										/*
+										if (taco_counter < 2) begin
+											taco_counter <= taco_counter + 1;
+										end else begin
+											taco_counter <= '0;
+										end
+										if (taco_counter == 0) begin
+											SDO[i][n] <= LED_data_1_test[i*4 + n][(bit_num-1) % 48];
+										end else if(taco_counter == 1) begin
+											SDO[i][n] <= LED_data_2_test[i*4 + n][(bit_num-1) % 48];
+										end else begin
+											SDO[i][n] <= LED_data_3_test[i*4 + n][(bit_num-1) % 48];
+										end
+										*/
+										if (LED_latch_in_use == '0) begin
 											SDO[i][n] <= LED_data_1[i*4 + n][(bit_num-1) % 48];
 										end else begin
 											SDO[i][n] <= LED_data_2[i*4 + n][(bit_num-1) % 48];
@@ -702,18 +720,32 @@ always@(posedge TESTCLK) begin
 									//end
 								end
 							end
+
 							if ((bit_num-1) % 48 == 'b0) begin
 								delay_counter <= delay_counter + 1;
 //								if (delay_counter == 2'b11) begin
+									// if (((bit_num-1) == 'b0) && (daisy_num == 'b0) && (slice_cnt == 'd359)) begin
+									// 	need_new_LED_base <= 'd0;
+									// end else if (((bit_num-1) == '0) && (daisy_num == 'b1)) begin
+									// 	need_new_LED_base <= 'd1280*('d2*slice_cnt + 'd1);
+									// end else if (((bit_num-1) == '0) && (daisy_num == 'b0)) begin
+									// 	need_new_LED_base <= 'd1280*('d2*(slice_cnt + 'd1));
 									LED_latch_in_use <= !LED_latch_in_use;
-									if (((bit_num-1) == 'b0) && (daisy_num == 'b0) && (slice_cnt == 'd359)) begin
+								
+									if ((bit_num-1) == 'd48 && daisy_num == 'b0 && slice_cnt == 'd359) begin
 										need_new_LED_base <= 'd0;
-									end else if (((bit_num-1) == '0) && (daisy_num == 'b1)) begin
+									end else if ((bit_num-1) == 'd0 && daisy_num == 'b0 && slice_cnt == 'd359) begin
+										need_new_LED_base <= 'd48;
+									end else if ((bit_num-1) == 'd0 && daisy_num == 'b1) begin
+										need_new_LED_base <= 'd1280*('d2*slice_cnt + 'd1) + 'd48;
+									end else if ((bit_num-1) == 'd0 && daisy_num == 'b0) begin
+										need_new_LED_base <= 'd1280*('d2*(slice_cnt + 'd1)) + 'd48;
+									end else if ((bit_num-1) == 'd48 && daisy_num == 'b1) begin
 										need_new_LED_base <= 'd1280*('d2*slice_cnt + 'd1);
-									end else if (((bit_num-1) == '0) && (daisy_num == 'b0)) begin
+									end else if ((bit_num-1) == 'd48 && daisy_num == 'b0) begin
 										need_new_LED_base <= 'd1280*('d2*(slice_cnt + 'd1));
 									end else begin
-										need_new_LED_base <= 'd1280*('d2*slice_cnt + ('d1 - daisy_num)) + 'd48*(('d16 - (bit_num-1)/48));
+										need_new_LED_base <= 'd1280*('d2*slice_cnt + ('d1 - daisy_num)) + 'd48*('d17 - (bit_num-1)/48);
 	//									need_new_LED_base <= 'd48*(('d16 - (bit_num-1)/48 + 'd16*(('d1 - daisy_num) + 'd2*slice_cnt)));
 									end
 									need_new_LED_data <= '1;
@@ -753,7 +785,7 @@ always@(posedge TESTCLK) begin
 						end else if (ENC_SAYS_GO) begin
 							LAT <= '1;
 							daisy_num <= NUM_DRIVERS_CHAINED-1; 
-							if (slice_cnt == 359) begin
+							if (slice_cnt == 'd359) begin
 								slice_cnt <= 0;
 							end else begin
 								slice_cnt <= slice_cnt + 1;
