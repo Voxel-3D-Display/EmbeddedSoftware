@@ -3,7 +3,7 @@
 module top
 	(
 		input 	 CLK_10M,
-		input	 ENC_ABS_HOME,
+		input	 	ENC_ABS_HOME,
 		input 	 ENC_360,
 		input 	 [2:0][7:0]   HDMI_RGB, //UNCOMMENT TO TEST HDMI
 		input    logic VSYNC,
@@ -46,7 +46,8 @@ module top
 	//assign led_debug = read_LED_data; // HDMI_RGB_t; //CHANGE TO HDMI_RGB to see what HDMI is inputting
 	//assign valid_debug = read_data_valid;
 	//assign fifo_out = HDMI_fifo_Data;
-	logic ENC_SAYS_GO = 0; //1
+	reg ENC_SAID_GO = 0; // NEW FOR ENCODER HANDLING // represents [last, next]
+    // logic ENC_SAYS_GO = 0; // OLD WITH TESTCLK
 	//assign pix = pixel_read_cnt[0];
 	//assign refresh = refreshCnt;
 	//assign empty = buf_empty;
@@ -331,6 +332,7 @@ module top
 	logic read_data_valid;
 	logic [19:0] pixel_read_cnt; //fix sizing
 	reg [10:0] slice_cnt; //fix sizing
+	reg [10:0] new_slice_cnt; //fix sizing
 	reg need_new_slice;
 
 	reg trigger_2;
@@ -434,7 +436,7 @@ module top
 								new_counter <= new_counter + 1;
 							end
 							*/
-							if(readAddress - need_new_LED_base < 6'd47 && !waitRequest) begin
+							if(readAddress - need_new_LED_base < 6'd48 && !waitRequest) begin
 								readAddress <= readAddress + 1;
 							end
 							
@@ -465,7 +467,7 @@ module top
 											LED_data_1[SDO_count] <= {read_LED_data[15:11], 11'b0, read_LED_data[10:5], 10'b0, read_LED_data[4:0], 11'b0};
 										end
 										SDO_count <= SDO_count + 1;
-										//if(readCnt == READ_BURST_SIZE-2) begin
+										//if(readCnt == READ_BURST_SIZE-2) begin //OUR BURST SIZE IS 48, 2 is CAS?
 										//	readCnt <= '0;
 										//	m_state <= '0;
 										//end
@@ -504,35 +506,71 @@ module top
 			end
 	end
 
-	//
 
 	// encoder handling
-	localparam NUM_CONSEC_ENC = 'd4;
-	reg [NUM_CONSEC_ENC-1:0] windowing_zeros = 4'b1111;
-	reg [NUM_CONSEC_ENC-1:0] windowing_ones = 4'b0000;
-	reg hadOne = 0;
-	reg enc_transition;
+	localparam NUM_CONSEC_ENC = 'd100; // was 4
+	reg [NUM_CONSEC_ENC-1:0] windowing_360;
+	reg [NUM_CONSEC_ENC-1:0] windowing_home;
+	reg enc_transition = 0; // both home and each transition... in case they aren't synchronous
+	reg hadOne_home;
+	reg hadOne_360;
+	reg last_enc_said_go;
 	always@(posedge CLK_10M) begin //50MHZ_CLOCK
 		if (!nReset) begin
-			windowing_zeros <= 4'b1111;
-			windowing_ones <= 4'b0000;
-			hadOne <= 0;
+			windowing_360 <= 100'b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000;
+			windowing_home <= 100'b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000;
+			new_slice_cnt <= '0;
+			hadOne_home <= 0;
+			hadOne_360 <= 0;
+           enc_transition <= 0;
+           last_enc_said_go <= 0;
 		end else begin
-			windowing_zeros <= (windowing_zeros << 1) & ENC_360;
-			windowing_ones <= (windowing_ones << 1) & ENC_360;
-			if (windowing_zeros^(4'b0000)) begin
-				if (hadOne) begin
-					enc_transition <= 1;
-				end
-				hadOne = 0;
-			end else if (windowing_ones^(4'b1111)) begin
-				if (!hadOne) begin
-					enc_transition <= 1;
-				end
-				hadOne = 1;
-			end else if (need_new_slice) begin
-				enc_transition <= 0;
-			end
+
+           // ignoring 360 upper limit on slice count for now
+           // resetting on 360 would reset pretty soon after at home-- would be glitchy
+
+           // update windowing for debouncing
+			windowing_360 <= (windowing_360 << 1) | ENC_360;
+			windowing_home <= (windowing_home << 1) | ENC_ABS_HOME;
+
+           // encoder home
+           if (windowing_home == 100'b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000) begin // || new_slice_cnt == 'd359) begin
+               // don't send encoder_transition on rising edge
+					hadOne_home = 0;
+           end else if (windowing_home == 100'b1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111) begin
+               if (!hadOne_home) begin // || new_slice_cnt == 'd359) begin
+                   enc_transition <= 1;
+					new_slice_cnt <= 0;
+               end
+               hadOne_home = 1;
+           end
+
+           // encoder transition
+           if (windowing_360 == 100'b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000) begin
+               if (hadOne_360) begin // falling edge transition
+                   enc_transition <= 1;
+					if (new_slice_cnt < 'd359) begin // max 360 slices
+	                    new_slice_cnt <= new_slice_cnt + 1;
+					end
+	            end
+               hadOne_360 = 0;
+           end else if (windowing_360 == 100'b1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111) begin
+               if (!hadOne_360) begin // rising edge transition
+                   enc_transition <= 1;
+                   if (new_slice_cnt < 'd359) begin // max 360 slices
+	                    new_slice_cnt <= new_slice_cnt + 1;
+					end
+               end
+               hadOne_360 = 1;
+           end
+
+           // resetting transitions (prepping for next)
+           if (last_enc_said_go != ENC_SAID_GO) begin
+               // wait till led state sees transition
+               enc_transition <= 0;
+               last_enc_said_go <= ENC_SAID_GO;
+           end
+
 		end
 	end
 
@@ -549,7 +587,7 @@ localparam LATCH_SIZE = 'd769;
 	integer n = 0;	// for-loop counter
 	integer led_channel = 0;
 
-	bit LED_latch_in_use = '0;
+	reg LED_latch_in_use = '0;
 
 	// Control Data Latch Values
 	reg [6:0] dot_corr_r = 7'd127;	// dot correction values for red led driver channels
@@ -571,19 +609,20 @@ localparam LATCH_SIZE = 'd769;
 	bit [47:0][47:0] LED_data_3_test; //[11:0][7:0][767:0];
 
 
-reg [11:0] counter_t;
-always@(negedge TESTCLK) begin
-	counter_t <= counter_t + 1;
-	if (counter_t == '0) begin
-		ENC_SAYS_GO <= 1;
-	end else begin
-		ENC_SAYS_GO <= 0;
-	end
-end
+// // replaced with encoder handling
+// reg [11:0] counter_t;
+// always@(negedge TESTCLK) begin
+// 	counter_t <= counter_t + 1;
+// 	if (counter_t == '0) begin
+// 		enc_transition <= 1;
+//		slice_cnt <= slice_cnt + 1;
+// 	end else begin
+// 		enc_transition <= 0;
+// 	end
+// end
 
 reg [23:0] need_new_LED_base;
 reg [1:0] delay_counter;
-reg [1:0] taco_counter;
 
 always@(posedge TESTCLK) begin
 		if (!nReset) begin
@@ -596,9 +635,8 @@ always@(posedge TESTCLK) begin
 			need_new_LED_base <= // SET TO SECOND PIXEL
 			need_new_LED_data <= 0;
 			LED_latch_in_use <= '0;
-			slice_cnt <= '0;
+			slice_cnt <= '0; // OLD WITH TESTCLK
 			delay_counter <= '0;
-			taco_counter <= '0;
 		end else begin
 			case (state)
 				32'd0:	// Re-init variables
@@ -697,21 +735,6 @@ always@(posedge TESTCLK) begin
 						end else if (bit_num != '0) begin 
 							for (i = 0; i < 12; i++) begin
 								for (n = 0; n < 4; n++) begin
-									//if (i != 1) begin // Artificially skip drivers
-										/*
-										if (taco_counter < 2) begin
-											taco_counter <= taco_counter + 1;
-										end else begin
-											taco_counter <= '0;
-										end
-										if (taco_counter == 0) begin
-											SDO[i][n] <= LED_data_1_test[i*4 + n][(bit_num-1) % 48];
-										end else if(taco_counter == 1) begin
-											SDO[i][n] <= LED_data_2_test[i*4 + n][(bit_num-1) % 48];
-										end else begin
-											SDO[i][n] <= LED_data_3_test[i*4 + n][(bit_num-1) % 48];
-										end
-										*/
 										if (LED_latch_in_use == '0) begin
 											SDO[i][n] <= LED_data_1[i*4 + n][(bit_num-1) % 48];
 										end else begin
@@ -720,43 +743,7 @@ always@(posedge TESTCLK) begin
 									//end
 								end
 							end
-
-							if ((bit_num-1) % 48 == 'b0) begin
-								delay_counter <= delay_counter + 1;
-//								if (delay_counter == 2'b11) begin
-									// if (((bit_num-1) == 'b0) && (daisy_num == 'b0) && (slice_cnt == 'd359)) begin
-									// 	need_new_LED_base <= 'd0;
-									// end else if (((bit_num-1) == '0) && (daisy_num == 'b1)) begin
-									// 	need_new_LED_base <= 'd1280*('d2*slice_cnt + 'd1);
-									// end else if (((bit_num-1) == '0) && (daisy_num == 'b0)) begin
-									// 	need_new_LED_base <= 'd1280*('d2*(slice_cnt + 'd1));
-									LED_latch_in_use <= !LED_latch_in_use;
-								
-									if ((bit_num-1) == 'd48 && daisy_num == 'b0 && slice_cnt == 'd359) begin
-										need_new_LED_base <= 'd0;
-									end else if ((bit_num-1) == 'd0 && daisy_num == 'b0 && slice_cnt == 'd359) begin
-										need_new_LED_base <= 'd48;
-									end else if ((bit_num-1) == 'd0 && daisy_num == 'b1) begin
-										need_new_LED_base <= 'd1280*('d2*slice_cnt + 'd1) + 'd48;
-									end else if ((bit_num-1) == 'd0 && daisy_num == 'b0) begin
-										need_new_LED_base <= 'd1280*('d2*(slice_cnt + 'd1)) + 'd48;
-									end else if ((bit_num-1) == 'd48 && daisy_num == 'b1) begin
-										need_new_LED_base <= 'd1280*('d2*slice_cnt + 'd1);
-									end else if ((bit_num-1) == 'd48 && daisy_num == 'b0) begin
-										need_new_LED_base <= 'd1280*('d2*(slice_cnt + 'd1));
-									end else begin
-										need_new_LED_base <= 'd1280*('d2*slice_cnt + ('d1 - daisy_num)) + 'd48*('d17 - (bit_num-1)/48);
-	//									need_new_LED_base <= 'd48*(('d16 - (bit_num-1)/48 + 'd16*(('d1 - daisy_num) + 'd2*slice_cnt)));
-									end
-									need_new_LED_data <= '1;
-									state <= 'd9;
-//								end else begin
-//									state <= 'd8;
-//								end
-							end else begin 
-								need_new_LED_data <= '0;
-								state <= 'd9;
-							end
+							state <= 32'd9;
 						end else begin 
 							if (daisy_num != '0) begin
 								daisy_num <= daisy_num - 1;
@@ -769,6 +756,38 @@ always@(posedge TESTCLK) begin
 
 				32'd9: // GS Data (regular op): Raise Clock and decrement bit_num.
 					begin
+					
+						if ((bit_num-1) % 48 == 'b0 && bit_num != LATCH_SIZE && bit_num != '0) begin
+							delay_counter <= delay_counter + 1;
+//								if (delay_counter == 2'b11) begin
+							// if (((bit_num-1) == 'b0) && (daisy_num == 'b0) && (slice_cnt == 'd359)) begin
+							// 	need_new_LED_base <= 'd0;
+							// end else if (((bit_num-1) == '0) && (daisy_num == 'b1)) begin
+							// 	need_new_LED_base <= 'd1280*('d2*slice_cnt + 'd1);
+							// end else if (((bit_num-1) == '0) && (daisy_num == 'b0)) begin
+							// 	need_new_LED_base <= 'd1280*('d2*(slice_cnt + 'd1));
+							LED_latch_in_use <= !LED_latch_in_use;
+						
+							if ((bit_num-1) == 'd48 && daisy_num == 'b0 && slice_cnt == 'd359) begin
+								need_new_LED_base <= 'd0;
+							end else if ((bit_num-1) == 'd0 && daisy_num == 'b0 && slice_cnt == 'd359) begin
+								need_new_LED_base <= 'd48;
+							end else if ((bit_num-1) == 'd0 && daisy_num == 'b1) begin
+								need_new_LED_base <= 'd1280*('d2*slice_cnt + 'd1) + 'd48;
+							end else if ((bit_num-1) == 'd0 && daisy_num == 'b0) begin
+								need_new_LED_base <= 'd1280*('d2*(slice_cnt + 'd1)) + 'd48;
+							end else if ((bit_num-1) == 'd48 && daisy_num == 'b1) begin
+								need_new_LED_base <= 'd1280*('d2*slice_cnt + 'd1);
+							end else if ((bit_num-1) == 'd48 && daisy_num == 'b0) begin
+								need_new_LED_base <= 'd1280*('d2*(slice_cnt + 'd1));
+							end else begin
+								need_new_LED_base <= 'd1280*('d2*slice_cnt + ('d1 - daisy_num)) + 'd48*('d17 - (bit_num-1)/48);
+//									need_new_LED_base <= 'd48*(('d16 - (bit_num-1)/48 + 'd16*(('d1 - daisy_num) + 'd2*slice_cnt)));
+							end
+							need_new_LED_data <= '1;
+						end else begin 
+							need_new_LED_data <= '0;
+						end
 						SCLK <= '1;
 						bit_num <= bit_num - 1;
 						state <= 32'd8;
@@ -782,14 +801,20 @@ always@(posedge TESTCLK) begin
 							LAT <= '1;
 							daisy_num <= NUM_DRIVERS_CHAINED-1; 
 							state <= 32'd0;
-						end else if (ENC_SAYS_GO) begin
+						// end else if (ENC_SAYS_GO) begin // OLD WITH TESTCLK
+						// 	LAT <= '1;
+						// 	daisy_num <= NUM_DRIVERS_CHAINED-1; 
+						// 	if (slice_cnt == 'd359) begin
+						// 		slice_cnt <= 0;
+						// 	end else begin
+						// 		slice_cnt <= slice_cnt + 1;
+						// 	end
+						// 	state <= 32'd0;
+						end else if (enc_transition) begin // NEW FOR ENCODER HANDLING
 							LAT <= '1;
-							daisy_num <= NUM_DRIVERS_CHAINED-1; 
-							if (slice_cnt == 'd359) begin
-								slice_cnt <= 0;
-							end else begin
-								slice_cnt <= slice_cnt + 1;
-							end
+							daisy_num <= NUM_DRIVERS_CHAINED-1;
+							ENC_SAID_GO <= !ENC_SAID_GO;
+							slice_cnt <= new_slice_cnt;
 							state <= 32'd0;
 						end else begin
 							state <= 32'd11;

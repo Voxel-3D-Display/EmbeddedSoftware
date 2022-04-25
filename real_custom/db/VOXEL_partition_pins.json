@@ -344,23 +344,51 @@
 					"strict" : false
 				},
 				{
-					"name" : "HDMI_RGB[0][3]",
+					"name" : "nReset",
 					"strict" : false
 				},
 				{
-					"name" : "HDMI_RGB[0][4]",
+					"name" : "CLK_10M",
 					"strict" : false
 				},
 				{
-					"name" : "HDMI_RGB[0][5]",
+					"name" : "ENC_ABS_HOME",
 					"strict" : false
 				},
 				{
-					"name" : "HDMI_RGB[0][6]",
+					"name" : "ENC_360",
 					"strict" : false
 				},
 				{
-					"name" : "HDMI_RGB[0][7]",
+					"name" : "DE",
+					"strict" : false
+				},
+				{
+					"name" : "PIXCLK",
+					"strict" : false
+				},
+				{
+					"name" : "VSYNC",
+					"strict" : false
+				},
+				{
+					"name" : "HDMI_RGB[2][3]",
+					"strict" : false
+				},
+				{
+					"name" : "HDMI_RGB[2][4]",
+					"strict" : false
+				},
+				{
+					"name" : "HDMI_RGB[2][5]",
+					"strict" : false
+				},
+				{
+					"name" : "HDMI_RGB[2][6]",
+					"strict" : false
+				},
+				{
+					"name" : "HDMI_RGB[2][7]",
 					"strict" : false
 				},
 				{
@@ -388,39 +416,23 @@
 					"strict" : false
 				},
 				{
-					"name" : "HDMI_RGB[2][3]",
+					"name" : "HDMI_RGB[0][3]",
 					"strict" : false
 				},
 				{
-					"name" : "HDMI_RGB[2][4]",
+					"name" : "HDMI_RGB[0][4]",
 					"strict" : false
 				},
 				{
-					"name" : "HDMI_RGB[2][5]",
+					"name" : "HDMI_RGB[0][5]",
 					"strict" : false
 				},
 				{
-					"name" : "HDMI_RGB[2][6]",
+					"name" : "HDMI_RGB[0][6]",
 					"strict" : false
 				},
 				{
-					"name" : "HDMI_RGB[2][7]",
-					"strict" : false
-				},
-				{
-					"name" : "DE",
-					"strict" : false
-				},
-				{
-					"name" : "nReset",
-					"strict" : false
-				},
-				{
-					"name" : "PIXCLK",
-					"strict" : false
-				},
-				{
-					"name" : "VSYNC",
+					"name" : "HDMI_RGB[0][7]",
 					"strict" : false
 				},
 				{
