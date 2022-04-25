@@ -2,9 +2,9 @@
 
 module top
 	(
-		input 	 CLK_50M,
-		input	 ENC_ABS_HOME,
-		input 	 ENC_360,
+		input 	 CLK_10M,
+		input	 	ENC_ABS_HOME,
+		input 	ENC_360,
 		input 	 [2:0][7:0]   HDMI_RGB, //UNCOMMENT TO TEST HDMI
 		input    logic VSYNC,
 		input    logic HSYNC,
@@ -48,8 +48,8 @@ module top
 	//assign led_debug = read_LED_data; // HDMI_RGB_t; //CHANGE TO HDMI_RGB to see what HDMI is inputting
 	//assign valid_debug = read_data_valid;
 	//assign fifo_out = HDMI_fifo_Data;
-//	reg ENC_SAID_GO = 0; // NEW FOR ENCODER HANDLING // represents [last, next]
-	logic ENC_SAYS_GO = 0; // OLD WITH TESTCLK
+	reg ENC_SAID_GO = 0; // NEW FOR ENCODER HANDLING // represents [last, next]
+    // logic ENC_SAYS_GO = 0; // OLD WITH TESTCLK
 	//assign pix = pixel_read_cnt[0];
 	//assign refresh = refreshCnt;
 	//assign empty = buf_empty;
@@ -59,7 +59,7 @@ module top
 	//logic PIXCLK;
 
 	pll pll(
-		.inclk0(CLK_50M),  			//  clk_in.clk
+		.inclk0(CLK_10M),  			//  clk_in.clk
 		.c0(GSCLK),     			//   gsclk.clk
 		.c1(TESTCLK),    			// sclk_x2.clk // unused (20MHz??)
 		.c2(SDRAM_CLKn),            //25MHz
@@ -272,7 +272,7 @@ module top
 	/*
 	reg [2:0] test_state;
 
-	always_ff@(posedge CLK_50M) begin //SDRAM_CLKn
+	always_ff@(posedge CLK_10M) begin //SDRAM_CLKn
 //		if (((!nRead_test && read_data_valid) || !nWrite_test) && !waitRequest) begin
 //		if (((!nRead_test && read_data_valid) || (!nWrite_test && !read_data_valid)) && !waitRequest) begin
 		if (!nRead_test || !nWrite_test) begin
@@ -437,7 +437,7 @@ module top
 								new_counter <= new_counter + 1;
 							end
 							*/
-							if(readAddress - need_new_LED_base < 6'd47 && !waitRequest) begin
+							if(readAddress - need_new_LED_base < 6'd48 && !waitRequest) begin
 								readAddress <= readAddress + 1;
 							end
 							
@@ -509,78 +509,78 @@ module top
 
 	//
 
-//	// encoder handling
-//	localparam NUM_CONSEC_ENC = 'd4;
-//	reg [NUM_CONSEC_ENC-1:0] windowing_zeros_360 =  4'b1111;
-//	reg [NUM_CONSEC_ENC-1:0] windowing_ones_360 =   4'b0000;
-//	reg [NUM_CONSEC_ENC-1:0] windowing_zeros_home = 4'b1111;
-//	reg [NUM_CONSEC_ENC-1:0] windowing_ones_home =  4'b0000;
-//	reg enc_transition = 0; // both home and each transition... in case they aren't synchronous
-//	reg hadOne_home = 0;
-//	reg hadOne_360 = 0;
-//    reg last_enc_said_go = 0;
-//	always@(posedge CLK_50M) begin //50MHZ_CLOCK
-//		if (!nReset) begin
-//			windowing_zeros_360 <=  4'b1111;
-//			windowing_ones_360 <=   4'b0000;
-//			windowing_zeros_home <= 4'b1111;
-//			windowing_ones_home <=  4'b0000;
-//			slice_cnt <= '0;
-//			hadOne_home <= 0;
-//			hadOne_360 <= 0;
-//            enc_transition <= 0;
-//            last_enc_said_go <= 0;
-//		end else begin
-//
-//            // ignoring 360 upper limit on slice count for now
-//            // resetting on 360 would reset pretty soon after at home-- would be glitchy
-//
-//            // update windowing for debouncing
-//			windowing_zeros_360 <= (windowing_zeros_360 << 1) & ENC_360;
-//			windowing_ones_360 <= (windowing_ones_360 << 1) & ENC_360;
-//			windowing_zeros_home <= (windowing_zeros_home << 1) & ENC_ABS_HOME;
-//			windowing_ones_home <= (windowing_ones_home << 1) & ENC_ABS_HOME;
-//
-//            // encoder home
-//            if (windowing_zeros_home^(4'b0000)) begin // || slice_cnt == 'd359) begin
-//                if (hadOne_home) begin // || slice_cnt == 'd359) begin
-//                    enc_transition <= 1;
-//                    slice_cnt <= 0;
-//                end
-//                hadOne_home = 0;
-//            end else if (windowing_ones_home^(4'b1111)) begin
-//                // don't send encoder_transition on rising edge
-//                hadOne_home = 1;
-//            end
-//
-//            // encoder transition
-//            if (windowing_zeros_360^(4'b0000)) begin
-//                if (hadOne_360) begin // falling edge transition
-//                    enc_transition <= 1;
-//					if (slice_cnt < 'd359) begin // max 360 slices
-//	                    slice_cnt <= slice_cnt + 1;
-//					end
-//	            end
-//                hadOne_360 = 0;
-//            end else if (windowing_ones_360^(4'b1111)) begin
-//                if (!hadOne_360) begin // rising edge transition
-//                    enc_transition <= 1;
-//                    if (slice_cnt < 'd359) begin // max 360 slices
-//	                    slice_cnt <= slice_cnt + 1;
-//					end
-//                end
-//                hadOne_360 = 1;
-//            end
-//
-//            // resetting transitions (prepping for next)
-//            if (last_enc_said_go != ENC_SAID_GO) begin
-//                // wait till led state sees transition
-//                enc_transition <= 0;
-//                last_enc_said_go <= ENC_SAID_GO;
-//            end
-//
-//		end
-//	end
+	// encoder handling
+	localparam NUM_CONSEC_ENC = 'd4;
+	reg [NUM_CONSEC_ENC-1:0] windowing_zeros_360 =  4'b1111;
+	reg [NUM_CONSEC_ENC-1:0] windowing_ones_360 =   4'b0000;
+	reg [NUM_CONSEC_ENC-1:0] windowing_zeros_home = 4'b1111;
+	reg [NUM_CONSEC_ENC-1:0] windowing_ones_home =  4'b0000;
+	reg enc_transition = 0; // both home and each transition... in case they aren't synchronous
+	reg hadOne_home = 0;
+	reg hadOne_360 = 0;
+    reg last_enc_said_go = 0;
+	always@(posedge CLK_10M) begin //50MHZ_CLOCK
+		if (!nReset) begin
+			windowing_zeros_360 <=  4'b1111;
+			windowing_ones_360 <=   4'b0000;
+			windowing_zeros_home <= 4'b1111;
+			windowing_ones_home <=  4'b0000;
+			slice_cnt <= '0;
+			hadOne_home <= 0;
+			hadOne_360 <= 0;
+            enc_transition <= 0;
+            last_enc_said_go <= 0;
+		end else begin
+
+            // ignoring 360 upper limit on slice count for now
+            // resetting on 360 would reset pretty soon after at home-- would be glitchy
+
+            // update windowing for debouncing
+			windowing_zeros_360 <= (windowing_zeros_360 << 1) & ENC_360;
+			windowing_ones_360 <= (windowing_ones_360 << 1) & ENC_360;
+			windowing_zeros_home <= (windowing_zeros_home << 1) & ENC_ABS_HOME;
+			windowing_ones_home <= (windowing_ones_home << 1) & ENC_ABS_HOME;
+
+            // encoder home
+            if (windowing_zeros_home^(4'b0000)) begin // || slice_cnt == 'd359) begin
+                if (hadOne_home) begin // || slice_cnt == 'd359) begin
+                    enc_transition <= 1;
+                    slice_cnt <= 0;
+                end
+                hadOne_home = 0;
+            end else if (windowing_ones_home^(4'b1111)) begin
+                // don't send encoder_transition on rising edge
+                hadOne_home = 1;
+            end
+
+            // encoder transition
+            if (windowing_zeros_360^(4'b0000)) begin
+                if (hadOne_360) begin // falling edge transition
+                    enc_transition <= 1;
+					if (slice_cnt < 'd359) begin // max 360 slices
+	                    slice_cnt <= slice_cnt + 1;
+					end
+	            end
+                hadOne_360 = 0;
+            end else if (windowing_ones_360^(4'b1111)) begin
+                if (!hadOne_360) begin // rising edge transition
+                    enc_transition <= 1;
+                    if (slice_cnt < 'd359) begin // max 360 slices
+	                    slice_cnt <= slice_cnt + 1;
+					end
+                end
+                hadOne_360 = 1;
+            end
+
+            // resetting transitions (prepping for next)
+            if (last_enc_said_go != ENC_SAID_GO) begin
+                // wait till led state sees transition
+                enc_transition <= 0;
+                last_enc_said_go <= ENC_SAID_GO;
+            end
+
+		end
+	end
 
 localparam LATCH_SIZE = 'd769;
 	localparam NUM_DRIVERS_CHAINED = 'd2;
@@ -617,16 +617,16 @@ localparam LATCH_SIZE = 'd769;
 	bit [47:0][47:0] LED_data_3_test; //[11:0][7:0][767:0];
 
 
-//replaced with encoder handling
-reg [11:0] counter_t;
-always@(negedge TESTCLK) begin
-	counter_t <= counter_t + 1;
-	if (counter_t == '0) begin
-		ENC_SAYS_GO <= 1;
-	end else begin
-		ENC_SAYS_GO <= 0;
-	end
-end
+////replaced with encoder handling
+//reg [11:0] counter_t;
+//always@(negedge TESTCLK) begin
+//	counter_t <= counter_t + 1;
+//	if (counter_t == '0) begin
+//		ENC_SAYS_GO <= 1;
+//	end else begin
+//		ENC_SAYS_GO <= 0;
+//	end
+//end
 
 reg [23:0] need_new_LED_base;
 reg [1:0] delay_counter;
@@ -792,7 +792,7 @@ always@(posedge TESTCLK) begin
 									end else if ((bit_num-1) == 'd0 && daisy_num == 'b0) begin
 										need_new_LED_base <= 'd1280*('d2*(slice_cnt + 'd1)) + 'd48;
 									end else if ((bit_num-1) == 'd48 && daisy_num == 'b1) begin
-										need_new_LED_base <= 'd1280*('d2*slice_cnt + 'd1);
+										need_new_LED_base <= 'd1280*('d2*slice_cnt + 'd1); // daisy chain
 									end else if ((bit_num-1) == 'd48 && daisy_num == 'b0) begin
 										need_new_LED_base <= 'd1280*('d2*(slice_cnt + 'd1));
 									end else begin
@@ -833,20 +833,20 @@ always@(posedge TESTCLK) begin
 							LAT <= '1;
 							daisy_num <= NUM_DRIVERS_CHAINED-1; 
 							state <= 32'd0;
-						end else if (ENC_SAYS_GO) begin // OLD WITH TESTCLK
+						// end else if (ENC_SAYS_GO) begin // OLD WITH TESTCLK
+						// 	LAT <= '1;
+						// 	daisy_num <= NUM_DRIVERS_CHAINED-1;
+						// 	if (slice_cnt == 'd359) begin
+						// 		slice_cnt <= 0;
+						// 	end else begin
+						// 		slice_cnt <= slice_cnt + 1;
+						// 	end
+						// 	state <= 32'd0;
+						end else if (enc_transition) begin // NEW FOR ENCODER HANDLING
 							LAT <= '1;
 							daisy_num <= NUM_DRIVERS_CHAINED-1;
-							if (slice_cnt == 'd359) begin
-								slice_cnt <= 0;
-							end else begin
-								slice_cnt <= slice_cnt + 1;
-							end
+							ENC_SAID_GO <= !ENC_SAID_GO;
 							state <= 32'd0;
-//						end else if (enc_transition) begin // NEW FOR ENCODER HANDLING
-//							LAT <= '1;
-//							daisy_num <= NUM_DRIVERS_CHAINED-1;
-//							ENC_SAID_GO <= !ENC_SAID_GO;
-//							state <= 32'd0;
 						end else begin
 							state <= 32'd11;
 						end 

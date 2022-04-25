@@ -352,6 +352,10 @@
 					"strict" : false
 				},
 				{
+					"name" : "CLK_10M",
+					"strict" : false
+				},
+				{
 					"name" : "PIXCLK",
 					"strict" : false
 				},
