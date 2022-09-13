@@ -596,6 +596,9 @@ localparam LATCH_SIZE = 'd769;
 	reg [2:0] mc_r = 3'd0;	// max current for red
 	reg [2:0] mc_g = 3'd0;	// max current for green
 	reg [2:0] mc_b = 3'd0;	// max current for blue
+//	reg [6:0] gbc_r = 7'd60;	// global brightness control for red
+//	reg [6:0] gbc_g = 7'd5;	// global brightness control for green
+//	reg [6:0] gbc_b = 7'd5;	// global brightness control for blue
 	reg [6:0] gbc_r = 7'd20;	// global brightness control for red
 	reg [6:0] gbc_g = 7'd20;	// global brightness control for green
 	reg [6:0] gbc_b = 7'd20;	// global brightness control for blue
@@ -666,9 +669,9 @@ always@(posedge TESTCLK) begin
 						init_data[344:342] <= mc_b;		// max blue current bits 
 
 						// Global Brightness Control (BC) Data Latch
-						init_data[351:345] <= gbc_r;		// global red brightness control bits 
-						init_data[358:352] <= gbc_g;		// global green brightness control bits 
-						init_data[365:359] <= gbc_b;		// global blue brightness control bits 
+						init_data[351:345] <= 120;		// global red brightness control bits 
+						init_data[358:352] <= 20;		// global green brightness control bits 
+						init_data[365:359] <= 20;		// global blue brightness control bits 
 
 						// Dot Correction (DC) Data Latch
 						for (led_channel=0; led_channel<16; led_channel=led_channel+1) begin   

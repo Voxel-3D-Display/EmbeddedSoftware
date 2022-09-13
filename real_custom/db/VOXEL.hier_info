@@ -6014,9 +6014,9 @@ q[38] <= altsyncram_ee41:fifo_ram.q_b[38]
 q[39] <= altsyncram_ee41:fifo_ram.q_b[39]
 rdclk => a_graycounter_4p6:rdptr_g1p.clock
 rdclk => altsyncram_ee41:fifo_ram.clock1
-rdclk => dffpipe_s09:rs_brp.clock
-rdclk => dffpipe_s09:rs_bwp.clock
-rdclk => alt_synch_pipe_7bl:rs_dgwp.clock
+rdclk => dffpipe_a09:rs_brp.clock
+rdclk => dffpipe_a09:rs_bwp.clock
+rdclk => alt_synch_pipe_qal:rs_dgwp.clock
 rdclk => rdptr_g[10].CLK
 rdclk => rdptr_g[9].CLK
 rdclk => rdptr_g[8].CLK
@@ -6042,7 +6042,7 @@ rdusedw[8] <= op_1.DB_MAX_OUTPUT_PORT_TYPE
 rdusedw[9] <= op_1.DB_MAX_OUTPUT_PORT_TYPE
 wrclk => a_graycounter_07c:wrptr_g1p.clock
 wrclk => altsyncram_ee41:fifo_ram.clock0
-wrclk => alt_synch_pipe_8bl:ws_dgrp.clock
+wrclk => alt_synch_pipe_ral:ws_dgrp.clock
 wrclk => delayed_wrptr_g[10].CLK
 wrclk => delayed_wrptr_g[9].CLK
 wrclk => delayed_wrptr_g[8].CLK
@@ -7326,7 +7326,7 @@ wren_a => ram_block11a39.PORTAWE
 wren_a => ram_block11a39.ENA0
 
 
-|top|HDMI_fifo:hdmi|dcfifo:dcfifo_component|dcfifo_4ig1:auto_generated|dffpipe_s09:rs_brp
+|top|HDMI_fifo:hdmi|dcfifo:dcfifo_component|dcfifo_4ig1:auto_generated|dffpipe_a09:rs_brp
 clock => dffe12a[10].CLK
 clock => dffe12a[9].CLK
 clock => dffe12a[8].CLK
@@ -7362,7 +7362,7 @@ q[9] <= dffe12a[9].DB_MAX_OUTPUT_PORT_TYPE
 q[10] <= dffe12a[10].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|top|HDMI_fifo:hdmi|dcfifo:dcfifo_component|dcfifo_4ig1:auto_generated|dffpipe_s09:rs_bwp
+|top|HDMI_fifo:hdmi|dcfifo:dcfifo_component|dcfifo_4ig1:auto_generated|dffpipe_a09:rs_bwp
 clock => dffe12a[10].CLK
 clock => dffe12a[9].CLK
 clock => dffe12a[8].CLK
@@ -7398,33 +7398,33 @@ q[9] <= dffe12a[9].DB_MAX_OUTPUT_PORT_TYPE
 q[10] <= dffe12a[10].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|top|HDMI_fifo:hdmi|dcfifo:dcfifo_component|dcfifo_4ig1:auto_generated|alt_synch_pipe_7bl:rs_dgwp
-clock => dffpipe_t09:dffpipe13.clock
-d[0] => dffpipe_t09:dffpipe13.d[0]
-d[1] => dffpipe_t09:dffpipe13.d[1]
-d[2] => dffpipe_t09:dffpipe13.d[2]
-d[3] => dffpipe_t09:dffpipe13.d[3]
-d[4] => dffpipe_t09:dffpipe13.d[4]
-d[5] => dffpipe_t09:dffpipe13.d[5]
-d[6] => dffpipe_t09:dffpipe13.d[6]
-d[7] => dffpipe_t09:dffpipe13.d[7]
-d[8] => dffpipe_t09:dffpipe13.d[8]
-d[9] => dffpipe_t09:dffpipe13.d[9]
-d[10] => dffpipe_t09:dffpipe13.d[10]
-q[0] <= dffpipe_t09:dffpipe13.q[0]
-q[1] <= dffpipe_t09:dffpipe13.q[1]
-q[2] <= dffpipe_t09:dffpipe13.q[2]
-q[3] <= dffpipe_t09:dffpipe13.q[3]
-q[4] <= dffpipe_t09:dffpipe13.q[4]
-q[5] <= dffpipe_t09:dffpipe13.q[5]
-q[6] <= dffpipe_t09:dffpipe13.q[6]
-q[7] <= dffpipe_t09:dffpipe13.q[7]
-q[8] <= dffpipe_t09:dffpipe13.q[8]
-q[9] <= dffpipe_t09:dffpipe13.q[9]
-q[10] <= dffpipe_t09:dffpipe13.q[10]
+|top|HDMI_fifo:hdmi|dcfifo:dcfifo_component|dcfifo_4ig1:auto_generated|alt_synch_pipe_qal:rs_dgwp
+clock => dffpipe_b09:dffpipe13.clock
+d[0] => dffpipe_b09:dffpipe13.d[0]
+d[1] => dffpipe_b09:dffpipe13.d[1]
+d[2] => dffpipe_b09:dffpipe13.d[2]
+d[3] => dffpipe_b09:dffpipe13.d[3]
+d[4] => dffpipe_b09:dffpipe13.d[4]
+d[5] => dffpipe_b09:dffpipe13.d[5]
+d[6] => dffpipe_b09:dffpipe13.d[6]
+d[7] => dffpipe_b09:dffpipe13.d[7]
+d[8] => dffpipe_b09:dffpipe13.d[8]
+d[9] => dffpipe_b09:dffpipe13.d[9]
+d[10] => dffpipe_b09:dffpipe13.d[10]
+q[0] <= dffpipe_b09:dffpipe13.q[0]
+q[1] <= dffpipe_b09:dffpipe13.q[1]
+q[2] <= dffpipe_b09:dffpipe13.q[2]
+q[3] <= dffpipe_b09:dffpipe13.q[3]
+q[4] <= dffpipe_b09:dffpipe13.q[4]
+q[5] <= dffpipe_b09:dffpipe13.q[5]
+q[6] <= dffpipe_b09:dffpipe13.q[6]
+q[7] <= dffpipe_b09:dffpipe13.q[7]
+q[8] <= dffpipe_b09:dffpipe13.q[8]
+q[9] <= dffpipe_b09:dffpipe13.q[9]
+q[10] <= dffpipe_b09:dffpipe13.q[10]
 
 
-|top|HDMI_fifo:hdmi|dcfifo:dcfifo_component|dcfifo_4ig1:auto_generated|alt_synch_pipe_7bl:rs_dgwp|dffpipe_t09:dffpipe13
+|top|HDMI_fifo:hdmi|dcfifo:dcfifo_component|dcfifo_4ig1:auto_generated|alt_synch_pipe_qal:rs_dgwp|dffpipe_b09:dffpipe13
 clock => dffe14a[10].CLK
 clock => dffe14a[9].CLK
 clock => dffe14a[8].CLK
@@ -7471,33 +7471,33 @@ q[9] <= dffe15a[9].DB_MAX_OUTPUT_PORT_TYPE
 q[10] <= dffe15a[10].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|top|HDMI_fifo:hdmi|dcfifo:dcfifo_component|dcfifo_4ig1:auto_generated|alt_synch_pipe_8bl:ws_dgrp
-clock => dffpipe_u09:dffpipe16.clock
-d[0] => dffpipe_u09:dffpipe16.d[0]
-d[1] => dffpipe_u09:dffpipe16.d[1]
-d[2] => dffpipe_u09:dffpipe16.d[2]
-d[3] => dffpipe_u09:dffpipe16.d[3]
-d[4] => dffpipe_u09:dffpipe16.d[4]
-d[5] => dffpipe_u09:dffpipe16.d[5]
-d[6] => dffpipe_u09:dffpipe16.d[6]
-d[7] => dffpipe_u09:dffpipe16.d[7]
-d[8] => dffpipe_u09:dffpipe16.d[8]
-d[9] => dffpipe_u09:dffpipe16.d[9]
-d[10] => dffpipe_u09:dffpipe16.d[10]
-q[0] <= dffpipe_u09:dffpipe16.q[0]
-q[1] <= dffpipe_u09:dffpipe16.q[1]
-q[2] <= dffpipe_u09:dffpipe16.q[2]
-q[3] <= dffpipe_u09:dffpipe16.q[3]
-q[4] <= dffpipe_u09:dffpipe16.q[4]
-q[5] <= dffpipe_u09:dffpipe16.q[5]
-q[6] <= dffpipe_u09:dffpipe16.q[6]
-q[7] <= dffpipe_u09:dffpipe16.q[7]
-q[8] <= dffpipe_u09:dffpipe16.q[8]
-q[9] <= dffpipe_u09:dffpipe16.q[9]
-q[10] <= dffpipe_u09:dffpipe16.q[10]
+|top|HDMI_fifo:hdmi|dcfifo:dcfifo_component|dcfifo_4ig1:auto_generated|alt_synch_pipe_ral:ws_dgrp
+clock => dffpipe_c09:dffpipe16.clock
+d[0] => dffpipe_c09:dffpipe16.d[0]
+d[1] => dffpipe_c09:dffpipe16.d[1]
+d[2] => dffpipe_c09:dffpipe16.d[2]
+d[3] => dffpipe_c09:dffpipe16.d[3]
+d[4] => dffpipe_c09:dffpipe16.d[4]
+d[5] => dffpipe_c09:dffpipe16.d[5]
+d[6] => dffpipe_c09:dffpipe16.d[6]
+d[7] => dffpipe_c09:dffpipe16.d[7]
+d[8] => dffpipe_c09:dffpipe16.d[8]
+d[9] => dffpipe_c09:dffpipe16.d[9]
+d[10] => dffpipe_c09:dffpipe16.d[10]
+q[0] <= dffpipe_c09:dffpipe16.q[0]
+q[1] <= dffpipe_c09:dffpipe16.q[1]
+q[2] <= dffpipe_c09:dffpipe16.q[2]
+q[3] <= dffpipe_c09:dffpipe16.q[3]
+q[4] <= dffpipe_c09:dffpipe16.q[4]
+q[5] <= dffpipe_c09:dffpipe16.q[5]
+q[6] <= dffpipe_c09:dffpipe16.q[6]
+q[7] <= dffpipe_c09:dffpipe16.q[7]
+q[8] <= dffpipe_c09:dffpipe16.q[8]
+q[9] <= dffpipe_c09:dffpipe16.q[9]
+q[10] <= dffpipe_c09:dffpipe16.q[10]
 
 
-|top|HDMI_fifo:hdmi|dcfifo:dcfifo_component|dcfifo_4ig1:auto_generated|alt_synch_pipe_8bl:ws_dgrp|dffpipe_u09:dffpipe16
+|top|HDMI_fifo:hdmi|dcfifo:dcfifo_component|dcfifo_4ig1:auto_generated|alt_synch_pipe_ral:ws_dgrp|dffpipe_c09:dffpipe16
 clock => dffe17a[10].CLK
 clock => dffe17a[9].CLK
 clock => dffe17a[8].CLK

@@ -1,4 +1,4 @@
---dffpipe DELAY=2 WIDTH=10 clock d q ALTERA_INTERNAL_OPTIONS=AUTO_SHIFT_REGISTER_RECOGNITION=OFF
+--dffpipe DELAY=1 WIDTH=11 clock d q ALTERA_INTERNAL_OPTIONS=AUTO_SHIFT_REGISTER_RECOGNITION=OFF
 --VERSION_BEGIN 19.1 cbx_mgl 2019:09:22:11:02:15:SJ cbx_stratixii 2019:09:22:11:00:28:SJ cbx_util_mgl 2019:09:22:11:00:28:SJ  VERSION_END
 
 
@@ -19,38 +19,32 @@
 
 
 
---synthesis_resources = reg 20 
+--synthesis_resources = reg 11 
 OPTIONS ALTERA_INTERNAL_OPTION = "AUTO_SHIFT_REGISTER_RECOGNITION=OFF";
 
 SUBDESIGN dffpipe_a09
 ( 
 	clock	:	input;
-	d[9..0]	:	input;
-	q[9..0]	:	output;
+	d[10..0]	:	input;
+	q[10..0]	:	output;
 ) 
 VARIABLE 
-	dffe14a[9..0] : dffe;
-	dffe15a[9..0] : dffe;
+	dffe12a[10..0] : dffe;
 	clrn	: NODE;
 	ena	: NODE;
 	prn	: NODE;
 	sclr	: NODE;
 
 BEGIN 
-	dffe14a[].clk = clock;
-	dffe14a[].clrn = clrn;
-	dffe14a[].d = (d[] & (! sclr));
-	dffe14a[].ena = ena;
-	dffe14a[].prn = prn;
-	dffe15a[].clk = clock;
-	dffe15a[].clrn = clrn;
-	dffe15a[].d = (dffe14a[].q & (! sclr));
-	dffe15a[].ena = ena;
-	dffe15a[].prn = prn;
+	dffe12a[].clk = clock;
+	dffe12a[].clrn = clrn;
+	dffe12a[].d = (d[] & (! sclr));
+	dffe12a[].ena = ena;
+	dffe12a[].prn = prn;
 	clrn = VCC;
 	ena = VCC;
 	prn = VCC;
-	q[] = dffe15a[].q;
+	q[] = dffe12a[].q;
 	sclr = GND;
 END;
 --VALID FILE
